@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 abstract class BaseWidget<T extends GetxController> extends GetView<T> {
   const BaseWidget({super.key});
 
-  T get viewMode => controller;
+  T get viewModel => controller;
 
   @override
   Widget build(BuildContext context) {
