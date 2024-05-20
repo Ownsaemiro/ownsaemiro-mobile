@@ -1,15 +1,15 @@
 import 'package:get/get.dart';
-import 'package:ownsaemiro/view_model/event/event_view_model.dart';
-import 'package:ownsaemiro/view_model/home/home_view_model.dart';
-import 'package:ownsaemiro/view_model/market/market_view_model.dart';
-import 'package:ownsaemiro/view_model/profile/profile_view_model.dart';
-import 'package:ownsaemiro/view_model/root/root_view_model.dart';
+import 'package:ownsaemiro/presentation/view_model/event/event_view_model.dart';
+import 'package:ownsaemiro/presentation/view_model/home/home_view_model.dart';
+import 'package:ownsaemiro/presentation/view_model/market/market_view_model.dart';
+import 'package:ownsaemiro/presentation/view_model/profile/profile_view_model.dart';
+import 'package:ownsaemiro/presentation/view_model/root/root_view_model.dart';
 
 class RootBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<RootViewModel>(() => RootViewModel());
-    
+
     HomeBinding().dependencies();
     EventBinding().dependencies();
     MarketBinding().dependencies();

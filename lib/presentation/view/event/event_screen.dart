@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ownsaemiro/view/base/base_screen.dart';
-import 'package:ownsaemiro/view_model/event/event_view_model.dart';
+import 'package:ownsaemiro/core/screen/base_screen.dart';
+import 'package:ownsaemiro/presentation/view_model/event/event_view_model.dart';
 
 class EventScreen extends BaseScreen<EventViewModel> {
   const EventScreen({super.key});

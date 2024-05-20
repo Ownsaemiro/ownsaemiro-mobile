@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ownsaemiro/view/base/base_screen.dart';
-import 'package:ownsaemiro/view/event/event_screen.dart';
-import 'package:ownsaemiro/view/home/home_screen.dart';
-import 'package:ownsaemiro/view/market/market_screen.dart';
-import 'package:ownsaemiro/view/profile/profile_screen.dart';
-import 'package:ownsaemiro/view/root/widget/custom_bottom_navigation_bar.dart';
-import 'package:ownsaemiro/view_model/root/root_view_model.dart';
+import 'package:ownsaemiro/core/screen/base_screen.dart';
+import 'package:ownsaemiro/presentation/view/event/event_screen.dart';
+import 'package:ownsaemiro/presentation/view/home/home_screen.dart';
+import 'package:ownsaemiro/presentation/view/market/market_screen.dart';
+import 'package:ownsaemiro/presentation/view/profile/profile_screen.dart';
+import 'package:ownsaemiro/presentation/view/root/widget/custom_bottom_navigation_bar.dart';
+import 'package:ownsaemiro/presentation/view_model/root/root_view_model.dart';
 
 class RootScreen extends BaseScreen<RootViewModel> {
   const RootScreen({super.key});
