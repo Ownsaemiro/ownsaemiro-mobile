@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ownsaemiro/main_app.dart';
+import 'package:ownsaemiro/app/main_app.dart';
 
 import 'package:ownsaemiro/main.dart';
 

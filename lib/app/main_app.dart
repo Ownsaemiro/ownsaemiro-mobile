@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
+import 'package:ownsaemiro/app/binding/init_binding.dart';
 import 'package:ownsaemiro/app/config/app_page.dart';
 import 'package:ownsaemiro/app/config/app_routes.dart';
-import 'package:ownsaemiro/binding/init_binding.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
