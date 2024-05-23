@@ -12,11 +12,28 @@ class EventRepositoryImpl extends GetxService implements EventRepository {
   }
 
   @override
-  Future<Map<String, dynamic>> getTopFiveEventList() async {
+  Future<Map<String, dynamic>> getTopEventList() async {
     Map<String, dynamic> result;
 
     try {
-      result = await _eventProvider.getTopFiveEventList();
+      result = await _eventProvider.getTopEventList();
+    } catch (e) {
+      rethrow;
+    }
+
+    return {
+      "image": result["image"],
+      "title": result["title"],
+      "date": result["date"]
+    };
+  }
+
+  @override
+  Future<Map<String, dynamic>> getRecommendEventList() async {
+    Map<String, dynamic> result;
+
+    try {
+      result = await _eventProvider.getRecommendEventList();
     } catch (e) {
       rethrow;
     }

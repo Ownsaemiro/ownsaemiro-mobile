@@ -13,5 +13,5 @@ class EntryScreen extends BaseScreen {
   }
 
   @override
-  Color get screenBackgroundColor => ColorSystem.primaryColor;
+  Color get screenBackgroundColor => ColorSystem.primary.shade500;
 }
