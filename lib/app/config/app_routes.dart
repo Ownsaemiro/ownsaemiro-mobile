@@ -7,4 +7,5 @@ abstract class Routes {
   static const String EVENT = '/event';
   static const String MARKET = '/market';
   static const String ENTRY = '/entry';
+  static const String LIKED_EVENT = '/liked-event';
 }

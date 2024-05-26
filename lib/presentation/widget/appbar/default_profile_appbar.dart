@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:ownsaemiro/app/config/color_system.dart';
 
-class DefaultSearchAppBar extends StatelessWidget {
-  const DefaultSearchAppBar(
-      {super.key, this.onSearch, this.onNotificationPress});
+class DefaultProfileAppBar extends StatelessWidget {
+  const DefaultProfileAppBar({super.key, this.onNotificationPress});
 
-  final Function(String)? onSearch;
   final Function()? onNotificationPress;
 
   @override
@@ -21,28 +18,14 @@ class DefaultSearchAppBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SvgPicture.asset(
-              'assets/images/logo.svg',
-              height: 32,
-            ),
-            const SizedBox(width: 24),
-            Expanded(
-              child: Container(
-                height: 32,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF5F5F5),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: TextField(
-                  onChanged: onSearch,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    prefixIcon: Icon(Icons.search, color: Colors.grey),
-                  ),
-                ),
+            const Text(
+              "마이페이지",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: ColorSystem.primary,
               ),
             ),
-            const SizedBox(width: 12),
             Stack(
               children: [
                 IconButton(
