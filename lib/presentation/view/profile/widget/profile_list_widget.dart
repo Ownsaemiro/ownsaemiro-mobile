@@ -18,12 +18,14 @@ class ProfileListWidget extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.receipt_long),
               title: const Text("구매내역"),
-              onTap: () {},
+              onTap: () =>
+                  Navigator.pushNamed(context, Routes.PURCHASE_HISTORY),
             ),
             ListTile(
               leading: const Icon(Icons.event),
               title: const Text("참여한 행사"),
-              onTap: () {},
+              onTap: () =>
+                  Navigator.pushNamed(context, Routes.PARTICIPATED_EVENT),
             ),
             ListTile(
               leading: const Icon(Icons.exit_to_app),

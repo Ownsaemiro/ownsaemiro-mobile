@@ -29,5 +29,5 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
 
   Widget _name() => const Padding(
       padding: EdgeInsets.only(left: 25, top: 25),
-      child: Text("이름 님을 위한 추천", style: FontSystem.KR18SB));
+      child: Text("온새미로 님을 위한 추천", style: FontSystem.KR18SB));
 }
