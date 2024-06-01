@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ownsaemiro/app/config/font_system.dart';
 import 'package:ownsaemiro/core/screen/base_screen.dart';
-import 'package:ownsaemiro/presentation/view/home/widget/popular_event_widget.dart';
-import 'package:ownsaemiro/presentation/view/home/widget/recommend_event_widget.dart';
+import 'package:ownsaemiro/presentation/view/home/widget/home/name_widget.dart';
+import 'package:ownsaemiro/presentation/view/home/widget/home/popular_event_widget.dart';
+import 'package:ownsaemiro/presentation/view/home/widget/home/recommend_event_widget.dart';
 import 'package:ownsaemiro/presentation/view_model/home/home_view_model.dart';
 import 'package:ownsaemiro/presentation/widget/appbar/default_search_appbar.dart';
 
@@ -19,15 +20,38 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
 
   @override
   Widget buildBody(BuildContext context) {
-    return SingleChildScrollView(
+    return const SingleChildScrollView(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const PopularEventWidget(),
-      _name(),
-      const RecommendEventWidget()
+      _TopWidget(),
+      _MiddleWidget(),
+      _BottomWidget(),
     ]));
   }
+}
 
-  Widget _name() => const Padding(
-      padding: EdgeInsets.only(left: 25, top: 25),
-      child: Text("온새미로 님을 위한 추천", style: FontSystem.KR18SB));
+class _TopWidget extends StatelessWidget {
+  const _TopWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const PopularEventWidget();
+  }
+}
+
+class _MiddleWidget extends StatelessWidget {
+  const _MiddleWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const NameWidget();
+  }
+}
+
+class _BottomWidget extends StatelessWidget {
+  const _BottomWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const RecommendEventWidget();
+  }
 }
