@@ -26,6 +26,10 @@
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo permission is required for picking images.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera permission is required for barcode scanning.</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>
