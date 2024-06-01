@@ -5,7 +5,6 @@ import 'package:ownsaemiro/presentation/view/market/widget/event_list_widget.dar
 import 'package:ownsaemiro/presentation/view_model/market/market_view_model.dart';
 import 'package:ownsaemiro/presentation/widget/appbar/default_search_appbar.dart';
 
-/// Todo: Custom Scroll View로 변경
 class MarketScreen extends BaseScreen<MarketViewModel> {
   const MarketScreen({super.key});
 
@@ -23,6 +22,7 @@ class MarketScreen extends BaseScreen<MarketViewModel> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CategoryChipWidget(),
+        SizedBox(height: 16),
         Expanded(
           child: EventListWidget(),
         ),
