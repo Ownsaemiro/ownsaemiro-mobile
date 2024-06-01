@@ -22,6 +22,7 @@ class MarketScreen extends BaseScreen<MarketViewModel> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CategoryChipWidget(),
+        SizedBox(height: 16),
         Expanded(
           child: EventListWidget(),
         ),

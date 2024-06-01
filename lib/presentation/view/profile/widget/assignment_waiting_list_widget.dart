@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ownsaemiro/app/config/app_routes.dart';
+import 'package:ownsaemiro/app/config/color_system.dart';
 
-class EventListWidget extends StatelessWidget {
-  const EventListWidget({super.key});
+class AssignmentWaitingListWidget extends StatelessWidget {
+  const AssignmentWaitingListWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,9 +11,7 @@ class EventListWidget extends StatelessWidget {
         delegate: SliverChildBuilderDelegate(
           (context, index) {
             return GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, Routes.MARKET_DETAIL);
-              },
+              onTap: () {},
               child: Container(
                 padding: const EdgeInsets.all(16),
                 margin: const EdgeInsets.symmetric(vertical: 4.0),
@@ -47,6 +45,29 @@ class EventListWidget extends StatelessWidget {
                         ),
                       ],
                     ),
+                    const Spacer(),
+                    // const Text(
+                    //   "낙첨",
+                    //   style: TextStyle(
+                    //     fontSize: 14,
+                    //     color: Color(0xFF999999),
+                    //   ),
+                    // ),
+                    const Text(
+                      "대기",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Color(0xFF555555),
+                      ),
+                    ),
+                    // const Text(
+                    //   "수령 대기 중",
+                    //   style: TextStyle(
+                    //     fontSize: 14,
+                    //     color: ColorSystem.primary,
+                    //   ),
+                    // ),
+                    const SizedBox(width: 8),
                   ],
                 ),
               ),

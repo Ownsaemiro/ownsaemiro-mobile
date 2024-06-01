@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ownsaemiro/app/config/app_routes.dart';
 
 class EventListWidget extends StatelessWidget {
   const EventListWidget({super.key});
@@ -20,50 +21,55 @@ class EventListWidget extends StatelessWidget {
           itemCount: 5,
           itemBuilder: (context, index) {
             return Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: containerWidth,
-                    height: containerHeight,
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
+                padding: const EdgeInsets.only(right: 16),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.EVENT_DETAIL);
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: containerWidth,
+                        height: containerHeight,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: const Center(child: Text("이미지")),
+                      ),
+                      const SizedBox(height: 8),
+                      SizedBox(
+                        width: textWidth,
+                        child: const Text(
+                          "핫소스 유니버스 팝업스토어",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ),
+                      SizedBox(
+                        width: textWidth, // 텍스트 너비를 제한
+                        child: const Text(
+                          "성수동2가 289-234(보) 1층 1호 여기에서 해요",
+                          style: TextStyle(fontSize: 10, color: Colors.grey),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ),
+                      SizedBox(
+                        width: textWidth, // 텍스트 너비를 제한
+                        child: const Text(
+                          "5.10 - 5.12",
+                          style: TextStyle(fontSize: 10, color: Colors.grey),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    width: textWidth,
-                    child: const Text(
-                      "핫소스 유니버스 팝업스토어",
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                  ),
-                  SizedBox(
-                    width: textWidth, // 텍스트 너비를 제한
-                    child: const Text(
-                      "성수동2가 289-234(보) 1층 1호 여기에서 해요",
-                      style: TextStyle(fontSize: 10, color: Colors.grey),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                  ),
-                  SizedBox(
-                    width: textWidth, // 텍스트 너비를 제한
-                    child: const Text(
-                      "5.10 - 5.12",
-                      style: TextStyle(fontSize: 10, color: Colors.grey),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                  ),
-                ],
-              ),
-            );
+                ));
           },
         ),
       ),

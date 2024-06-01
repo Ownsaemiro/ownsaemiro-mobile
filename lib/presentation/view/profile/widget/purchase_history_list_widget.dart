@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ownsaemiro/app/config/app_routes.dart';
 
-class EventListWidget extends StatelessWidget {
-  const EventListWidget({super.key});
+class PurchaseHistoryListWidget extends StatelessWidget {
+  const PurchaseHistoryListWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,12 +12,12 @@ class EventListWidget extends StatelessWidget {
           (context, index) {
             return GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, Routes.MARKET_DETAIL);
+                Navigator.pushNamed(context, Routes.PURCHASE_HISTORY_DETAIL);
               },
               child: Container(
                 padding: const EdgeInsets.all(16),
                 margin: const EdgeInsets.symmetric(vertical: 4.0),
-                height: 100,
+                height: 120,
                 child: Row(
                   children: [
                     const SizedBox(width: 8),
@@ -43,6 +43,16 @@ class EventListWidget extends StatelessWidget {
                         SizedBox(height: 4),
                         Text(
                           '2024.05.10',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          "구매일: 2024.05.10",
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          "예매 번호 X4SDR45",
                           style: TextStyle(fontSize: 12),
                         ),
                       ],

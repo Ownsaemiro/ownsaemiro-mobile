@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ownsaemiro/app/config/app_routes.dart';
+import 'package:ownsaemiro/app/config/color_system.dart';
+import 'package:ownsaemiro/app/utility/log_util.dart';
 
-class EventListWidget extends StatelessWidget {
-  const EventListWidget({super.key});
+class LikedEventListWidget extends StatelessWidget {
+  const LikedEventListWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,7 @@ class EventListWidget extends StatelessWidget {
           (context, index) {
             return GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, Routes.MARKET_DETAIL);
+                Navigator.pushNamed(context, Routes.EVENT_DETAIL);
               },
               child: Container(
                 padding: const EdgeInsets.all(16),
@@ -47,6 +49,13 @@ class EventListWidget extends StatelessWidget {
                         ),
                       ],
                     ),
+                    const Spacer(),
+                    IconButton(
+                        onPressed: () {
+                          LogUtil.info("좋아요");
+                        },
+                        icon: const Icon(Icons.favorite_border,
+                            color: ColorSystem.primary)),
                   ],
                 ),
               ),

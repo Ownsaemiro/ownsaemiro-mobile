@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -18,7 +20,7 @@ class CustomBottomNavigationBar extends BaseWidget<RootViewModel> {
           splashFactory: NoSplash.splashFactory,
         ),
         child: Container(
-          height: 112,
+          height: Platform.isAndroid ? 80 : 112,
           decoration: BoxDecoration(
             color: ColorSystem.white,
             borderRadius: const BorderRadius.only(
