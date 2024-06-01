@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ownsaemiro/core/screen/base_screen.dart';
+import 'package:ownsaemiro/presentation/view/profile/widget/participated_event_list_widget.dart';
 import 'package:ownsaemiro/presentation/view_model/profile/participated_event_view_model.dart';
 import 'package:ownsaemiro/presentation/widget/appbar/default_back_appbar.dart';
 
@@ -17,8 +18,13 @@ class ParticipatedEventScreen extends BaseScreen<ParticipatedEventViewModel> {
 
   @override
   Widget buildBody(BuildContext context) {
-    return const Center(
-      child: Text("Participated event Screen"),
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: ParticipatedEventListWidget(),
+        ),
+      ],
     );
   }
 }

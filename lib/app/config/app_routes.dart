@@ -12,4 +12,11 @@ abstract class Routes {
   static const String PARTICIPATED_EVENT = '/participated-event';
   static const String EVENT_DETAIL = '/event-detail';
   static const String EVENT_RESERVATION = "/event-reservation";
+  static const String NOTIFICATION = "/notification";
+  static const String SEARCH = "/search";
+  static const String MARKET_DETAIL = "/market-detail";
+  static const String PURCHASE_HISTORY_DETAIL = "/purchase-history-detail";
+  static const String ASSIGNMENT_WAITING_LIST = "/assignment-waiting-list";
+  static const String PROFILE_UPDATE = "/profile-update";
+  static const String POINT_CHARGE = "/point-charge";
 }

@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ownsaemiro/app/config/app_routes.dart';
 import 'package:ownsaemiro/app/config/color_system.dart';
 
 class DefaultSearchAppBar extends StatelessWidget {
-  const DefaultSearchAppBar(
-      {super.key, this.onSearch, this.onNotificationPress});
-
-  final Function(String)? onSearch;
-  final Function()? onNotificationPress;
+  const DefaultSearchAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      scrolledUnderElevation: 0,
       backgroundColor: ColorSystem.white,
       automaticallyImplyLeading: false,
       elevation: 0,
@@ -25,50 +23,47 @@ class DefaultSearchAppBar extends StatelessWidget {
               'assets/images/logo.svg',
               height: 32,
             ),
-            const SizedBox(width: 24),
-            Expanded(
-              child: Container(
-                height: 32,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF5F5F5),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: TextField(
-                  onChanged: onSearch,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    prefixIcon: Icon(Icons.search, color: Colors.grey),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Stack(
-              children: [
+            Row(children: [
+              Stack(children: [
                 IconButton(
                   icon: const Icon(
-                    Icons.notifications,
+                    Icons.search,
                     color: ColorSystem.primary,
                   ),
-                  onPressed: onNotificationPress,
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.SEARCH);
+                  },
                 ),
-                Positioned(
-                  right: 12,
-                  top: 12,
-                  child: Container(
-                    padding: const EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(6),
+              ]),
+              Stack(
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.notifications,
+                      color: ColorSystem.primary,
                     ),
-                    constraints: const BoxConstraints(
-                      minWidth: 2,
-                      minHeight: 2,
+                    onPressed: () {
+                      Navigator.pushNamed(context, Routes.NOTIFICATION);
+                    },
+                  ),
+                  Positioned(
+                    right: 12,
+                    top: 12,
+                    child: Container(
+                      padding: const EdgeInsets.all(3),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 2,
+                        minHeight: 2,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+            ])
           ],
         ),
       ),
