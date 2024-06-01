@@ -19,4 +19,5 @@ abstract class Routes {
   static const String ASSIGNMENT_WAITING_LIST = "/assignment-waiting-list";
   static const String PROFILE_UPDATE = "/profile-update";
   static const String POINT_CHARGE = "/point-charge";
+  static const String REVIEW_LIST = "/review-list";
 }
