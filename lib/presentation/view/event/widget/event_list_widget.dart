@@ -36,6 +36,7 @@ class EventListWidget extends StatelessWidget {
                           color: Colors.grey,
                           borderRadius: BorderRadius.circular(16),
                         ),
+                        child: const Center(child: Text("이미지")),
                       ),
                       const SizedBox(height: 8),
                       SizedBox(

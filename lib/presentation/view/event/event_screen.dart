@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ownsaemiro/app/config/font_system.dart';
 import 'package:ownsaemiro/core/screen/base_screen.dart';
+import 'package:ownsaemiro/presentation/view/event/component/event_list_title_widget.dart';
 import 'package:ownsaemiro/presentation/view/event/widget/category_chip_widget.dart';
 import 'package:ownsaemiro/presentation/view/event/widget/event_list_widget.dart';
 import 'package:ownsaemiro/presentation/view_model/event/event_view_model.dart';
@@ -19,22 +20,46 @@ class EventScreen extends BaseScreen<EventViewModel> {
 
   @override
   Widget buildBody(BuildContext context) {
-    return SingleChildScrollView(
+    return const SingleChildScrollView(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const CategoryChipWidget(),
-      _processing(),
-      const EventListWidget(),
-      const SizedBox(height: 20),
-      _upcoming(),
-      const EventListWidget()
+      _TopWidget(),
+      _MiddleWidget(),
+      SizedBox(height: 20),
+      _BottomWidget(),
     ]));
   }
+}
 
-  Widget _processing() => const Padding(
-      padding: EdgeInsets.only(left: 25, top: 25),
-      child: Text("진행 중인 공연", style: FontSystem.KR18SB));
+class _TopWidget extends StatelessWidget {
+  const _TopWidget({super.key});
 
-  Widget _upcoming() => const Padding(
-      padding: EdgeInsets.only(left: 25, top: 25),
-      child: Text("진행 예정인 공연", style: FontSystem.KR18SB));
+  @override
+  Widget build(BuildContext context) {
+    return const CategoryChipWidget();
+  }
+}
+
+class _MiddleWidget extends StatelessWidget {
+  const _MiddleWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [EventListTitleWidget(title: "진행 중인 공연"), EventListWidget()]);
+  }
+}
+
+class _BottomWidget extends StatelessWidget {
+  const _BottomWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          EventListTitleWidget(title: "진행 예정인 공연"),
+          EventListWidget()
+        ]);
+  }
 }

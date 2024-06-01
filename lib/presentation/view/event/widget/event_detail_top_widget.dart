@@ -8,7 +8,11 @@ class EventDetailTopWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Container(width: Get.width, height: Get.width * 0.6, color: Colors.grey),
+      Container(
+          width: Get.width,
+          height: Get.width * 0.6,
+          color: Colors.grey,
+          child: const Center(child: Text("이미지"))),
       const Stack(children: [
         Padding(
             padding: EdgeInsets.all(16),
