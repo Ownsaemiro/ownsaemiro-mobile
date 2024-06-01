@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ownsaemiro/app/config/app_routes.dart';
 import 'package:ownsaemiro/app/config/color_system.dart';
 
 class EventDetailMiddleWidget extends StatelessWidget {
@@ -179,19 +180,27 @@ class _EventDetailReviewWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          const Text(
-            "공연 후기",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          GestureDetector(
-              onTap: () {},
-              child: const Text("후기 전체보기",
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ColorSystem.primary,
-                  )))
-        ]),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              "공연 후기",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            GestureDetector(
+              onTap: () {
+                Get.toNamed(Routes.REVIEW_LIST);
+              },
+              child: const Text(
+                "후기 전체보기",
+                style: TextStyle(
+                  fontSize: 12,
+                  color: ColorSystem.primary,
+                ),
+              ),
+            ),
+          ],
+        ),
         const SizedBox(height: 16),
         ListView.builder(
           shrinkWrap: true,

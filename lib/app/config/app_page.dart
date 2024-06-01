@@ -4,6 +4,7 @@ import 'package:ownsaemiro/app/binding/root_binding.dart';
 import 'package:ownsaemiro/app/config/app_routes.dart';
 import 'package:ownsaemiro/presentation/view/event/event_detail_screen.dart';
 import 'package:ownsaemiro/presentation/view/event/event_reservation_screen.dart';
+import 'package:ownsaemiro/presentation/view/event/review_list_screen.dart';
 import 'package:ownsaemiro/presentation/view/home/notification_screen.dart';
 import 'package:ownsaemiro/presentation/view/home/search_screen.dart';
 import 'package:ownsaemiro/presentation/view/market/market_detail_screen.dart';
@@ -79,5 +80,10 @@ List<GetPage> appPages = [
     name: Routes.POINT_CHARGE,
     page: () => const PointChargeScreen(),
     binding: RootBinding(),
-  )
+  ),
+  GetPage(
+    name: Routes.REVIEW_LIST,
+    page: () => const ReviewListScreen(),
+    binding: RootBinding(),
+  ),
 ];
