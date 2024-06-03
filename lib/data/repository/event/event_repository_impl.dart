@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:ownsaemiro/data/model/event/popular_event_state.dart';
 import 'package:ownsaemiro/data/provider/event/event_provider.dart';
 import 'package:ownsaemiro/data/repository/event/event_repository.dart';
 
@@ -12,20 +13,18 @@ class EventRepositoryImpl extends GetxService implements EventRepository {
   }
 
   @override
-  Future<Map<String, dynamic>> getTopEventList() async {
+  Future<List<PopularEventState>> getPopularEventList() async {
     Map<String, dynamic> result;
 
     try {
-      result = await _eventProvider.getTopEventList();
+      result = await _eventProvider.getPopularEventList();
     } catch (e) {
       rethrow;
     }
 
-    return {
-      "image": result["image"],
-      "title": result["title"],
-      "date": result["date"]
-    };
+    return result["events"]
+        .map<PopularEventState>((event) => PopularEventState.fromJson(event))
+        .toList();
   }
 
   @override
@@ -38,10 +37,6 @@ class EventRepositoryImpl extends GetxService implements EventRepository {
       rethrow;
     }
 
-    return {
-      "image": result["image"],
-      "title": result["title"],
-      "date": result["date"]
-    };
+    return result;
   }
 }

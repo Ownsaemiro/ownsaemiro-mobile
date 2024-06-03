@@ -4,7 +4,7 @@ import 'package:ownsaemiro/data/provider/event/event_provider.dart';
 
 class EventProviderImpl extends BaseConnect implements EventProvider {
   @override
-  Future<Map<String, dynamic>> getTopEventList() async {
+  Future<Map<String, dynamic>> getPopularEventList() async {
     final Response response;
 
     try {

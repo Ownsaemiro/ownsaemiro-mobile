@@ -1,33 +1,38 @@
 import 'package:flutter/material.dart';
 
 class PopularEventItemWidget extends StatelessWidget {
-  const PopularEventItemWidget({super.key});
+  const PopularEventItemWidget(
+      {super.key, required this.title, required this.date});
+
+  final String title;
+  final String date;
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Spacer(),
-          _PopularEventItemTitle(),
-          _PopularEventItemDate(),
-          SizedBox(height: 16)
-        ]);
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const Spacer(),
+      _PopularEventItemTitle(title: title),
+      _PopularEventItemDate(date: date),
+      const SizedBox(height: 16)
+    ]);
   }
 }
 
 class _PopularEventItemTitle extends StatelessWidget {
-  const _PopularEventItemTitle({super.key});
+  const _PopularEventItemTitle({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Text(splitText("핫소스유니버스 팝업스토어"),
-            style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: Colors.white)));
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Text(
+        splitText("핫소스유니버스 팝업스토어"),
+        style: const TextStyle(
+            fontSize: 18, fontWeight: FontWeight.w700, color: Colors.white),
+      ),
+    );
   }
 
   String splitText(String text) {
@@ -36,7 +41,9 @@ class _PopularEventItemTitle extends StatelessWidget {
 }
 
 class _PopularEventItemDate extends StatelessWidget {
-  const _PopularEventItemDate({super.key});
+  const _PopularEventItemDate({super.key, required this.date});
+
+  final String date;
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ownsaemiro/app/config/font_system.dart';
 import 'package:ownsaemiro/core/screen/base_screen.dart';
 import 'package:ownsaemiro/presentation/view/home/widget/home/name_widget.dart';
 import 'package:ownsaemiro/presentation/view/home/widget/home/popular_event_widget.dart';
