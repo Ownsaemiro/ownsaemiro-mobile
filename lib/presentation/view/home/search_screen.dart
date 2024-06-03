@@ -160,7 +160,7 @@ class _SearchResultWidget extends BaseWidget<SearchViewModel> {
               onTap: () {
                 Get.to(() => const EventDetailScreen());
               },
-              child: const RecommendEventItemWidget(),
+              child: const Center(),
             ),
           );
         });

@@ -1,5 +1,8 @@
-abstract class EventRepository {
-  Future<Map<String, dynamic>> getTopEventList();
+import 'package:ownsaemiro/data/model/event/popular_event_state.dart';
+import 'package:ownsaemiro/data/model/event/recommend_event_state.dart';
 
-  Future<Map<String, dynamic>> getRecommendEventList();
+abstract class EventRepository {
+  Future<List<PopularEventState>> getPopularEventList();
+
+  Future<List<RecommendEventState>> getRecommendEventList();
 }

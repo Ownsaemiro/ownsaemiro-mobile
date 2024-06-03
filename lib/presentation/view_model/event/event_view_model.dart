@@ -1,10 +1,7 @@
 import 'package:get/get.dart';
 import 'package:ownsaemiro/data/model/event/event_brief_state.dart';
-import 'package:ownsaemiro/data/repository/event/event_repository.dart';
 
 class EventViewModel extends GetxController {
-  late final EventRepository _eventRepository;
-
   final EventBriefState _eventBriefState = EventBriefState(
     id: 0,
     image: "",
@@ -41,17 +38,6 @@ class EventViewModel extends GetxController {
       image: image,
       title: title,
       date: date,
-    );
-  }
-
-  void getTopEventList() async {
-    final result = await _eventRepository.getTopEventList();
-
-    setEventBriefState(
-      id: result["id"],
-      image: result["image"],
-      title: result["title"],
-      date: result["date"],
     );
   }
 }
