@@ -33,8 +33,7 @@ class PopularEventWidget extends BaseWidget<HomeViewModel> {
                             fit: BoxFit.cover),
                       ),
                       child: PopularEventItemWidget(
-                        title: viewModel.popularEventList[index].title,
-                        date: viewModel.popularEventList[index].duration,
+                        state: viewModel.popularEventList[index],
                       ),
                     );
                   },

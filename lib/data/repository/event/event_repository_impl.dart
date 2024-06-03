@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:ownsaemiro/data/model/event/popular_event_state.dart';
+import 'package:ownsaemiro/data/model/event/recommend_event_state.dart';
 import 'package:ownsaemiro/data/provider/event/event_provider.dart';
 import 'package:ownsaemiro/data/repository/event/event_repository.dart';
 
@@ -28,7 +29,7 @@ class EventRepositoryImpl extends GetxService implements EventRepository {
   }
 
   @override
-  Future<Map<String, dynamic>> getRecommendEventList() async {
+  Future<List<RecommendEventState>> getRecommendEventList() async {
     Map<String, dynamic> result;
 
     try {
@@ -37,6 +38,9 @@ class EventRepositoryImpl extends GetxService implements EventRepository {
       rethrow;
     }
 
-    return result;
+    return result["events"]
+        .map<RecommendEventState>(
+            (event) => RecommendEventState.fromJson(event))
+        .toList();
   }
 }
