@@ -11,4 +11,12 @@ abstract class EventProvider {
       required int page,
       required int size,
       EEventCategory? category});
+
+  Future<Map<String, dynamic>> getEventDetailInfo({required int eventId});
+
+  Future<Map<String, dynamic>> getEventDetailBrief({required int eventId});
+
+  Future<Map<String, dynamic>> getEventReviews({required int eventId});
+
+  Future<Map<String, dynamic>> getEventSellerInfo({required int eventId});
 }

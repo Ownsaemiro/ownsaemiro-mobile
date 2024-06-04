@@ -8,14 +8,18 @@ import 'package:ownsaemiro/presentation/widget/appbar/default_back_appbar.dart';
 
 /// Todo: id 연결
 class EventDetailScreen extends GetView<EventDetailViewModel> {
-  const EventDetailScreen({super.key});
+  const EventDetailScreen({super.key, required this.id});
+
+  final int id;
 
   @override
   Widget build(BuildContext context) {
-    return const Stack(
+    controller.setEventDetailInfoState(id);
+
+    return Stack(
       children: [
         Scaffold(
-          appBar: PreferredSize(
+          appBar: const PreferredSize(
             preferredSize: Size.fromHeight(60),
             child: DefaultBackAppBar(title: ""),
           ),
@@ -24,13 +28,13 @@ class EventDetailScreen extends GetView<EventDetailViewModel> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                EventDetailTopWidget(),
-                EventDetailMiddleWidget(),
+                EventDetailTopWidget(id: id),
+                const EventDetailMiddleWidget(),
               ],
             ),
           ),
         ),
-        Positioned(
+        const Positioned(
           bottom: 0,
           left: 0,
           right: 0,

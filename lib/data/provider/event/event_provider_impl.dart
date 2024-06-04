@@ -42,8 +42,6 @@ class EventProviderImpl extends BaseConnect implements EventProvider {
       EEventCategory? category}) async {
     final Response response;
 
-    LogUtil.info("category: ${category?.enName}");
-
     try {
       response = await get("/api/events", query: {
         "status": status.toString(),
@@ -51,6 +49,61 @@ class EventProviderImpl extends BaseConnect implements EventProvider {
         "size": size.toString(),
         "filter": category?.enName
       });
+    } catch (e) {
+      rethrow;
+    }
+
+    return response.body["data"];
+  }
+
+  @override
+  Future<Map<String, dynamic>> getEventDetailInfo(
+      {required int eventId}) async {
+    final Response response;
+
+    try {
+      response = await get("/api/events/$eventId/info");
+    } catch (e) {
+      rethrow;
+    }
+
+    return response.body["data"];
+  }
+
+  @override
+  Future<Map<String, dynamic>> getEventDetailBrief(
+      {required int eventId}) async {
+    final Response response;
+
+    try {
+      response = await get("/api/events/$eventId/brief");
+    } catch (e) {
+      rethrow;
+    }
+
+    return response.body["data"];
+  }
+
+  @override
+  Future<Map<String, dynamic>> getEventReviews({required int eventId}) async {
+    final Response response;
+
+    try {
+      response = await get("/api/events/$eventId/top-review");
+    } catch (e) {
+      rethrow;
+    }
+
+    return response.body["data"];
+  }
+
+  @override
+  Future<Map<String, dynamic>> getEventSellerInfo(
+      {required int eventId}) async {
+    final Response response;
+
+    try {
+      response = await get("/api/events/$eventId/seller");
     } catch (e) {
       rethrow;
     }

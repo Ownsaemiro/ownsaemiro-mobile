@@ -3,6 +3,10 @@ import 'package:ownsaemiro/app/type/e_event_category.dart';
 import 'package:ownsaemiro/app/type/e_event_status.dart';
 import 'package:ownsaemiro/data/model/event/before_event_state.dart';
 import 'package:ownsaemiro/data/model/event/during_event_state.dart';
+import 'package:ownsaemiro/data/model/event/event_detail_brief_state.dart';
+import 'package:ownsaemiro/data/model/event/event_detail_info_state.dart';
+import 'package:ownsaemiro/data/model/event/event_review_state.dart';
+import 'package:ownsaemiro/data/model/event/event_seller_info_state.dart';
 import 'package:ownsaemiro/data/model/event/popular_event_state.dart';
 import 'package:ownsaemiro/data/model/event/recommend_event_state.dart';
 import 'package:ownsaemiro/data/provider/event/event_provider.dart';
@@ -86,5 +90,62 @@ class EventRepositoryImpl extends GetxService implements EventRepository {
     return result["events"]
         .map<DuringEventState>((event) => DuringEventState.fromJson(event))
         .toList();
+  }
+
+  @override
+  Future<EventDetailInfoState> getEventDetailInfo(
+      {required int eventId}) async {
+    Map<String, dynamic> result;
+
+    try {
+      result = await _eventProvider.getEventDetailInfo(eventId: eventId);
+    } catch (e) {
+      rethrow;
+    }
+
+    return EventDetailInfoState.fromJson(result);
+  }
+
+  @override
+  Future<EventDetailBriefState> getEventDetailBrief(
+      {required int eventId}) async {
+    Map<String, dynamic> result;
+
+    try {
+      result = await _eventProvider.getEventDetailBrief(eventId: eventId);
+    } catch (e) {
+      rethrow;
+    }
+
+    return EventDetailBriefState.fromJson(result);
+  }
+
+  @override
+  Future<List<EventReviewState>> getEventReviews({required int eventId}) async {
+    Map<String, dynamic> result;
+
+    try {
+      result = await _eventProvider.getEventReviews(eventId: eventId);
+    } catch (e) {
+      rethrow;
+    }
+
+    return result["reviews"]
+        .map<EventReviewState>((review) => EventReviewState.fromJson(review))
+        .toList();
+  }
+
+  @override
+  Future<EventSellerInfoState> getEventSellerInfo(
+      {required int eventId}) async {
+    Map<String, dynamic> result;
+
+    try {
+      result = await _eventProvider.getEventSellerInfo(eventId: eventId);
+    } catch (e) {
+      rethrow;
+    }
+
+    return EventSellerInfoState.fromJson(result);
   }
 }

@@ -39,7 +39,7 @@ List<GetPage> appPages = [
   ),
   GetPage(
       name: Routes.EVENT_DETAIL,
-      page: () => const EventDetailScreen(),
+      page: () => const EventDetailScreen(id: 0),
       binding: RootBinding()),
   GetPage(
     name: Routes.EVENT_RESERVATION,
