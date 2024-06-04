@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ownsaemiro/app/config/font_system.dart';
 import 'package:ownsaemiro/core/screen/base_screen.dart';
 import 'package:ownsaemiro/presentation/view/event/component/event_list_title_widget.dart';
+import 'package:ownsaemiro/presentation/view/event/widget/before_event_list_widget.dart';
 import 'package:ownsaemiro/presentation/view/event/widget/category_chip_widget.dart';
+import 'package:ownsaemiro/presentation/view/event/widget/during_event_list_widget.dart';
 import 'package:ownsaemiro/presentation/view/event/widget/event_list_widget.dart';
 import 'package:ownsaemiro/presentation/view_model/event/event_view_model.dart';
 import 'package:ownsaemiro/presentation/widget/appbar/default_search_appbar.dart';
@@ -46,7 +47,10 @@ class _MiddleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [EventListTitleWidget(title: "진행 중인 공연"), EventListWidget()]);
+        children: [
+          EventListTitleWidget(title: "진행 중인 공연"),
+          DuringEventListWidget()
+        ]);
   }
 }
 
@@ -59,7 +63,7 @@ class _BottomWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           EventListTitleWidget(title: "진행 예정인 공연"),
-          EventListWidget()
+          BeforeEventListWidget()
         ]);
   }
 }
