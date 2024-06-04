@@ -158,7 +158,7 @@ class _SearchResultWidget extends BaseWidget<SearchViewModel> {
           return Center(
             child: GestureDetector(
               onTap: () {
-                Get.to(() => const EventDetailScreen());
+                // Get.to(() => const EventDetailScreen());
               },
               child: const Center(),
             ),
