@@ -22,6 +22,12 @@ class BeforeEventListWidget extends BaseWidget<EventViewModel> {
         height: containerHeight + 80,
         child: Obx(
           () {
+            if (viewModel.isBeforeEventLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
             return ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: viewModel.beforeEventList.length,
@@ -30,7 +36,8 @@ class BeforeEventListWidget extends BaseWidget<EventViewModel> {
                   padding: const EdgeInsets.only(right: 16),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.EVENT_DETAIL);
+                      Get.toNamed(Routes.EVENT_DETAIL,
+                          arguments: viewModel.beforeEventList[index].id);
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

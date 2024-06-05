@@ -22,6 +22,12 @@ class DuringEventListWidget extends BaseWidget<EventViewModel> {
         height: containerHeight + 80,
         child: Obx(
           () {
+            if (viewModel.isDuringEventLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
             return ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: viewModel.duringEventList.length,
@@ -30,7 +36,8 @@ class DuringEventListWidget extends BaseWidget<EventViewModel> {
                   padding: const EdgeInsets.only(right: 16),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.EVENT_DETAIL);
+                      Get.toNamed(Routes.EVENT_DETAIL,
+                          arguments: viewModel.duringEventList[index].id);
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

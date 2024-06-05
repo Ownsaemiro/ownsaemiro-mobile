@@ -14,6 +14,8 @@ class HomeViewModel extends GetxController {
   /* ------------------------------------------------------ */
   late final RxList<PopularEventState> _popularEventList;
   late final RxList<RecommendEventState> _recommendEventList;
+  late final RxBool _isPopularEventLoading = false.obs;
+  late final RxBool _isRecommendEventLoading = false.obs;
 
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
@@ -21,6 +23,10 @@ class HomeViewModel extends GetxController {
   List<PopularEventState> get popularEventList => _popularEventList;
 
   List<RecommendEventState> get recommendEventList => _recommendEventList;
+
+  bool get isPopularEventLoading => _isPopularEventLoading.value;
+
+  bool get isRecommendEventLoading => _isRecommendEventLoading.value;
 
   @override
   void onInit() {
@@ -38,6 +44,9 @@ class HomeViewModel extends GetxController {
   void onReady() async {
     super.onReady();
 
+    _isPopularEventLoading.value = true;
+    _isRecommendEventLoading.value = true;
+
     await _eventRepository.getPopularEventList().then((value) {
       _popularEventList.addAll(value);
     });
@@ -45,5 +54,8 @@ class HomeViewModel extends GetxController {
     await _eventRepository.getRecommendEventList().then((value) {
       _recommendEventList.addAll(value);
     });
+
+    _isPopularEventLoading.value = false;
+    _isRecommendEventLoading.value = false;
   }
 }
