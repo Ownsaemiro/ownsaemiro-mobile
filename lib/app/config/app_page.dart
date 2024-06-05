@@ -39,7 +39,7 @@ List<GetPage> appPages = [
   ),
   GetPage(
       name: Routes.EVENT_DETAIL,
-      page: () => const EventDetailScreen(id: 0),
+      page: () => EventDetailScreen(),
       binding: RootBinding()),
   GetPage(
     name: Routes.EVENT_RESERVATION,
@@ -58,7 +58,7 @@ List<GetPage> appPages = [
   ),
   GetPage(
     name: Routes.MARKET_DETAIL,
-    page: () => const MarketDetailScreen(),
+    page: () => MarketDetailScreen(),
     binding: RootBinding(),
   ),
   GetPage(

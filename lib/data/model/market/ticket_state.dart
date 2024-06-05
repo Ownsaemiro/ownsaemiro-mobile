@@ -1,23 +1,23 @@
-class EventBriefState {
+class TicketState {
   final int id;
   final String image;
   final String title;
   final String date;
 
-  EventBriefState({
+  TicketState({
     required this.id,
     required this.image,
     required this.title,
     required this.date,
   });
 
-  EventBriefState copyWith({
+  TicketState copyWith({
     int? id,
     String? image,
     String? title,
     String? date,
   }) {
-    return EventBriefState(
+    return TicketState(
       id: id ?? this.id,
       image: image ?? this.image,
       title: title ?? this.title,
@@ -25,12 +25,12 @@ class EventBriefState {
     );
   }
 
-  factory EventBriefState.fromJson(Map<String, dynamic> json) {
-    return EventBriefState(
-      id: json["id"],
-      image: json["image"],
-      title: json["title"],
-      date: json["date"],
+  factory TicketState.fromJson(Map<String, dynamic> json) {
+    return TicketState(
+      id: json['id'],
+      image: json['image'],
+      title: json['title'],
+      date: json['duration'],
     );
   }
 }

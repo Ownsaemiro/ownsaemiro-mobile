@@ -10,21 +10,29 @@ class PopularEventWidget extends BaseWidget<HomeViewModel> {
 
   @override
   Widget buildView(BuildContext context) {
-    return SizedBox(
-      height: Get.width * 0.9,
-      child: PageView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: viewModel.popularEventList.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, Routes.EVENT_DETAIL);
-            },
-            child: Stack(
-              children: [
-                Obx(
-                  () {
-                    return Container(
+    return Obx(
+      () {
+        if (viewModel.isPopularEventLoading) {
+          /// Todo: Add Skeleton Loading
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        return SizedBox(
+          height: Get.width * 0.9,
+          child: PageView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: viewModel.popularEventList.length,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  Get.toNamed(Routes.EVENT_DETAIL,
+                      arguments: viewModel.popularEventList[index].id);
+                },
+                child: Stack(
+                  children: [
+                    Container(
                       width: Get.width,
                       decoration: BoxDecoration(
                         image: DecorationImage(
@@ -35,14 +43,14 @@ class PopularEventWidget extends BaseWidget<HomeViewModel> {
                       child: PopularEventItemWidget(
                         state: viewModel.popularEventList[index],
                       ),
-                    );
-                  },
-                )
-              ],
-            ),
-          );
-        },
-      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

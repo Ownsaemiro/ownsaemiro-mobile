@@ -1,73 +1,122 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ownsaemiro/app/config/color_system.dart';
+import 'package:ownsaemiro/core/screen/base_widget.dart';
+import 'package:ownsaemiro/data/model/market/ticket_detail_state.dart';
+import 'package:ownsaemiro/presentation/view_model/market/market_detail_view_model.dart';
 
-class EventHeaderItemWidget extends StatelessWidget {
+class EventHeaderItemWidget extends BaseWidget<MarketDetailViewModel> {
   const EventHeaderItemWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-          width: Get.width,
-          height: Get.width * 0.6,
-          color: Colors.grey,
-          child: const Center(child: Text("이미지"))),
-      const Stack(children: [
-        Padding(
-            padding: EdgeInsets.all(16),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text("핫소스유니버스 팝업스토어",
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
-              SizedBox(height: 8),
-              Text(
-                '팝업스토어 · 0분 · 전체이용가',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
+  Widget buildView(BuildContext context) {
+    return Obx(
+      () {
+        /// Todo: Skeleton UI Loading
+        if (viewModel.isStateLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        return Column(
+          children: [
+            Container(
+              width: Get.width,
+              height: Get.width * 0.6,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: NetworkImage(viewModel.ticketDetailState.image),
+                    fit: BoxFit.cover),
               ),
-              SizedBox(height: 8),
-              Row(children: [
-                Icon(Icons.location_on, color: ColorSystem.primary, size: 18),
-                SizedBox(width: 4),
-                Expanded(
-                    child: Text("성수동2가 289-234 (보이드성수 건물)",
-                        style: TextStyle(fontSize: 10, color: Colors.black)))
-              ]),
-              SizedBox(height: 8),
-              Row(children: [
-                Icon(Icons.calendar_today,
-                    color: ColorSystem.primary, size: 18),
-                SizedBox(width: 4),
-                Text(
-                  "2024.05.10",
-                  style: TextStyle(fontSize: 10),
-                )
-              ]),
-              SizedBox(height: 8),
-              Row(children: [
-                Icon(Icons.phone, color: ColorSystem.primary, size: 18),
-                SizedBox(width: 4),
-                Text(
-                  "02-1234-5678",
-                  style: TextStyle(fontSize: 10),
-                )
-              ])
-            ])),
-        Positioned(
-            top: 18,
-            right: 18,
-            child: Icon(
-              Icons.favorite_border,
-              color: ColorSystem.primary,
-              size: 30,
-            )),
-      ]),
-    ]);
+              child: const Center(),
+            ),
+            Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(viewModel.ticketDetailState.title,
+                          style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black)),
+                      const SizedBox(height: 8),
+                      Text(
+                        '${viewModel.ticketDetailState.category} · ${viewModel.ticketDetailState.durationTime} · ${viewModel.ticketDetailState.rating}',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          const Icon(Icons.location_on,
+                              color: ColorSystem.primary, size: 18),
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: Text(
+                              viewModel.ticketDetailState.address,
+                              style: const TextStyle(
+                                  fontSize: 10, color: Colors.black),
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          const Icon(Icons.calendar_today,
+                              color: ColorSystem.primary, size: 18),
+                          const SizedBox(width: 4),
+                          Text(
+                            viewModel.ticketDetailState.date,
+                            style: const TextStyle(fontSize: 10),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          const Icon(Icons.phone,
+                              color: ColorSystem.primary, size: 18),
+                          const SizedBox(width: 4),
+                          Text(
+                            viewModel.ticketDetailState.phoneNumber,
+                            style: const TextStyle(fontSize: 10),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                viewModel.ticketDetailState.isLiked
+                    ? const Positioned(
+                        top: 18,
+                        right: 18,
+                        child: Icon(
+                          Icons.favorite,
+                          color: ColorSystem.primary,
+                          size: 30,
+                        ),
+                      )
+                    : const Positioned(
+                        top: 18,
+                        right: 18,
+                        child: Icon(
+                          Icons.favorite_border,
+                          color: ColorSystem.primary,
+                          size: 30,
+                        ),
+                      )
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 }

@@ -1,9 +1,7 @@
 import 'package:get/get.dart';
 import 'package:ownsaemiro/app/type/e_event_category.dart';
-import 'package:ownsaemiro/app/utility/log_util.dart';
 import 'package:ownsaemiro/data/model/event/before_event_state.dart';
 import 'package:ownsaemiro/data/model/event/during_event_state.dart';
-import 'package:ownsaemiro/data/model/event/event_brief_state.dart';
 import 'package:ownsaemiro/data/repository/event/event_repository.dart';
 
 class EventViewModel extends GetxController {
@@ -19,12 +17,19 @@ class EventViewModel extends GetxController {
   late final RxList<BeforeEventState> _beforeEventList;
   late final Rx<EEventCategory> _eventCategory;
 
+  late final RxBool _isDuringEventLoading = false.obs;
+  late final RxBool _isBeforeEventLoading = false.obs;
+
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
   /* ------------------------------------------------------ */
   List<DuringEventState> get duringEventList => _duringEventList;
 
   List<BeforeEventState> get beforeEventList => _beforeEventList;
+
+  bool get isDuringEventLoading => _isDuringEventLoading.value;
+
+  bool get isBeforeEventLoading => _isBeforeEventLoading.value;
 
   @override
   void onInit() {
@@ -44,33 +49,32 @@ class EventViewModel extends GetxController {
     super.onReady();
     selectCategory(0);
 
+    _isBeforeEventLoading.value = true;
     await _eventRepository
         .getBeforeEventList(
       page: 1,
       size: 5,
+      category: _eventCategory.value,
     )
         .then((value) {
       _beforeEventList.addAll(value);
     });
 
+    _isBeforeEventLoading.value = false;
+
+    _isDuringEventLoading.value = true;
     await _eventRepository
         .getDuringEventList(
       page: 1,
       size: 5,
+      category: _eventCategory.value,
     )
         .then((value) {
       _duringEventList.addAll(value);
     });
+
+    _isDuringEventLoading.value = false;
   }
-
-  final EventBriefState _eventBriefState = EventBriefState(
-    id: 0,
-    image: "",
-    title: "",
-    date: "",
-  );
-
-  EventBriefState get eventBriefState => _eventBriefState;
 
   final RxInt selectedIndex = 0.obs;
 
@@ -91,6 +95,8 @@ class EventViewModel extends GetxController {
 
     _beforeEventList.clear();
 
+    _isBeforeEventLoading.value = true;
+
     await _eventRepository
         .getBeforeEventList(
       page: 1,
@@ -101,7 +107,11 @@ class EventViewModel extends GetxController {
       _beforeEventList.addAll(value);
     });
 
+    _isBeforeEventLoading.value = false;
+
     _duringEventList.clear();
+
+    _isDuringEventLoading.value = true;
 
     await _eventRepository
         .getDuringEventList(
@@ -112,19 +122,7 @@ class EventViewModel extends GetxController {
         .then((value) {
       _duringEventList.addAll(value);
     });
-  }
 
-  void setEventBriefState({
-    required int id,
-    required String image,
-    required String title,
-    required String date,
-  }) {
-    _eventBriefState.copyWith(
-      id: id,
-      image: image,
-      title: title,
-      date: date,
-    );
+    _isDuringEventLoading.value = false;
   }
 }

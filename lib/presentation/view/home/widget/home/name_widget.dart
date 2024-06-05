@@ -9,11 +9,21 @@ class NameWidget extends BaseWidget<RootViewModel> {
 
   @override
   Widget buildView(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 25, top: 25),
-      child: Obx(
-        () => Text("${viewModel.name} 님을 위한 추천", style: FontSystem.KR18SB),
-      ),
+    return Obx(
+      () {
+        /// Todo: Add Skeleton Loading
+
+        if (viewModel.isUserNameLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        return Padding(
+            padding: const EdgeInsets.only(left: 25, top: 25),
+            child:
+                Text("${viewModel.name} 님을 위한 추천", style: FontSystem.KR18SB));
+      },
     );
   }
 }

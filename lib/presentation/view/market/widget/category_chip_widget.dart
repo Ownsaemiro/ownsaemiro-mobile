@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ownsaemiro/app/config/color_system.dart';
 import 'package:ownsaemiro/core/screen/base_widget.dart';
-import 'package:ownsaemiro/presentation/view_model/event/event_view_model.dart';
+import 'package:ownsaemiro/presentation/view_model/market/market_view_model.dart';
 
-class CategoryChipWidget extends BaseWidget<EventViewModel> {
+class CategoryChipWidget extends BaseWidget<MarketViewModel> {
   const CategoryChipWidget({super.key});
 
   @override

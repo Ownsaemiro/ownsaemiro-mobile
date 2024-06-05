@@ -5,10 +5,13 @@ import 'package:ownsaemiro/app/config/color_system.dart';
 import 'package:ownsaemiro/presentation/view/market/component/send_button_widget.dart';
 import 'package:ownsaemiro/presentation/view/market/widget/event_header_item_widget.dart';
 import 'package:ownsaemiro/presentation/view/market/widget/event_item_description_widget.dart';
+import 'package:ownsaemiro/presentation/view_model/market/market_detail_view_model.dart';
 import 'package:ownsaemiro/presentation/widget/appbar/default_back_appbar.dart';
 
-class MarketDetailScreen extends GetView<MarketDetailScreen> {
-  const MarketDetailScreen({super.key});
+class MarketDetailScreen extends GetView<MarketDetailViewModel> {
+  MarketDetailScreen({super.key});
+
+  final int id = Get.arguments;
 
   void _showModal(BuildContext context) {
     showDialog(
@@ -65,6 +68,8 @@ class MarketDetailScreen extends GetView<MarketDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    controller.setMarketDetailInfoState(id);
+
     return Stack(
       children: [
         Scaffold(

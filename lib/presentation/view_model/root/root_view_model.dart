@@ -14,6 +14,7 @@ class RootViewModel extends GetxController {
   late final RxInt _selectedIndex;
   late final RxBool _isExpanded;
   late final Rx<UserNameState> _userNameState;
+  late final RxBool _isUserNameLoading = false.obs;
 
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
@@ -23,6 +24,8 @@ class RootViewModel extends GetxController {
   bool get isExpanded => _isExpanded.value;
 
   String get name => _userNameState.value.name;
+
+  bool get isUserNameLoading => _isUserNameLoading.value;
 
   @override
   void onInit() {
@@ -40,9 +43,13 @@ class RootViewModel extends GetxController {
   @override
   void onReady() async {
     super.onReady();
+
+    _isUserNameLoading.value = true;
     await _userRepository.getUsername().then((value) {
       _userNameState.value = UserNameState(name: value["username"]);
     });
+
+    _isUserNameLoading.value = false;
   }
 
   void changeIndex(int index) {

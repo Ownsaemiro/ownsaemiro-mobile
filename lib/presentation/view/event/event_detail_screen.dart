@@ -8,9 +8,9 @@ import 'package:ownsaemiro/presentation/widget/appbar/default_back_appbar.dart';
 
 /// Todo: id 연결
 class EventDetailScreen extends GetView<EventDetailViewModel> {
-  const EventDetailScreen({super.key, required this.id});
+  EventDetailScreen({super.key});
 
-  final int id;
+  final int id = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
