@@ -148,4 +148,26 @@ class EventRepositoryImpl extends GetxService implements EventRepository {
 
     return EventSellerInfoState.fromJson(result);
   }
+
+  @override
+  Future<void> eventLike({required int eventId}) async {
+    Map<String, dynamic> result;
+
+    try {
+      result = await _eventProvider.eventLike(eventId: eventId);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> eventUnlike({required int eventId}) async {
+    Map<String, dynamic> result;
+
+    try {
+      result = await _eventProvider.eventUnlike(eventId: eventId);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

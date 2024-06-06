@@ -18,6 +18,7 @@ class EventDetailViewModel extends GetxController {
   late final Rx<EventDetailBriefState> _eventDetailBriefState;
   late final RxList<EventReviewState> _eventReviewState;
   late final Rx<EventSellerInfoState> _eventSellerInfoState;
+  late final RxBool _isEventDetailLoading = false.obs;
 
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
@@ -31,6 +32,8 @@ class EventDetailViewModel extends GetxController {
 
   EventSellerInfoState get eventSellerInfoState => _eventSellerInfoState.value;
 
+  bool get isEventDetailLoading => _isEventDetailLoading.value;
+
   @override
   void onInit() {
     super.onInit();
@@ -39,7 +42,7 @@ class EventDetailViewModel extends GetxController {
     _eventRepository = Get.find<EventRepository>();
 
     // Initialize State
-    _eventDetailInfoState = const EventDetailInfoState(
+    _eventDetailInfoState = EventDetailInfoState(
       id: 0,
       title: "",
       image: "https://i.esdrop.com/d/f/hhaNifrpr0/U3CCAUKVbb.png",
@@ -66,6 +69,8 @@ class EventDetailViewModel extends GetxController {
   }
 
   void setEventDetailInfoState(int id) {
+    _isEventDetailLoading.value = true;
+
     _eventRepository.getEventDetailInfo(eventId: id).then((value) {
       _eventDetailInfoState.value = value;
     });
@@ -80,6 +85,22 @@ class EventDetailViewModel extends GetxController {
 
     _eventRepository.getEventSellerInfo(eventId: id).then((value) {
       _eventSellerInfoState.value = value;
+    });
+
+    _isEventDetailLoading.value = false;
+  }
+
+  void pushLikeButton() {
+    bool isLiked = _eventDetailInfoState.value.isLiked;
+
+    if (isLiked) {
+      _eventRepository.eventUnlike(eventId: _eventDetailInfoState.value.id);
+    } else {
+      _eventRepository.eventLike(eventId: _eventDetailInfoState.value.id);
+    }
+
+    _eventDetailInfoState.update((val) {
+      val!.isLiked = !isLiked;
     });
   }
 }

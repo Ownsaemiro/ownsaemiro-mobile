@@ -26,4 +26,8 @@ abstract class EventRepository {
   Future<List<EventReviewState>> getEventReviews({required int eventId});
 
   Future<EventSellerInfoState> getEventSellerInfo({required int eventId});
+
+  Future<void> eventLike({required int eventId});
+
+  Future<void> eventUnlike({required int eventId});
 }

@@ -69,6 +69,8 @@ class LikedEventListWidget extends BaseWidget<LikedEventViewModel> {
                       IconButton(
                           onPressed: () {
                             LogUtil.info("좋아요");
+                            viewModel.unlikeEvent(
+                                viewModel.userLikedEventState[index].id);
                           },
                           icon: viewModel.userLikedEventState[index].isLiked
                               ? const Icon(Icons.favorite,

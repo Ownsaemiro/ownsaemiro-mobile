@@ -32,6 +32,7 @@ class MarketDetailViewModel extends GetxController {
     _ticketDetailState = TicketDetailState(
             id: 0,
             title: "",
+            eventId: 0,
             image: "https://i.esdrop.com/d/f/hhaNifrpr0/U3CCAUKVbb.png",
             category: "",
             durationTime: "",

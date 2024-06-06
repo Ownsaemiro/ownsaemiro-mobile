@@ -1,6 +1,7 @@
 class TicketDetailState {
   final int id;
   final String title;
+  final int eventId;
   final String image;
   final String category;
   final String durationTime;
@@ -14,6 +15,7 @@ class TicketDetailState {
   TicketDetailState({
     required this.id,
     required this.title,
+    required this.eventId,
     required this.image,
     required this.category,
     required this.durationTime,
@@ -28,6 +30,7 @@ class TicketDetailState {
   TicketDetailState copyWith({
     int? id,
     String? title,
+    int? eventId,
     String? image,
     String? category,
     String? durationTime,
@@ -41,6 +44,7 @@ class TicketDetailState {
     return TicketDetailState(
       id: id ?? this.id,
       title: title ?? this.title,
+      eventId: eventId ?? this.eventId,
       image: image ?? this.image,
       category: category ?? this.category,
       durationTime: durationTime ?? this.durationTime,
@@ -57,6 +61,7 @@ class TicketDetailState {
     return TicketDetailState(
       id: json['id'],
       title: json['title'],
+      eventId: json["event_id"],
       image: json['image'],
       category: json['category'],
       durationTime: json['duration_time'],

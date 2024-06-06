@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:ownsaemiro/data/model/profile/user_liked_event_state.dart';
+import 'package:ownsaemiro/data/repository/event/event_repository.dart';
 import 'package:ownsaemiro/data/repository/profile/profile_repository.dart';
 
 class LikedEventViewModel extends GetxController {
@@ -7,6 +8,7 @@ class LikedEventViewModel extends GetxController {
   /* -------------------- DI Fields ----------------------- */
   /* ------------------------------------------------------ */
   late final ProfileRepository _profileRepository;
+  late final EventRepository _eventRepository;
 
   /* ------------------------------------------------------ */
   /* ----------------- Private Fields --------------------- */
@@ -27,6 +29,7 @@ class LikedEventViewModel extends GetxController {
 
     // Dependency Injection
     _profileRepository = Get.find<ProfileRepository>();
+    _eventRepository = Get.find<EventRepository>();
 
     // Initialize State
     _userLikedEventState = <UserLikedEventState>[].obs;
@@ -43,5 +46,19 @@ class LikedEventViewModel extends GetxController {
     });
 
     _isLoaded.value = false;
+  }
+
+  void unlikeEvent(int eventId) {
+    UserLikedEventState event =
+        _userLikedEventState.firstWhere((event) => event.id == eventId);
+
+    // check is_liked is true
+    if (!event.isLiked) return;
+
+    // Call API to Unlike Event
+    _eventRepository.eventUnlike(eventId: eventId);
+
+    // Remove Event from State
+    _userLikedEventState.removeWhere((event) => event.id == eventId);
   }
 }

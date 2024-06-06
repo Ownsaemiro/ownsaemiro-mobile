@@ -110,4 +110,30 @@ class EventProviderImpl extends BaseConnect implements EventProvider {
 
     return response.body["data"];
   }
+
+  @override
+  Future<Map<String, dynamic>> eventLike({required int eventId}) async {
+    final Response response;
+
+    try {
+      response = await post("/api/events/likes", {"event_id": eventId});
+    } catch (e) {
+      rethrow;
+    }
+
+    return response.body["data"];
+  }
+
+  @override
+  Future<Map<String, dynamic>> eventUnlike({required int eventId}) async {
+    final Response response;
+
+    try {
+      response = await delete("/api/events/$eventId/likes");
+    } catch (e) {
+      rethrow;
+    }
+
+    return response.body["data"];
+  }
 }

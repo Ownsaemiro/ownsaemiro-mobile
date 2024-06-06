@@ -19,4 +19,8 @@ abstract class EventProvider {
   Future<Map<String, dynamic>> getEventReviews({required int eventId});
 
   Future<Map<String, dynamic>> getEventSellerInfo({required int eventId});
+
+  Future<Map<String, dynamic>> eventLike({required int eventId});
+
+  Future<Map<String, dynamic>> eventUnlike({required int eventId});
 }

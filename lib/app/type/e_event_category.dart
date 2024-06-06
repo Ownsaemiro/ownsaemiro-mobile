@@ -17,4 +17,9 @@ enum EEventCategory {
     return EEventCategory.values
         .firstWhere((category) => category.koName == koName);
   }
+
+  static EEventCategory fromEnName(String enName) {
+    return EEventCategory.values
+        .firstWhere((category) => category.enName == enName);
+  }
 }

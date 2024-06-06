@@ -9,9 +9,9 @@ class EventDetailInfoState {
   final String phoneNumber;
   final int price;
   final String duration;
-  final bool isLiked;
+  bool isLiked;
 
-  const EventDetailInfoState({
+  EventDetailInfoState({
     required this.id,
     required this.image,
     required this.title,

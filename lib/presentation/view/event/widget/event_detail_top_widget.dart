@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ownsaemiro/app/config/color_system.dart';
+import 'package:ownsaemiro/app/type/e_event_category.dart';
+import 'package:ownsaemiro/app/utility/log_util.dart';
+import 'package:ownsaemiro/app/utility/string_util.dart';
 import 'package:ownsaemiro/core/screen/base_widget.dart';
 import 'package:ownsaemiro/presentation/view_model/event/event_detail_view_model.dart';
 
@@ -13,6 +16,12 @@ class EventDetailTopWidget extends BaseWidget<EventDetailViewModel> {
   Widget buildView(BuildContext context) {
     return Obx(
       () {
+        if (viewModel.isEventDetailLoading) {
+          return const Center(
+            child: CircularProgressIndicator(color: ColorSystem.primary),
+          );
+        }
+
         return Column(
           children: [
             Container(
@@ -32,25 +41,32 @@ class EventDetailTopWidget extends BaseWidget<EventDetailViewModel> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(children: [
-                        Text(
-                          viewModel.eventDetailInfoState.title,
-                          style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
-                        ),
-                        const Spacer(),
-                        // viewModel.eventDetailInfoState.isLiked
-                        viewModel.eventDetailInfoState.isLiked
-                            ? const Icon(Icons.favorite,
-                                color: ColorSystem.primary, size: 32)
-                            : const Icon(Icons.favorite_border,
-                                color: ColorSystem.primary, size: 32),
-                      ]),
+                      Row(
+                        children: [
+                          Text(
+                            viewModel.eventDetailInfoState.title,
+                            style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                          const Spacer(),
+                          // viewModel.eventDetailInfoState.isLiked
+                          GestureDetector(
+                            onTap: () {
+                              viewModel.pushLikeButton();
+                            },
+                            child: viewModel.eventDetailInfoState.isLiked
+                                ? const Icon(Icons.favorite,
+                                    color: ColorSystem.primary, size: 32)
+                                : const Icon(Icons.favorite_border,
+                                    color: ColorSystem.primary, size: 32),
+                          ),
+                        ],
+                      ),
                       const SizedBox(height: 8),
                       Text(
-                        '${viewModel.eventDetailInfoState.category} · ${viewModel.eventDetailInfoState.durationTime} · ${viewModel.eventDetailInfoState.rating}',
+                        '${StringUtil.getCategoryKoName(viewModel.eventDetailInfoState.category)} · ${viewModel.eventDetailInfoState.durationTime} · ${viewModel.eventDetailInfoState.rating}',
                         style: const TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
@@ -88,7 +104,8 @@ class EventDetailTopWidget extends BaseWidget<EventDetailViewModel> {
                               color: ColorSystem.primary, size: 18),
                           const SizedBox(width: 4),
                           Text(
-                            viewModel.eventDetailInfoState.phoneNumber,
+                            StringUtil.getFormattedPhoneNumber(
+                                viewModel.eventDetailInfoState.phoneNumber),
                             style: const TextStyle(fontSize: 10),
                           )
                         ],
