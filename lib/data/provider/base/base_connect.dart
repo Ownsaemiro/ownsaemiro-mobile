@@ -11,7 +11,8 @@ abstract class BaseConnect extends GetConnect {
       ..defaultContentType = "application/json"
       ..timeout = const Duration(seconds: 30)
       ..addRequestModifier<dynamic>((request) {
-        request.headers['Authorization'] = 'Bearer ';
+        request.headers['Authorization'] =
+            'Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjozLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcxNzU5MjIwNSwiZXhwIjoxNzE3Njc4NjA1fQ.t8mgrq45bzVqhP9uzm6IPHHoi3WAz-PZwgz1DzQj1NOYua9PHyTmWNKM6nAAp_7BMw165qZRepMhZh2wgr0uGQ';
 
         LogUtil.info("🛫 [${request.method}] ${request.url} | START");
         return request;
