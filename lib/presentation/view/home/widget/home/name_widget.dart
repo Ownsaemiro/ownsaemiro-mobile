@@ -21,8 +21,8 @@ class NameWidget extends BaseWidget<RootViewModel> {
 
         return Padding(
             padding: const EdgeInsets.only(left: 25, top: 25),
-            child:
-                Text("${viewModel.name} 님을 위한 추천", style: FontSystem.KR18SB));
+            child: Text("${viewModel.userNameState.name} 님을 위한 추천",
+                style: FontSystem.KR18SB));
       },
     );
   }

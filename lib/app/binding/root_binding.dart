@@ -11,7 +11,6 @@ import 'package:ownsaemiro/presentation/view_model/profile/assignment_waiting_vi
 import 'package:ownsaemiro/presentation/view_model/profile/liked_event_view_model.dart';
 import 'package:ownsaemiro/presentation/view_model/profile/participated_event_view_model.dart';
 import 'package:ownsaemiro/presentation/view_model/profile/point_charge_view_model.dart';
-import 'package:ownsaemiro/presentation/view_model/profile/profile_update_view_model.dart';
 import 'package:ownsaemiro/presentation/view_model/profile/profile_view_model.dart';
 import 'package:ownsaemiro/presentation/view_model/profile/purchase_history_detail_view_model.dart';
 import 'package:ownsaemiro/presentation/view_model/profile/purchase_history_view_model.dart';
@@ -67,7 +66,6 @@ class ProfileBinding extends Bindings {
     Get.lazyPut<PurchaseHistoryDetailViewModel>(
         () => PurchaseHistoryDetailViewModel());
     Get.lazyPut<AssignmentWaitingViewModel>(() => AssignmentWaitingViewModel());
-    Get.lazyPut<ProfileUpdateViewModel>(() => ProfileUpdateViewModel());
     Get.lazyPut<PointChargeViewModel>(() => PointChargeViewModel());
   }
 }

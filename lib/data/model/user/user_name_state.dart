@@ -10,4 +10,10 @@ class UserNameState {
       name: name ?? this.name,
     );
   }
+
+  factory UserNameState.fromJson(Map<String, dynamic> json) {
+    return UserNameState(
+      name: json["nickname"],
+    );
+  }
 }

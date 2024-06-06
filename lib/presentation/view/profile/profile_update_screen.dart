@@ -6,9 +6,9 @@ import 'package:ownsaemiro/app/config/color_system.dart';
 import 'package:ownsaemiro/app/config/font_system.dart';
 import 'package:ownsaemiro/app/utility/log_util.dart';
 import 'package:ownsaemiro/core/screen/base_widget.dart';
-import 'package:ownsaemiro/presentation/view_model/profile/profile_update_view_model.dart';
+import 'package:ownsaemiro/presentation/view_model/profile/profile_view_model.dart';
 
-class ProfileUpdateScreen extends GetView<ProfileUpdateViewModel> {
+class ProfileUpdateScreen extends GetView<ProfileViewModel> {
   const ProfileUpdateScreen({super.key});
 
   @override
@@ -84,7 +84,7 @@ class ProfileUpdateScreen extends GetView<ProfileUpdateViewModel> {
   }
 }
 
-class _ProfileWidget extends BaseWidget<ProfileUpdateViewModel> {
+class _ProfileWidget extends BaseWidget<ProfileViewModel> {
   const _ProfileWidget({super.key});
 
   @override
@@ -101,17 +101,17 @@ class _ProfileWidget extends BaseWidget<ProfileUpdateViewModel> {
               children: [
                 Obx(
                   () {
+                    if (viewModel.isProfileImageUploading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
                     return CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.grey.shade200,
-                      backgroundImage: viewModel.profileImage.value != null
-                          ? FileImage(File(viewModel.profileImage.value!.path))
-                          : null,
-                      child: viewModel.profileImage.value == null
-                          ? Icon(Icons.person,
-                              size: 50, color: Colors.grey.shade600)
-                          : null,
-                    );
+                        radius: 50,
+                        backgroundColor: Colors.grey.shade200,
+                        backgroundImage: NetworkImage(
+                            viewModel.userImageState.profileImage));
                   },
                 ),
                 Positioned(

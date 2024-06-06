@@ -4,6 +4,10 @@ import 'package:get/get.dart';
 import 'package:ownsaemiro/app/config/app_routes.dart';
 import 'package:ownsaemiro/app/config/font_system.dart';
 import 'package:ownsaemiro/app/utility/log_util.dart';
+import 'package:ownsaemiro/core/screen/base_widget.dart';
+import 'package:ownsaemiro/presentation/view_model/profile/point_charge_view_model.dart';
+import 'package:ownsaemiro/presentation/view_model/profile/profile_view_model.dart';
+import 'package:ownsaemiro/presentation/view_model/root/root_view_model.dart';
 
 class ProfileInfoWidget extends StatelessWidget {
   const ProfileInfoWidget({super.key});
@@ -19,57 +23,14 @@ class ProfileInfoWidget extends StatelessWidget {
                 onTap: () {
                   Get.toNamed(Routes.PROFILE_UPDATE);
                 },
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 25, top: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CircleAvatar(
-                        radius: 24,
-                        backgroundColor: Colors.grey.shade300,
-                        child: Icon(
-                          Icons.person,
-                          size: 32,
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      const Text('온새미로',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
-                      const SizedBox(width: 12),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 16,
-                        color: Colors.grey,
-                      ),
-                    ],
-                  ),
-                ),
+                child: const _ProfileWidget(),
               ),
             ),
             GestureDetector(
               onTap: () {
-                // 코인 충전 동작
                 Get.toNamed(Routes.POINT_CHARGE);
               },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 25, top: 10),
-                child: Row(
-                  children: [
-                    const Text(
-                      '54,321 Coin',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(width: 8),
-                    Icon(
-                      Icons.add_circle_outline,
-                      color: Colors.grey.shade600,
-                    ),
-                  ],
-                ),
-              ),
+              child: const _WalletWidget(),
             ),
           ],
         ),
@@ -80,5 +41,97 @@ class ProfileInfoWidget extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class _ProfileWidget extends BaseWidget<RootViewModel> {
+  const _ProfileWidget({super.key});
+
+  @override
+  Widget buildView(BuildContext context) {
+    return Obx(
+      () {
+        if (viewModel.isUserNameLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        return Padding(
+          padding: const EdgeInsets.only(left: 25, top: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const _ProfileImageWidget(),
+              const SizedBox(width: 20),
+              Text(viewModel.userNameState.name,
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold)),
+              const SizedBox(width: 12),
+              const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+                color: Colors.grey,
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _ProfileImageWidget extends BaseWidget<ProfileViewModel> {
+  const _ProfileImageWidget({super.key});
+
+  @override
+  Widget buildView(BuildContext context) {
+    return Obx(() {
+      if (viewModel.isProfileImageUploading) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+
+      String image = viewModel.userImageState.profileImage;
+
+      return CircleAvatar(
+        radius: 24,
+        backgroundColor: Colors.grey.shade300,
+        backgroundImage: image.isEmpty ? null : NetworkImage(image),
+      );
+    });
+  }
+}
+
+class _WalletWidget extends BaseWidget<PointChargeViewModel> {
+  const _WalletWidget({super.key});
+
+  @override
+  Widget buildView(BuildContext context) {
+    return Obx(() {
+      if (viewModel.isPointCharging) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+
+      return Padding(
+        padding: const EdgeInsets.only(right: 25, top: 10),
+        child: Row(
+          children: [
+            Text(
+              '${viewModel.numberFormat.format(viewModel.userWalletState.point)} Coin',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(width: 8),
+            Icon(
+              Icons.add_circle_outline,
+              color: Colors.grey.shade600,
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:ownsaemiro/data/model/name/user_name_state.dart';
+import 'package:ownsaemiro/data/model/user/user_name_state.dart';
 import 'package:ownsaemiro/data/repository/user/user_repository.dart';
 
 class RootViewModel extends GetxController {
@@ -23,7 +23,7 @@ class RootViewModel extends GetxController {
 
   bool get isExpanded => _isExpanded.value;
 
-  String get name => _userNameState.value.name;
+  UserNameState get userNameState => _userNameState.value;
 
   bool get isUserNameLoading => _isUserNameLoading.value;
 
@@ -37,7 +37,7 @@ class RootViewModel extends GetxController {
     // Initialize State
     _selectedIndex = 0.obs;
     _isExpanded = false.obs;
-    _userNameState = Rx<UserNameState>(UserNameState(name: ""));
+    _userNameState = UserNameState(name: "").obs;
   }
 
   @override
@@ -46,7 +46,7 @@ class RootViewModel extends GetxController {
 
     _isUserNameLoading.value = true;
     await _userRepository.getUsername().then((value) {
-      _userNameState.value = UserNameState(name: value["username"]);
+      _userNameState.value = value;
     });
 
     _isUserNameLoading.value = false;
