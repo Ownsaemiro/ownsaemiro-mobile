@@ -9,6 +9,7 @@ import 'package:ownsaemiro/data/model/event/event_review_state.dart';
 import 'package:ownsaemiro/data/model/event/event_seller_info_state.dart';
 import 'package:ownsaemiro/data/model/event/popular_event_state.dart';
 import 'package:ownsaemiro/data/model/event/recommend_event_state.dart';
+import 'package:ownsaemiro/data/model/event/search_event_state.dart';
 import 'package:ownsaemiro/data/provider/event/event_provider.dart';
 import 'package:ownsaemiro/data/repository/event/event_repository.dart';
 
@@ -169,5 +170,22 @@ class EventRepositoryImpl extends GetxService implements EventRepository {
     } catch (e) {
       rethrow;
     }
+  }
+
+  @override
+  Future<List<SearchEventState>> searchEvent(
+      {required String keyword, required int page, required int size}) async {
+    Map<String, dynamic> result;
+
+    try {
+      result = await _eventProvider.searchEvent(
+          keyword: keyword, page: page, size: size);
+    } catch (e) {
+      rethrow;
+    }
+
+    return result["events"]
+        .map<SearchEventState>((event) => SearchEventState.fromJson(event))
+        .toList();
   }
 }

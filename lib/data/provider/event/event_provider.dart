@@ -23,4 +23,7 @@ abstract class EventProvider {
   Future<Map<String, dynamic>> eventLike({required int eventId});
 
   Future<Map<String, dynamic>> eventUnlike({required int eventId});
+
+  Future<Map<String, dynamic>> searchEvent(
+      {required String keyword, required int page, required int size});
 }

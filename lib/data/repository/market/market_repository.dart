@@ -7,4 +7,6 @@ abstract class MarketRepository {
       {required int page, required int size, required EEventCategory filter});
 
   Future<TicketDetailState> getTicketDetailInfo({required int id});
+
+  Future<void> registerAssignmentTicket({required int id});
 }

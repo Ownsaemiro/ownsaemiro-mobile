@@ -9,7 +9,7 @@ class ProfileProviderImpl extends BaseConnect implements ProfileProvider {
     final Response response;
 
     try {
-      response = await get("/api/events/likes", query: {
+      response = await get("/api/users/events/likes", query: {
         "page": page.toString(),
         "size": size.toString(),
       });

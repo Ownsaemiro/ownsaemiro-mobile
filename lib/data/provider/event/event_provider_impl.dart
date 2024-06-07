@@ -136,4 +136,19 @@ class EventProviderImpl extends BaseConnect implements EventProvider {
 
     return response.body["data"];
   }
+
+  @override
+  Future<Map<String, dynamic>> searchEvent(
+      {required String keyword, required int page, required int size}) async {
+    final Response response;
+
+    try {
+      response =
+          await get("/api/events/search?name=$keyword&page=$page&size=$size");
+    } catch (e) {
+      rethrow;
+    }
+
+    return response.body["data"];
+  }
 }

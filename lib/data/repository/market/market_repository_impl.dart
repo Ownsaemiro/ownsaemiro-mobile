@@ -47,4 +47,13 @@ class MarketRepositoryImpl extends GetxService implements MarketRepository {
 
     return TicketDetailState.fromJson(result);
   }
+
+  @override
+  Future<void> registerAssignmentTicket({required int id}) async {
+    try {
+      await _marketProvider.registerAssignmentTicket(id: id);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

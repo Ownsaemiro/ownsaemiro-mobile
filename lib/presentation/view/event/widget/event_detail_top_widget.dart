@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:ownsaemiro/app/config/color_system.dart';
-import 'package:ownsaemiro/app/type/e_event_category.dart';
-import 'package:ownsaemiro/app/utility/log_util.dart';
 import 'package:ownsaemiro/app/utility/string_util.dart';
 import 'package:ownsaemiro/core/screen/base_widget.dart';
 import 'package:ownsaemiro/presentation/view_model/event/event_detail_view_model.dart';
@@ -17,8 +16,75 @@ class EventDetailTopWidget extends BaseWidget<EventDetailViewModel> {
     return Obx(
       () {
         if (viewModel.isEventDetailLoading) {
-          return const Center(
-            child: CircularProgressIndicator(color: ColorSystem.primary),
+          return Column(
+            children: [
+              Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                child: Container(
+                  width: Get.width,
+                  height: Get.width * 0.6,
+                  color: Colors.white,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(
+                        width: double.infinity,
+                        height: 24,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(
+                        width: 150,
+                        height: 14,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(
+                        width: double.infinity,
+                        height: 14,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(
+                        width: 100,
+                        height: 14,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(
+                        width: double.infinity,
+                        height: 14,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           );
         }
 
@@ -51,7 +117,6 @@ class EventDetailTopWidget extends BaseWidget<EventDetailViewModel> {
                                 color: Colors.black),
                           ),
                           const Spacer(),
-                          // viewModel.eventDetailInfoState.isLiked
                           GestureDetector(
                             onTap: () {
                               viewModel.pushLikeButton();

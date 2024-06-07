@@ -53,4 +53,8 @@ class MarketDetailViewModel extends GetxController {
 
     _isStateLoading.value = false;
   }
+
+  void registerAssignmentTicket(int id) {
+    _marketRepository.registerAssignmentTicket(id: id);
+  }
 }

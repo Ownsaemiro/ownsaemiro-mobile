@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:ownsaemiro/app/config/font_system.dart';
 import 'package:ownsaemiro/core/screen/base_screen.dart';
 import 'package:ownsaemiro/core/screen/base_widget.dart';
-import 'package:ownsaemiro/presentation/view/event/event_detail_screen.dart';
-import 'package:ownsaemiro/presentation/view/home/widget/home/recommend_event_item_widget.dart';
 import 'package:ownsaemiro/presentation/view_model/search/search_view_model.dart';
 import 'package:ownsaemiro/presentation/widget/appbar/default_back_appbar.dart';
 
@@ -25,7 +23,7 @@ class SearchScreen extends BaseScreen<SearchViewModel> {
       Padding(
           padding: const EdgeInsets.all(16),
           child: TextField(
-            controller: viewModel.searchController,
+            controller: viewModel.textController,
             decoration: InputDecoration(
               hintText: '검색어를 입력해주세요',
               hintStyle: const TextStyle(color: Colors.grey),
@@ -98,7 +96,7 @@ class _SearchWidget extends BaseWidget<SearchViewModel> {
                   onPressed: () {
                     // Handle the tap event
                     viewModel.search(search);
-                    viewModel.searchController.text = search;
+                    viewModel.textController.text = search;
                   },
                 );
               }).toList(),
@@ -132,7 +130,7 @@ class _RecentSearchWidget extends BaseWidget<SearchViewModel> {
           trailing: const Icon(Icons.close, color: Colors.grey),
           onTap: () {
             viewModel.search(search);
-            viewModel.searchController.text = search;
+            viewModel.textController.text = search;
           },
         );
       }).toList(),
