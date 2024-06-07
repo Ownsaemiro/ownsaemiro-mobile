@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:ownsaemiro/presentation/view_model/entry/entry_view_model.dart';
 import 'package:ownsaemiro/presentation/view_model/event/event_detail_view_model.dart';
 import 'package:ownsaemiro/presentation/view_model/event/event_reservation_view_model.dart';
 import 'package:ownsaemiro/presentation/view_model/event/event_view_model.dart';
@@ -28,6 +29,13 @@ class RootBinding extends Bindings {
     ProfileBinding().dependencies();
     NotificationBinding().dependencies();
     SearchBinding().dependencies();
+  }
+}
+
+class EntryBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut<EntryViewModel>(() => EntryViewModel());
   }
 }
 

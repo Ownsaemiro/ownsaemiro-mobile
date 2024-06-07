@@ -12,7 +12,7 @@ abstract class BaseConnect extends GetConnect {
       ..timeout = const Duration(seconds: 30)
       ..addRequestModifier<dynamic>((request) {
         request.headers['Authorization'] =
-            'Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjozLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcxNzU5MjIwNSwiZXhwIjoxNzE3Njc4NjA1fQ.t8mgrq45bzVqhP9uzm6IPHHoi3WAz-PZwgz1DzQj1NOYua9PHyTmWNKM6nAAp_7BMw165qZRepMhZh2wgr0uGQ';
+            'Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjozLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcxNzc1MDAwOCwiZXhwIjoxNzE3ODM2NDA4fQ.l5tOgKPGvW8slPahiN_AuU4VyuzCFgZOMbTnIa2jstV_sb67w_vK9uwcC5bslmwIBl0Db4bpQO_XapIJ1XeqwA';
 
         LogUtil.info("🛫 [${request.method}] ${request.url} | START");
         return request;

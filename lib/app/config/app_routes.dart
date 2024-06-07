@@ -20,4 +20,5 @@ abstract class Routes {
   static const String PROFILE_UPDATE = "/profile-update";
   static const String POINT_CHARGE = "/point-charge";
   static const String REVIEW_LIST = "/review-list";
+  static const String REGISTER = "/register";
 }
