@@ -58,7 +58,7 @@ class EventDetailViewModel extends GetxController {
     _eventDetailInfoState = EventDetailInfoState(
       id: 0,
       title: "",
-      image: "https://i.esdrop.com/d/f/hhaNifrpr0/U3CCAUKVbb.png",
+      image: "",
       category: "",
       durationTime: "",
       rating: "",

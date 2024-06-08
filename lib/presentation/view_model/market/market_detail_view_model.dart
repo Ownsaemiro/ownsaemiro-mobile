@@ -33,7 +33,7 @@ class MarketDetailViewModel extends GetxController {
             id: 0,
             title: "",
             eventId: 0,
-            image: "https://i.esdrop.com/d/f/hhaNifrpr0/U3CCAUKVbb.png",
+            image: "",
             category: "",
             durationTime: "",
             rating: "",

@@ -10,4 +10,10 @@ abstract class DateUtil {
 
     return '${startDateList[1]}.${startDateList[2]} ~ ${endDateList[1]}.${endDateList[2]}';
   }
+
+  static String getFormattedDateKo(String date) {
+    final dateList = date.split('-');
+
+    return '${dateList[0]}년 ${dateList[1]}월 ${dateList[2]}일';
+  }
 }

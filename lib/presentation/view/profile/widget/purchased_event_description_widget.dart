@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ownsaemiro/app/config/color_system.dart';
+import 'package:ownsaemiro/app/utility/date_util.dart';
 import 'package:ownsaemiro/core/screen/base_widget.dart';
 import 'package:ownsaemiro/presentation/view_model/profile/purchase_history_detail_view_model.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -145,16 +146,17 @@ class PurchasedEventDescriptionWidget
                       color: ColorSystem.primary,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
-                    viewModel.purchasedHistoryDetailState.activatedAt,
+                    DateUtil.getFormattedDateKo(
+                        viewModel.purchasedHistoryDetailState.activatedAt),
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     "예매 번호 ${viewModel.purchasedHistoryDetailState.transactionId}",
                     style: const TextStyle(
