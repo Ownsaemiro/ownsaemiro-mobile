@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ownsaemiro/app/config/app_routes.dart';
+import 'package:ownsaemiro/app/config/color_system.dart';
 import 'package:ownsaemiro/app/utility/date_util.dart';
 import 'package:ownsaemiro/core/screen/base_widget.dart';
 import 'package:ownsaemiro/presentation/view_model/profile/purchase_history_view_model.dart';
@@ -11,6 +12,13 @@ class PurchaseHistoryListWidget extends BaseWidget<PurchaseHistoryViewModel> {
 
   @override
   Widget buildView(BuildContext context) {
+    viewModel.scrollController.addListener(() {
+      if (viewModel.scrollController.position.pixels ==
+          viewModel.scrollController.position.maxScrollExtent) {
+        viewModel.fetchMoreData();
+      }
+    });
+
     return Obx(
       () {
         if (viewModel.isLoading) {
@@ -87,10 +95,24 @@ class PurchaseHistoryListWidget extends BaseWidget<PurchaseHistoryViewModel> {
         }
 
         return CustomScrollView(
+          controller: viewModel.scrollController,
           slivers: [
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
+                  if (index == viewModel.purchasedHistoryList.length) {
+                    return viewModel.isLoadingMore
+                        ? const Padding(
+                            padding: EdgeInsets.all(16),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: ColorSystem.primary,
+                              ),
+                            ),
+                          )
+                        : const SizedBox.shrink();
+                  }
+
                   return GestureDetector(
                     onTap: () {
                       Get.toNamed(Routes.PURCHASE_HISTORY_DETAIL,
@@ -148,8 +170,8 @@ class PurchaseHistoryListWidget extends BaseWidget<PurchaseHistoryViewModel> {
                     ),
                   );
                 },
-                childCount: viewModel.purchasedHistoryList
-                    .length, // Adjust the number of items as needed
+                childCount: viewModel.purchasedHistoryList.length +
+                    1, // Adjust the number of items as needed
               ),
             ),
           ],

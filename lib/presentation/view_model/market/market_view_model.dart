@@ -19,7 +19,7 @@ class MarketViewModel extends GetxController {
   final RxBool _isStateLoading = false.obs;
   final RxBool _isLoadingMore = false.obs;
 
-  int _currentPage = 1;
+  int _page = 1;
   bool _hasMore = true;
 
   /* ------------------------------------------------------ */
@@ -69,7 +69,7 @@ class MarketViewModel extends GetxController {
 
     _eventCategory.value = EEventCategory.fromKoName(category);
     _ticketList.clear();
-    _currentPage = 1;
+    _page = 1;
     _hasMore = true;
 
     await _fetchTickets();
@@ -81,14 +81,14 @@ class MarketViewModel extends GetxController {
 
     try {
       final newTickets = await _marketRepository.getTicketList(
-        page: _currentPage,
+        page: _page,
         size: 8,
         filter: _eventCategory.value,
       );
 
       if (newTickets.isNotEmpty) {
         _ticketList.addAll(newTickets);
-        _currentPage++;
+        _page++;
       } else {
         _hasMore = false;
       }
@@ -103,14 +103,14 @@ class MarketViewModel extends GetxController {
 
     try {
       final newTickets = await _marketRepository.getTicketList(
-        page: _currentPage,
+        page: _page,
         size: 3,
         filter: _eventCategory.value,
       );
 
       if (newTickets.isNotEmpty) {
         _ticketList.addAll(newTickets);
-        _currentPage++;
+        _page++;
       } else {
         _hasMore = false;
       }
