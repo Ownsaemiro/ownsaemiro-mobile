@@ -46,19 +46,28 @@ class RecommendEventWidget extends BaseWidget<HomeViewModel> {
                           Container(
                             width: containerWidth,
                             height: 16,
-                            color: Colors.white,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
                           ),
                           const SizedBox(height: 4),
                           Container(
                             width: containerWidth,
                             height: 12,
-                            color: Colors.white,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
                           ),
                           const SizedBox(height: 4),
                           Container(
                             width: containerWidth,
                             height: 12,
-                            color: Colors.white,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
                           ),
                         ],
                       ),

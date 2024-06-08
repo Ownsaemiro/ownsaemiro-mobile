@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:ownsaemiro/app/config/app_routes.dart';
 import 'package:ownsaemiro/app/utility/date_util.dart';
 import 'package:ownsaemiro/core/screen/base_widget.dart';
@@ -23,8 +24,49 @@ class DuringEventListWidget extends BaseWidget<EventViewModel> {
         child: Obx(
           () {
             if (viewModel.isDuringEventLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 5, // Shimmer 아이템 수
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: containerWidth,
+                            height: containerHeight,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Container(
+                            width: textWidth,
+                            height: 14,
+                            color: Colors.white,
+                          ),
+                          const SizedBox(height: 8),
+                          Container(
+                            width: textWidth,
+                            height: 10,
+                            color: Colors.white,
+                          ),
+                          const SizedBox(height: 8),
+                          Container(
+                            width: textWidth,
+                            height: 10,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               );
             }
 

@@ -34,4 +34,9 @@ abstract class EventRepository {
 
   Future<List<SearchEventState>> searchEvent(
       {required String keyword, required int page, required int size});
+
+  Future<int> getEventRemainSeats({required int eventId});
+
+  Future<void> purchaseEventTicket(
+      {required int eventId, required String date});
 }

@@ -14,11 +14,14 @@ class MarketViewModel extends GetxController {
   /* ------------------------------------------------------ */
   late final RxList<TicketState> _ticketList;
   late final Rx<EEventCategory> _eventCategory;
+  late final RxBool _isStateLoading = false.obs;
 
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
   /* ------------------------------------------------------ */
   List<TicketState> get ticketList => _ticketList;
+
+  bool get isStateLoading => _isStateLoading.value;
 
   @override
   void onInit() {
@@ -36,11 +39,15 @@ class MarketViewModel extends GetxController {
   void onReady() async {
     super.onReady();
 
+    _isStateLoading.value = true;
+
     await _marketRepository
         .getTicketList(page: 1, size: 8, filter: EEventCategory.all)
         .then((value) {
       _ticketList.addAll(value);
     });
+
+    _isStateLoading.value = false;
   }
 
   final RxInt selectedIndex = 0.obs;
@@ -62,10 +69,14 @@ class MarketViewModel extends GetxController {
 
     _ticketList.clear();
 
+    _isStateLoading.value = true;
+
     await _marketRepository
         .getTicketList(page: 1, size: 8, filter: _eventCategory.value)
         .then((value) {
       _ticketList.addAll(value);
     });
+
+    _isStateLoading.value = false;
   }
 }

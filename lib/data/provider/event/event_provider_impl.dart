@@ -151,4 +151,30 @@ class EventProviderImpl extends BaseConnect implements EventProvider {
 
     return response.body["data"];
   }
+
+  @override
+  Future<Map<String, dynamic>> getEventRemainSeats(
+      {required int eventId}) async {
+    final Response response;
+
+    try {
+      response = await get("/api/events/$eventId/remain");
+    } catch (e) {
+      rethrow;
+    }
+
+    return response.body["data"];
+  }
+
+  @override
+  Future<void> purchaseEventTicket(
+      {required int eventId, required String date}) async {
+    final Response response;
+
+    try {
+      response = await post("/api/events/$eventId", {"date": date});
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

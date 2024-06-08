@@ -45,17 +45,19 @@ class HomeViewModel extends GetxController {
     super.onReady();
 
     _isPopularEventLoading.value = true;
-    _isRecommendEventLoading.value = true;
 
     await _eventRepository.getPopularEventList().then((value) {
       _popularEventList.addAll(value);
     });
 
+    _isPopularEventLoading.value = false;
+
+    _isRecommendEventLoading.value = true;
+
     await _eventRepository.getRecommendEventList().then((value) {
       _recommendEventList.addAll(value);
     });
 
-    _isPopularEventLoading.value = false;
     _isRecommendEventLoading.value = false;
   }
 }

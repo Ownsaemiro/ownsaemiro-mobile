@@ -6,5 +6,5 @@ abstract class MarketProvider {
 
   Future<Map<String, dynamic>> getTicketDetailInfo({required int id});
 
-  Future<Map<String, dynamic>> registerAssignmentTicket({required int id});
+  Future<void> registerAssignmentTicket({required int id});
 }

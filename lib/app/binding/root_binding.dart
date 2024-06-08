@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:ownsaemiro/presentation/view_model/entry/entry_view_model.dart';
 import 'package:ownsaemiro/presentation/view_model/event/event_detail_view_model.dart';
-import 'package:ownsaemiro/presentation/view_model/event/event_reservation_view_model.dart';
 import 'package:ownsaemiro/presentation/view_model/event/event_view_model.dart';
 import 'package:ownsaemiro/presentation/view_model/event/review_list_view_model.dart';
 import 'package:ownsaemiro/presentation/view_model/home/home_view_model.dart';
@@ -51,7 +50,6 @@ class EventBinding extends Bindings {
   void dependencies() {
     Get.lazyPut<EventViewModel>(() => EventViewModel());
     Get.lazyPut<EventDetailViewModel>(() => EventDetailViewModel());
-    Get.lazyPut<EventReservationViewModel>(() => EventReservationViewModel());
     Get.lazyPut<ReviewListViewModel>(() => ReviewListViewModel());
   }
 }

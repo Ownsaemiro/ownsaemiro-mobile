@@ -188,4 +188,27 @@ class EventRepositoryImpl extends GetxService implements EventRepository {
         .map<SearchEventState>((event) => SearchEventState.fromJson(event))
         .toList();
   }
+
+  @override
+  Future<int> getEventRemainSeats({required int eventId}) async {
+    Map<String, dynamic> result;
+
+    try {
+      result = await _eventProvider.getEventRemainSeats(eventId: eventId);
+    } catch (e) {
+      rethrow;
+    }
+
+    return result["remaining_seat"];
+  }
+
+  @override
+  Future<void> purchaseEventTicket(
+      {required int eventId, required String date}) async {
+    try {
+      await _eventProvider.purchaseEventTicket(eventId: eventId, date: date);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

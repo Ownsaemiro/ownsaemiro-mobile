@@ -38,16 +38,13 @@ class MarketProviderImpl extends BaseConnect implements MarketProvider {
   }
 
   @override
-  Future<Map<String, dynamic>> registerAssignmentTicket(
-      {required int id}) async {
+  Future<void> registerAssignmentTicket({required int id}) async {
     final Response response;
 
     try {
-      response = await put("/api/assignment/tickets", {"ticket_id": id});
+      response = await put("/api/assignments/tickets", {"ticket_id": id});
     } catch (e) {
       rethrow;
     }
-
-    return response.body["data"];
   }
 }
