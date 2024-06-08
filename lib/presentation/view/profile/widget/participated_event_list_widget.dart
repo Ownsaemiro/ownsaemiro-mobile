@@ -14,6 +14,15 @@ class ParticipatedEventListWidget
 
   @override
   Widget buildView(BuildContext context) {
+    viewModel.scrollController.addListener(
+      () {
+        if (viewModel.scrollController.position.pixels ==
+            viewModel.scrollController.position.maxScrollExtent) {
+          viewModel.fetchMoreData();
+        }
+      },
+    );
+
     return Obx(
       () {
         if (viewModel.isLoading) {
@@ -27,10 +36,24 @@ class ParticipatedEventListWidget
         }
 
         return CustomScrollView(
+          controller: viewModel.scrollController,
           slivers: [
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
+                  if (index == viewModel.state.length) {
+                    return viewModel.isLoadingMore
+                        ? const Padding(
+                            padding: EdgeInsets.all(16),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: ColorSystem.primary,
+                              ),
+                            ),
+                          )
+                        : const SizedBox.shrink();
+                  }
+
                   return GestureDetector(
                     onTap: () {
                       Get.toNamed(Routes.PARTICIPATED_DETAIL,
@@ -89,8 +112,7 @@ class ParticipatedEventListWidget
                     ),
                   );
                 },
-                childCount: viewModel
-                    .state.length, // Adjust the number of items as needed
+                childCount: viewModel.state.length + 1,
               ),
             ),
           ],
@@ -160,7 +182,7 @@ class ParticipatedEventListWidget
                 ),
               );
             },
-            childCount: 10, // Shimmer 아이템 수를 조절하세요
+            childCount: 10,
           ),
         ),
       ],
