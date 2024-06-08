@@ -44,14 +44,17 @@ class PointChargeScreen extends GetView<PointChargeViewModel> {
               size: 32,
               color: Color(0xFF555555),
             ),
-            onPressed: () => Get.back(),
+            onPressed: () {
+              controller.clear();
+              Get.back();
+            },
           ),
           actions: [
             Padding(
               padding: const EdgeInsets.only(top: 10, right: 10),
               child: GestureDetector(
                 onTap: () {
-                  LogUtil.info("포인트 충전 완료");
+                  controller.chargePoint();
                   Get.back();
                 },
                 child: Container(

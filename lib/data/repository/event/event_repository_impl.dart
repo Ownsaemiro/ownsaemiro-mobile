@@ -9,6 +9,8 @@ import 'package:ownsaemiro/data/model/event/event_review_state.dart';
 import 'package:ownsaemiro/data/model/event/event_seller_info_state.dart';
 import 'package:ownsaemiro/data/model/event/popular_event_state.dart';
 import 'package:ownsaemiro/data/model/event/recommend_event_state.dart';
+import 'package:ownsaemiro/data/model/event/review_state.dart';
+import 'package:ownsaemiro/data/model/event/search_event_state.dart';
 import 'package:ownsaemiro/data/provider/event/event_provider.dart';
 import 'package:ownsaemiro/data/repository/event/event_repository.dart';
 
@@ -147,5 +149,84 @@ class EventRepositoryImpl extends GetxService implements EventRepository {
     }
 
     return EventSellerInfoState.fromJson(result);
+  }
+
+  @override
+  Future<void> eventLike({required int eventId}) async {
+    Map<String, dynamic> result;
+
+    try {
+      result = await _eventProvider.eventLike(eventId: eventId);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> eventUnlike({required int eventId}) async {
+    Map<String, dynamic> result;
+
+    try {
+      result = await _eventProvider.eventUnlike(eventId: eventId);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<SearchEventState>> searchEvent(
+      {required String keyword, required int page, required int size}) async {
+    Map<String, dynamic> result;
+
+    try {
+      result = await _eventProvider.searchEvent(
+          keyword: keyword, page: page, size: size);
+    } catch (e) {
+      rethrow;
+    }
+
+    return result["events"]
+        .map<SearchEventState>((event) => SearchEventState.fromJson(event))
+        .toList();
+  }
+
+  @override
+  Future<int> getEventRemainSeats({required int eventId}) async {
+    Map<String, dynamic> result;
+
+    try {
+      result = await _eventProvider.getEventRemainSeats(eventId: eventId);
+    } catch (e) {
+      rethrow;
+    }
+
+    return result["remaining_seat"];
+  }
+
+  @override
+  Future<void> purchaseEventTicket(
+      {required int eventId, required String date}) async {
+    try {
+      await _eventProvider.purchaseEventTicket(eventId: eventId, date: date);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<ReviewState>> getEventReviewList(
+      {required int eventId, required int page, required int size}) async {
+    Map<String, dynamic> result;
+
+    try {
+      result = await _eventProvider.getEventReviewList(
+          eventId: eventId, page: page, size: size);
+    } catch (e) {
+      rethrow;
+    }
+
+    return result["reviews"]
+        .map<ReviewState>((review) => ReviewState.fromJson(review))
+        .toList();
   }
 }

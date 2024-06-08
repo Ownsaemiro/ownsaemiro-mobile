@@ -106,6 +106,7 @@ class MarketDetailScreen extends GetView<MarketDetailViewModel> {
             children: [
               GestureDetector(
                   onTap: () {
+                    controller.registerAssignmentTicket(id);
                     _showModal(context);
                   },
                   child: const SendButtonWidget())

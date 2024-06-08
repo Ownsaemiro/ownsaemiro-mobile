@@ -32,7 +32,8 @@ class MarketDetailViewModel extends GetxController {
     _ticketDetailState = TicketDetailState(
             id: 0,
             title: "",
-            image: "https://i.esdrop.com/d/f/hhaNifrpr0/U3CCAUKVbb.png",
+            eventId: 0,
+            image: "",
             category: "",
             durationTime: "",
             rating: "",
@@ -51,5 +52,9 @@ class MarketDetailViewModel extends GetxController {
     });
 
     _isStateLoading.value = false;
+  }
+
+  void registerAssignmentTicket(int id) {
+    _marketRepository.registerAssignmentTicket(id: id);
   }
 }

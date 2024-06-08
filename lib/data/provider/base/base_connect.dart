@@ -1,8 +1,12 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:ownsaemiro/app/factory/secure_storage_factory.dart';
 import 'package:ownsaemiro/app/utility/log_util.dart';
+import 'package:ownsaemiro/data/provider/token/token_provider.dart';
 
 abstract class BaseConnect extends GetConnect {
+  final TokenProvider tokenProvider = SecureStorageFactory.tokenProvider;
+
   @override
   void onInit() {
     super.onInit();
@@ -11,7 +15,8 @@ abstract class BaseConnect extends GetConnect {
       ..defaultContentType = "application/json"
       ..timeout = const Duration(seconds: 30)
       ..addRequestModifier<dynamic>((request) {
-        request.headers['Authorization'] = 'Bearer ';
+        request.headers['Authorization'] =
+            'Bearer ${tokenProvider.accessToken}';
 
         LogUtil.info("🛫 [${request.method}] ${request.url} | START");
         return request;

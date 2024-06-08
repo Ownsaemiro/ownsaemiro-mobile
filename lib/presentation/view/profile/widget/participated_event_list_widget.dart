@@ -1,82 +1,169 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ownsaemiro/app/config/app_routes.dart';
 import 'package:ownsaemiro/app/config/color_system.dart';
+import 'package:ownsaemiro/app/utility/date_util.dart';
 import 'package:ownsaemiro/app/utility/log_util.dart';
+import 'package:ownsaemiro/core/screen/base_widget.dart';
+import 'package:ownsaemiro/presentation/view_model/profile/participated_event_view_model.dart';
+import 'package:shimmer/shimmer.dart';
 
-class ParticipatedEventListWidget extends StatelessWidget {
+class ParticipatedEventListWidget
+    extends BaseWidget<ParticipatedEventViewModel> {
   const ParticipatedEventListWidget({super.key});
 
-  void _onTap() {
-    LogUtil.info("티켓 다이얼로그");
+  @override
+  Widget buildView(BuildContext context) {
+    return Obx(
+      () {
+        if (viewModel.isLoading) {
+          return _buildShimmerList();
+        }
+
+        if (viewModel.state.isEmpty) {
+          return const Center(
+            child: Text('참여한 행사가 없습니다.'),
+          );
+        }
+
+        return CustomScrollView(
+          slivers: [
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Get.toNamed(Routes.PARTICIPATED_DETAIL,
+                          arguments: viewModel.state[index]);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      margin: const EdgeInsets.symmetric(vertical: 4.0),
+                      height: 120,
+                      child: Row(
+                        children: [
+                          const SizedBox(width: 8),
+                          Container(
+                            width: 72,
+                            height: 72,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8)),
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  viewModel.state[index].image,
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 24),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                viewModel.state[index].title,
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                DateUtil.getDottedDate(
+                                    viewModel.state[index].activatedAt),
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                "구매일: ${DateUtil.getDottedDate(viewModel.state[index].boughtAt)}",
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                "예매 번호 ${viewModel.state[index].transactionId}",
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                childCount: viewModel
+                    .state.length, // Adjust the number of items as needed
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return CustomScrollView(slivers: [
-      SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            return GestureDetector(
-              onTap: () {
-                _onTap();
-              },
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                margin: const EdgeInsets.symmetric(vertical: 4.0),
-                height: 120,
-                child: Row(
-                  children: [
-                    const SizedBox(width: 8),
-                    Container(
-                      width: 72,
-                      height: 72,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        color: Colors.grey,
+  Widget _buildShimmerList() {
+    return CustomScrollView(
+      slivers: [
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              return Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  margin: const EdgeInsets.symmetric(vertical: 4.0),
+                  height: 120,
+                  child: Row(
+                    children: [
+                      const SizedBox(width: 8),
+                      Container(
+                        width: 72,
+                        height: 72,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(8),
+                          ),
+                        ),
                       ),
-                      child: const Center(child: Text('이미지')),
-                    ),
-                    const SizedBox(width: 24),
-                    // Add some spacing between image and text
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '핫소스유니버스 팝업스토어',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          '2024.05.10',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          "구매일: 2024.05.10",
-                          style: TextStyle(fontSize: 12),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          "예매 번호 X4SDR45",
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    IconButton(
-                        onPressed: () {
-                          LogUtil.info("좋아요");
-                        },
-                        icon: const Icon(Icons.favorite_border,
-                            color: ColorSystem.primary)),
-                  ],
+                      const SizedBox(width: 24),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 150,
+                            height: 16,
+                            color: Colors.white,
+                          ),
+                          const SizedBox(height: 4),
+                          Container(
+                            width: 100,
+                            height: 12,
+                            color: Colors.white,
+                          ),
+                          const SizedBox(height: 4),
+                          Container(
+                            width: 120,
+                            height: 12,
+                            color: Colors.white,
+                          ),
+                          const SizedBox(height: 4),
+                          Container(
+                            width: 80,
+                            height: 12,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
-          childCount: 20, // Adjust the number of items as needed
+              );
+            },
+            childCount: 10, // Shimmer 아이템 수를 조절하세요
+          ),
         ),
-      ),
-    ]);
+      ],
+    );
   }
 }

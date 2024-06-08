@@ -1,43 +1,57 @@
 import 'package:get/get.dart';
 import 'package:ownsaemiro/app/utility/log_util.dart';
+import 'package:ownsaemiro/data/model/event/review_state.dart';
+import 'package:ownsaemiro/data/repository/event/event_repository.dart';
+import 'package:ownsaemiro/presentation/view_model/event/event_detail_view_model.dart';
 
 class ReviewListViewModel extends GetxController {
-  final RxList<String> reviews = <String>[].obs;
-  final RxInt _currentPage = 1.obs;
-  final RxInt _totalPage = 100.obs;
+  /* ------------------------------------------------------ */
+  /* -------------------- DI Fields ----------------------- */
+  /* ------------------------------------------------------ */
+  late final EventDetailViewModel _eventDetailViewModel;
+  late final EventRepository _eventRepository;
 
-  int get currentPage => _currentPage.value;
+  /* ------------------------------------------------------ */
+  /* ----------------- Private Fields --------------------- */
+  /* ------------------------------------------------------ */
+  final RxInt _eventId = 0.obs;
+  late final RxList<ReviewState> _reviews;
+  final RxBool _isLoading = false.obs;
 
-  int get totalPage => _totalPage.value;
+  /* ------------------------------------------------------ */
+  /* ----------------- Public Fields ---------------------- */
+  /* ------------------------------------------------------ */
+  int get eventId => _eventId.value;
 
-  void setCurrentPage(int page) {
-    _currentPage.value = page;
-  }
+  List<ReviewState> get reviews => _reviews;
 
-  void setTotalPage(int page) {
-    _totalPage.value = page;
-  }
+  bool get isLoading => _isLoading.value;
 
   @override
   void onInit() {
     super.onInit();
-    fetchReviews();
+
+    // Dependency Injection
+    _eventDetailViewModel = Get.find<EventDetailViewModel>();
+    _eventRepository = Get.find<EventRepository>();
+
+    // Initialize State
+    _reviews = <ReviewState>[].obs;
+    _eventId.value = _eventDetailViewModel.eventDetailInfoState.id;
   }
 
-  void fetchReviews() {
-    List<String> newReviews =
-        List.generate(8, (index) => '리뷰 ${index + 1 + (currentPage - 1) * 8}');
-    reviews.addAll(newReviews);
-  }
+  @override
+  void onReady() {
+    super.onReady();
 
-  void loadMoreReviews() {
-    LogUtil.info('currentPage: $currentPage, totalPage: $totalPage');
+    _isLoading.value = true;
 
-    if (currentPage < totalPage) {
-      setCurrentPage(currentPage + 1);
-      List<String> newReviews = List.generate(
-          8, (index) => '리뷰 ${index + 1 + (currentPage - 1) * 8}');
-      reviews.addAll(newReviews);
-    }
+    _eventRepository
+        .getEventReviewList(eventId: eventId, page: 1, size: 8)
+        .then((value) {
+      _reviews.addAll(value);
+    });
+
+    _isLoading.value = false;
   }
 }

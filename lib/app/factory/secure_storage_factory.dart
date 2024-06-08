@@ -12,9 +12,7 @@ class SecureStorageFactory {
   Future<void> onInit() async {
     _instance = const FlutterSecureStorage();
 
-    _tokenProvider = TokenProviderImpl(
-      flutterSecureStorage: _instance!,
-    );
+    _tokenProvider = TokenProviderImpl(flutterSecureStorage: _instance!);
 
     await _tokenProvider!.onInit();
   }

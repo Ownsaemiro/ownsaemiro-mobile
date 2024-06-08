@@ -36,4 +36,15 @@ class MarketProviderImpl extends BaseConnect implements MarketProvider {
 
     return response.body["data"];
   }
+
+  @override
+  Future<void> registerAssignmentTicket({required int id}) async {
+    final Response response;
+
+    try {
+      response = await put("/api/assignments/tickets", {"ticket_id": id});
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

@@ -1,7 +1,8 @@
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:ownsaemiro/app/binding/root_binding.dart';
 import 'package:ownsaemiro/app/config/app_routes.dart';
+import 'package:ownsaemiro/presentation/view/entry/entry_screen.dart';
+import 'package:ownsaemiro/presentation/view/entry/register_screen.dart';
 import 'package:ownsaemiro/presentation/view/event/event_detail_screen.dart';
 import 'package:ownsaemiro/presentation/view/event/event_reservation_screen.dart';
 import 'package:ownsaemiro/presentation/view/event/review_list_screen.dart';
@@ -10,6 +11,7 @@ import 'package:ownsaemiro/presentation/view/home/search_screen.dart';
 import 'package:ownsaemiro/presentation/view/market/market_detail_screen.dart';
 import 'package:ownsaemiro/presentation/view/profile/assignment_waiting_screen.dart';
 import 'package:ownsaemiro/presentation/view/profile/liked_event_screen.dart';
+import 'package:ownsaemiro/presentation/view/profile/participated_detail_screen.dart';
 import 'package:ownsaemiro/presentation/view/profile/participated_event_screen.dart';
 import 'package:ownsaemiro/presentation/view/profile/point_charge_screen.dart';
 import 'package:ownsaemiro/presentation/view/profile/profile_update_screen.dart';
@@ -23,7 +25,10 @@ List<GetPage> appPages = [
     page: () => const RootScreen(),
     binding: RootBinding(),
   ),
-  GetPage(name: Routes.ENTRY, page: () => const RootScreen()),
+  GetPage(
+      name: Routes.ENTRY,
+      page: () => const EntryScreen(),
+      binding: EntryBinding()),
   GetPage(
       name: Routes.LIKED_EVENT,
       page: () => const LikedEventScreen(),
@@ -63,7 +68,7 @@ List<GetPage> appPages = [
   ),
   GetPage(
     name: Routes.PURCHASE_HISTORY_DETAIL,
-    page: () => const PurchaseHistoryDetailScreen(),
+    page: () => PurchaseHistoryDetailScreen(),
     binding: RootBinding(),
   ),
   GetPage(
@@ -86,4 +91,14 @@ List<GetPage> appPages = [
     page: () => const ReviewListScreen(),
     binding: RootBinding(),
   ),
+  GetPage(
+    name: Routes.REGISTER,
+    page: () => const RegisterScreen(),
+    binding: EntryBinding(),
+  ),
+  GetPage(
+    name: Routes.PARTICIPATED_DETAIL,
+    page: () => ParticipatedDetailScreen(),
+    binding: RootBinding(),
+  )
 ];

@@ -93,25 +93,6 @@ class EventHeaderItemWidget extends BaseWidget<MarketDetailViewModel> {
                     ],
                   ),
                 ),
-                viewModel.ticketDetailState.isLiked
-                    ? const Positioned(
-                        top: 18,
-                        right: 18,
-                        child: Icon(
-                          Icons.favorite,
-                          color: ColorSystem.primary,
-                          size: 30,
-                        ),
-                      )
-                    : const Positioned(
-                        top: 18,
-                        right: 18,
-                        child: Icon(
-                          Icons.favorite_border,
-                          color: ColorSystem.primary,
-                          size: 30,
-                        ),
-                      )
               ],
             ),
           ],

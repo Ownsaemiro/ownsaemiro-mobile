@@ -215,6 +215,12 @@ class _EventDetailReviewWidget extends BaseWidget<EventDetailViewModel> {
         ),
         const SizedBox(height: 16),
         Obx(() {
+          if (viewModel.eventReviewState.isEmpty) {
+            return const Center(
+              child: Text("후기가 없습니다."),
+            );
+          }
+
           return ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),

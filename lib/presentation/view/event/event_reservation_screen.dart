@@ -3,12 +3,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:ownsaemiro/app/config/color_system.dart';
 import 'package:ownsaemiro/app/utility/log_util.dart';
+import 'package:ownsaemiro/app/utility/number_util.dart';
 import 'package:ownsaemiro/core/screen/base_screen.dart';
 import 'package:ownsaemiro/core/screen/base_widget.dart';
-import 'package:ownsaemiro/presentation/view_model/event/event_reservation_view_model.dart';
+import 'package:ownsaemiro/presentation/view_model/event/event_detail_view_model.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class EventReservationScreen extends BaseScreen<EventReservationViewModel> {
+class EventReservationScreen extends BaseScreen<EventDetailViewModel> {
   const EventReservationScreen({super.key});
 
   void _showModal(BuildContext context) {
@@ -84,8 +85,8 @@ class EventReservationScreen extends BaseScreen<EventReservationViewModel> {
 
               LogUtil.info("selectedDate: $selectedDate");
 
-              final isEventAvailable = selectedDate != null &&
-                  viewModel.isEventAvailable(selectedDate);
+              final isEventAvailable =
+                  selectedDate != null && viewModel.isEventAvailable();
 
               return Column(
                 children: [
@@ -104,16 +105,22 @@ class EventReservationScreen extends BaseScreen<EventReservationViewModel> {
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                isEventAvailable
-                                    ? "12,000 원"
-                                    : "해당 날짜에 공연이 없습니다.",
+                                // 3중 if
+                                viewModel.isSoldOut
+                                    ? "매진된 공연입니다."
+                                    : isEventAvailable
+                                        ? '${NumberUtil.formatPrice(viewModel.eventDetailInfoState.price)} 원'
+                                        : "해당 날짜에 공연이 없습니다.",
                                 style: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.w600),
                               ),
                             ],
                           ),
                           const Spacer(),
-                          Text(isEventAvailable ? "남은 수량: 5" : "",
+                          Text(
+                              isEventAvailable
+                                  ? "남은 수량: ${viewModel.remainSeat}"
+                                  : "",
                               style:
                                   const TextStyle(color: ColorSystem.primary)),
                         ],
@@ -136,14 +143,22 @@ class EventReservationScreen extends BaseScreen<EventReservationViewModel> {
                 () {
                   final selectedDate = viewModel.selectedDate;
 
-                  final isEventAvailable = selectedDate != null &&
-                      viewModel.isEventAvailable(selectedDate);
+                  final isEventAvailable =
+                      selectedDate != null && viewModel.isEventAvailable();
 
                   return ElevatedButton(
                     onPressed: isEventAvailable
                         ? () {
-                            LogUtil.info("예매하기 버튼 클릭");
-                            _showModal(context);
+                            viewModel.purchaseEvent().then((value) {
+                              if (value) {
+                                _showModal(context);
+                              } else {
+                                Get.snackbar("경고", "현재 잔고가 부족합니다.",
+                                    snackPosition: SnackPosition.TOP,
+                                    backgroundColor: Colors.white,
+                                    colorText: Colors.black);
+                              }
+                            });
                           }
                         : null,
                     style: ElevatedButton.styleFrom(
@@ -178,50 +193,67 @@ class EventReservationScreen extends BaseScreen<EventReservationViewModel> {
   }
 }
 
-class _TopWidget extends StatelessWidget {
+class _TopWidget extends BaseWidget<EventDetailViewModel> {
   const _TopWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          width: Get.width,
-          height: Get.width * 0.45,
-          color: ColorSystem.primary,
-        ),
-        const Positioned(
-          bottom: 20,
-          left: 20,
-          child: Text(
-            "핫소스유니버스 팝업스토어",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+  Widget buildView(BuildContext context) {
+    return Obx(
+      () {
+        return Stack(
+          children: [
+            Container(
+              width: Get.width,
+              height: Get.width * 0.45,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                    viewModel.eventDetailInfoState.image,
+                  ),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
-          ),
-        ),
-        Positioned(
-          top: 50,
-          right: 10,
-          child: IconButton(
-            icon: const Icon(
-              Icons.close,
-              color: Colors.white,
-              size: 32,
+            Container(
+              width: Get.width,
+              height: Get.width * 0.45,
+              color: Colors.black.withOpacity(0.5),
             ),
-            onPressed: () {
-              Get.back();
-            },
-          ),
-        )
-      ],
+            // 텍스트 레이어
+            Positioned(
+              bottom: 20,
+              left: 20,
+              child: Text(
+                viewModel.eventDetailInfoState.title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Positioned(
+              top: 50,
+              right: 10,
+              child: IconButton(
+                icon: const Icon(
+                  Icons.close,
+                  color: Colors.white,
+                  size: 32,
+                ),
+                onPressed: () {
+                  Get.back();
+                },
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
 
-class _MiddleWidget extends BaseWidget<EventReservationViewModel> {
+class _MiddleWidget extends BaseWidget<EventDetailViewModel> {
   const _MiddleWidget({super.key});
 
   @override
@@ -230,7 +262,7 @@ class _MiddleWidget extends BaseWidget<EventReservationViewModel> {
   }
 }
 
-class _CalendarWidget extends BaseWidget<EventReservationViewModel> {
+class _CalendarWidget extends BaseWidget<EventDetailViewModel> {
   const _CalendarWidget({super.key});
 
   @override

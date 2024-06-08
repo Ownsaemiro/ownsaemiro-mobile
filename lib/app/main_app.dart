@@ -22,7 +22,7 @@ class MainApp extends StatelessWidget {
         colorSchemeSeed: Colors.black,
         scaffoldBackgroundColor: Colors.white,
       ),
-      initialRoute: Routes.ROOT,
+      initialRoute: Routes.ENTRY,
       initialBinding: InitBinding(),
       getPages: appPages,
     );

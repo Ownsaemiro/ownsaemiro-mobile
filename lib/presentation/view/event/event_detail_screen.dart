@@ -6,7 +6,6 @@ import 'package:ownsaemiro/presentation/view/event/widget/event_detail_top_widge
 import 'package:ownsaemiro/presentation/view_model/event/event_detail_view_model.dart';
 import 'package:ownsaemiro/presentation/widget/appbar/default_back_appbar.dart';
 
-/// Todo: id 연결
 class EventDetailScreen extends GetView<EventDetailViewModel> {
   EventDetailScreen({super.key});
 

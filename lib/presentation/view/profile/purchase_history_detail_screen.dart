@@ -6,11 +6,16 @@ import 'package:ownsaemiro/presentation/view/profile/component/send_button_widge
 import 'package:ownsaemiro/presentation/view/profile/widget/purchased_event_description_widget.dart';
 import 'package:ownsaemiro/presentation/view/profile/widget/purchased_event_item_header_item.dart';
 import 'package:ownsaemiro/presentation/view_model/profile/purchase_history_detail_view_model.dart';
+import 'package:ownsaemiro/presentation/view_model/profile/purchase_history_view_model.dart';
 import 'package:ownsaemiro/presentation/widget/appbar/default_back_appbar.dart';
 
 class PurchaseHistoryDetailScreen
     extends GetView<PurchaseHistoryDetailViewModel> {
-  const PurchaseHistoryDetailScreen({super.key});
+  PurchaseHistoryDetailScreen({super.key});
+
+  final int id = Get.arguments;
+  final PurchaseHistoryViewModel viewModel =
+      Get.find<PurchaseHistoryViewModel>();
 
   void _showModal(BuildContext context) {
     showDialog(
@@ -67,6 +72,8 @@ class PurchaseHistoryDetailScreen
 
   @override
   Widget build(BuildContext context) {
+    controller.setPurchasedHistoryDetailState(id);
+
     return Stack(
       children: [
         const Scaffold(
@@ -94,7 +101,9 @@ class PurchaseHistoryDetailScreen
             children: [
               GestureDetector(
                 onTap: () {
+                  controller.cancelTicket();
                   _showModal(context);
+                  viewModel.setPurchasedHistoryList();
                 },
                 child: const SendButtonWidget(),
               )

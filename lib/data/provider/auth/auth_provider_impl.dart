@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
+import 'package:ownsaemiro/app/utility/log_util.dart';
 import 'package:ownsaemiro/data/provider/auth/auth_provider.dart';
 import 'package:ownsaemiro/data/provider/base/base_connect.dart';
+import 'package:ownsaemiro/data/provider/token/token_provider.dart';
 
 class AuthProviderImpl extends BaseConnect implements AuthProvider {
   @override
@@ -9,8 +11,7 @@ class AuthProviderImpl extends BaseConnect implements AuthProvider {
     final Response response;
 
     try {
-      response = await post("/oauth/login/kakao", null,
-          headers: {"Authorization": "Bearer $accessToken"});
+      response = await get("/api/oauth/login/kakao?access_token=$accessToken");
     } catch (e) {
       rethrow;
     }
@@ -25,6 +26,42 @@ class AuthProviderImpl extends BaseConnect implements AuthProvider {
     try {
       response = await post("/oauth/login/naver", null,
           headers: {"Authorization": "Bearer $accessToken"});
+    } catch (e) {
+      rethrow;
+    }
+
+    return response.body["data"];
+  }
+
+  @override
+  Future<Map<String, dynamic>> register(String username, String nickname,
+      String phoneNumber, String deviceId, String serialId) async {
+    final Response response;
+
+    try {
+      response = await post("/api/oauth/sign-up", {
+        "serial_id": serialId,
+        "device_id": deviceId,
+        "name": username,
+        "nickname": nickname,
+        "phone_number": phoneNumber,
+        "provider": "KAKAO"
+      });
+    } catch (e) {
+      rethrow;
+    }
+
+    return response.body["data"];
+  }
+
+  @override
+  Future<Map<String, dynamic>> login(String serialId) async {
+    final Response response;
+
+    try {
+      response = await post("/api/oauth/sign-up", {
+        "serial_id": serialId,
+      });
     } catch (e) {
       rethrow;
     }
