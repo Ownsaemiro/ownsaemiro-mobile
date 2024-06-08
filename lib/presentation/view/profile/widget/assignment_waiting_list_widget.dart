@@ -120,7 +120,7 @@ class AssignmentWaitingListWidget
                             style: TextStyle(
                               fontSize: 14,
                               color: viewModel.assignmentList[index].status ==
-                                      "당첨"
+                                      "수령 대기중"
                                   ? ColorSystem.primary
                                   : viewModel.assignmentList[index].status ==
                                           "낙첨"

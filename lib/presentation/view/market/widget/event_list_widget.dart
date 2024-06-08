@@ -10,9 +10,16 @@ class EventListWidget extends BaseWidget<MarketViewModel> {
 
   @override
   Widget buildView(BuildContext context) {
+    viewModel.scrollController.addListener(() {
+      if (viewModel.scrollController.position.pixels ==
+          viewModel.scrollController.position.maxScrollExtent) {
+        viewModel.fetchMoreTickets();
+      }
+    });
+
     return Obx(
       () {
-        if (viewModel.isStateLoading || viewModel.ticketList.isEmpty) {
+        if (viewModel.isStateLoading && viewModel.ticketList.isEmpty) {
           return CustomScrollView(
             slivers: [
               SliverList(
@@ -27,11 +34,29 @@ class EventListWidget extends BaseWidget<MarketViewModel> {
           );
         }
 
+        if (viewModel.ticketList.isEmpty) {
+          return const Center(
+            child: Text("양도중인 티켓이 없습니다"),
+          );
+        }
+
         return CustomScrollView(
+          controller: viewModel.scrollController,
           slivers: [
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
+                  if (index == viewModel.ticketList.length) {
+                    return viewModel.isLoadingMore
+                        ? const Padding(
+                            padding: EdgeInsets.all(16),
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
+                        : const SizedBox.shrink();
+                  }
+
                   return GestureDetector(
                     onTap: () {
                       Get.toNamed(Routes.MARKET_DETAIL,
@@ -60,7 +85,6 @@ class EventListWidget extends BaseWidget<MarketViewModel> {
                             child: const Center(),
                           ),
                           const SizedBox(width: 24),
-                          // Add some spacing between image and text
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -81,7 +105,7 @@ class EventListWidget extends BaseWidget<MarketViewModel> {
                     ),
                   );
                 },
-                childCount: viewModel.ticketList.length,
+                childCount: viewModel.ticketList.length + 1,
               ),
             ),
           ],

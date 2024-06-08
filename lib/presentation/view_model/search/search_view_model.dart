@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ownsaemiro/app/database/local_database.dart';
+import 'package:ownsaemiro/app/utility/log_util.dart';
 import 'package:ownsaemiro/data/model/event/search_event_state.dart';
 import 'package:ownsaemiro/data/repository/event/event_repository.dart';
 import 'package:ownsaemiro/domain/repository/recent_search_repository.dart';
@@ -110,6 +111,8 @@ class SearchViewModel extends GetxController {
     _isLoading.value = false;
 
     addSearch(query);
+
+    LogUtil.info('$recentSearches');
   }
 
   void recentSearchAllDelete() async {

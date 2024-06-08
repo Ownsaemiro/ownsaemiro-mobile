@@ -106,11 +106,9 @@ class EventReservationScreen extends BaseScreen<EventDetailViewModel> {
                               const SizedBox(height: 8),
                               Text(
                                 // 3중 if
-                                viewModel.isSoldOut
-                                    ? "매진된 공연입니다."
-                                    : isEventAvailable
-                                        ? '${NumberUtil.formatPrice(viewModel.eventDetailInfoState.price)} 원'
-                                        : "해당 날짜에 공연이 없습니다.",
+                                isEventAvailable
+                                    ? '${NumberUtil.formatPrice(viewModel.eventDetailInfoState.price)} 원'
+                                    : "해당 날짜에 공연이 없습니다.",
                                 style: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.w600),
                               ),
@@ -386,6 +384,12 @@ class _CalendarWidget extends BaseWidget<EventDetailViewModel> {
               },
               onDaySelected: (selectedDay, focusedDay) {
                 viewModel.onDaySelected(selectedDay, focusedDay);
+                if (viewModel.remainSeat == 0) {
+                  Get.snackbar("알림", "매진된 공연입니다",
+                      snackPosition: SnackPosition.TOP,
+                      backgroundColor: Colors.white,
+                      colorText: Colors.black);
+                }
               },
             );
           }

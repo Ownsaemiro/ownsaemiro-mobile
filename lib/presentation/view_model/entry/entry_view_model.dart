@@ -83,11 +83,7 @@ class EntryViewModel extends GetxController {
     try {
       OAuthToken token;
 
-      if (await isKakaoTalkInstalled()) {
-        token = await UserApi.instance.loginWithKakaoTalk();
-      } else {
-        token = await UserApi.instance.loginWithKakaoAccount();
-      }
+      token = await UserApi.instance.loginWithKakaoAccount();
 
       kakaoAccessToken = token.accessToken;
     } catch (_) {

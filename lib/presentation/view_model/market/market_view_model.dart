@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ownsaemiro/app/type/e_event_category.dart';
 import 'package:ownsaemiro/data/model/market/ticket_state.dart';
@@ -8,13 +9,18 @@ class MarketViewModel extends GetxController {
   /* -------------------- DI Fields ----------------------- */
   /* ------------------------------------------------------ */
   late final MarketRepository _marketRepository;
+  late final ScrollController _scrollController;
 
   /* ------------------------------------------------------ */
   /* ----------------- Private Fields --------------------- */
   /* ------------------------------------------------------ */
   late final RxList<TicketState> _ticketList;
   late final Rx<EEventCategory> _eventCategory;
-  late final RxBool _isStateLoading = false.obs;
+  final RxBool _isStateLoading = false.obs;
+  final RxBool _isLoadingMore = false.obs;
+
+  int _currentPage = 1;
+  bool _hasMore = true;
 
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
@@ -23,12 +29,17 @@ class MarketViewModel extends GetxController {
 
   bool get isStateLoading => _isStateLoading.value;
 
+  bool get isLoadingMore => _isLoadingMore.value;
+
+  ScrollController get scrollController => _scrollController;
+
   @override
   void onInit() {
     super.onInit();
 
     // Dependency Injection
     _marketRepository = Get.find<MarketRepository>();
+    _scrollController = ScrollController();
 
     // Initialize State
     _eventCategory = EEventCategory.all.obs;
@@ -38,16 +49,7 @@ class MarketViewModel extends GetxController {
   @override
   void onReady() async {
     super.onReady();
-
-    _isStateLoading.value = true;
-
-    await _marketRepository
-        .getTicketList(page: 1, size: 8, filter: EEventCategory.all)
-        .then((value) {
-      _ticketList.addAll(value);
-    });
-
-    _isStateLoading.value = false;
+    await _fetchTickets();
   }
 
   final RxInt selectedIndex = 0.obs;
@@ -66,17 +68,54 @@ class MarketViewModel extends GetxController {
     String category = chipList[index];
 
     _eventCategory.value = EEventCategory.fromKoName(category);
-
     _ticketList.clear();
+    _currentPage = 1;
+    _hasMore = true;
 
+    await _fetchTickets();
+  }
+
+  Future<void> _fetchTickets() async {
+    if (_isStateLoading.value) return;
     _isStateLoading.value = true;
 
-    await _marketRepository
-        .getTicketList(page: 1, size: 8, filter: _eventCategory.value)
-        .then((value) {
-      _ticketList.addAll(value);
-    });
+    try {
+      final newTickets = await _marketRepository.getTicketList(
+        page: _currentPage,
+        size: 8,
+        filter: _eventCategory.value,
+      );
 
-    _isStateLoading.value = false;
+      if (newTickets.isNotEmpty) {
+        _ticketList.addAll(newTickets);
+        _currentPage++;
+      } else {
+        _hasMore = false;
+      }
+    } finally {
+      _isStateLoading.value = false;
+    }
+  }
+
+  Future<void> fetchMoreTickets() async {
+    if (_isLoadingMore.value || !_hasMore) return;
+    _isLoadingMore.value = true;
+
+    try {
+      final newTickets = await _marketRepository.getTicketList(
+        page: _currentPage,
+        size: 8,
+        filter: _eventCategory.value,
+      );
+
+      if (newTickets.isNotEmpty) {
+        _ticketList.addAll(newTickets);
+        _currentPage++;
+      } else {
+        _hasMore = false;
+      }
+    } finally {
+      _isLoadingMore.value = false;
+    }
   }
 }

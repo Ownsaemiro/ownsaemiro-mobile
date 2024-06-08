@@ -48,32 +48,6 @@ class EventViewModel extends GetxController {
   void onReady() async {
     super.onReady();
     selectCategory(0);
-
-    _isBeforeEventLoading.value = true;
-    await _eventRepository
-        .getBeforeEventList(
-      page: 1,
-      size: 5,
-      category: _eventCategory.value,
-    )
-        .then((value) {
-      _beforeEventList.addAll(value);
-    });
-
-    _isBeforeEventLoading.value = false;
-
-    _isDuringEventLoading.value = true;
-    await _eventRepository
-        .getDuringEventList(
-      page: 1,
-      size: 5,
-      category: _eventCategory.value,
-    )
-        .then((value) {
-      _duringEventList.addAll(value);
-    });
-
-    _isDuringEventLoading.value = false;
   }
 
   final RxInt selectedIndex = 0.obs;
