@@ -3,12 +3,12 @@
 part of 'local_database.dart';
 
 // ignore_for_file: type=lint
-class $RecentSearchStateTable extends RecentSearchState
-    with TableInfo<$RecentSearchStateTable, RecentSearchStateData> {
+class $RecentSearchTable extends RecentSearch
+    with TableInfo<$RecentSearchTable, RecentSearchData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $RecentSearchStateTable(this.attachedDatabase, [this._alias]);
+  $RecentSearchTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -41,10 +41,9 @@ class $RecentSearchStateTable extends RecentSearchState
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'recent_search_state';
+  static const String $name = 'recent_search';
   @override
-  VerificationContext validateIntegrity(
-      Insertable<RecentSearchStateData> instance,
+  VerificationContext validateIntegrity(Insertable<RecentSearchData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -67,9 +66,9 @@ class $RecentSearchStateTable extends RecentSearchState
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  RecentSearchStateData map(Map<String, dynamic> data, {String? tablePrefix}) {
+  RecentSearchData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return RecentSearchStateData(
+    return RecentSearchData(
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       keyword: attachedDatabase.typeMapping
@@ -80,17 +79,17 @@ class $RecentSearchStateTable extends RecentSearchState
   }
 
   @override
-  $RecentSearchStateTable createAlias(String alias) {
-    return $RecentSearchStateTable(attachedDatabase, alias);
+  $RecentSearchTable createAlias(String alias) {
+    return $RecentSearchTable(attachedDatabase, alias);
   }
 }
 
-class RecentSearchStateData extends DataClass
-    implements Insertable<RecentSearchStateData> {
+class RecentSearchData extends DataClass
+    implements Insertable<RecentSearchData> {
   final int id;
   final String keyword;
   final DateTime createdAt;
-  const RecentSearchStateData(
+  const RecentSearchData(
       {required this.id, required this.keyword, required this.createdAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -101,18 +100,18 @@ class RecentSearchStateData extends DataClass
     return map;
   }
 
-  RecentSearchStateCompanion toCompanion(bool nullToAbsent) {
-    return RecentSearchStateCompanion(
+  RecentSearchCompanion toCompanion(bool nullToAbsent) {
+    return RecentSearchCompanion(
       id: Value(id),
       keyword: Value(keyword),
       createdAt: Value(createdAt),
     );
   }
 
-  factory RecentSearchStateData.fromJson(Map<String, dynamic> json,
+  factory RecentSearchData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return RecentSearchStateData(
+    return RecentSearchData(
       id: serializer.fromJson<int>(json['id']),
       keyword: serializer.fromJson<String>(json['keyword']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
@@ -128,16 +127,15 @@ class RecentSearchStateData extends DataClass
     };
   }
 
-  RecentSearchStateData copyWith(
-          {int? id, String? keyword, DateTime? createdAt}) =>
-      RecentSearchStateData(
+  RecentSearchData copyWith({int? id, String? keyword, DateTime? createdAt}) =>
+      RecentSearchData(
         id: id ?? this.id,
         keyword: keyword ?? this.keyword,
         createdAt: createdAt ?? this.createdAt,
       );
   @override
   String toString() {
-    return (StringBuffer('RecentSearchStateData(')
+    return (StringBuffer('RecentSearchData(')
           ..write('id: $id, ')
           ..write('keyword: $keyword, ')
           ..write('createdAt: $createdAt')
@@ -150,28 +148,27 @@ class RecentSearchStateData extends DataClass
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is RecentSearchStateData &&
+      (other is RecentSearchData &&
           other.id == this.id &&
           other.keyword == this.keyword &&
           other.createdAt == this.createdAt);
 }
 
-class RecentSearchStateCompanion
-    extends UpdateCompanion<RecentSearchStateData> {
+class RecentSearchCompanion extends UpdateCompanion<RecentSearchData> {
   final Value<int> id;
   final Value<String> keyword;
   final Value<DateTime> createdAt;
-  const RecentSearchStateCompanion({
+  const RecentSearchCompanion({
     this.id = const Value.absent(),
     this.keyword = const Value.absent(),
     this.createdAt = const Value.absent(),
   });
-  RecentSearchStateCompanion.insert({
+  RecentSearchCompanion.insert({
     this.id = const Value.absent(),
     required String keyword,
     this.createdAt = const Value.absent(),
   }) : keyword = Value(keyword);
-  static Insertable<RecentSearchStateData> custom({
+  static Insertable<RecentSearchData> custom({
     Expression<int>? id,
     Expression<String>? keyword,
     Expression<DateTime>? createdAt,
@@ -183,9 +180,9 @@ class RecentSearchStateCompanion
     });
   }
 
-  RecentSearchStateCompanion copyWith(
+  RecentSearchCompanion copyWith(
       {Value<int>? id, Value<String>? keyword, Value<DateTime>? createdAt}) {
-    return RecentSearchStateCompanion(
+    return RecentSearchCompanion(
       id: id ?? this.id,
       keyword: keyword ?? this.keyword,
       createdAt: createdAt ?? this.createdAt,
@@ -209,7 +206,7 @@ class RecentSearchStateCompanion
 
   @override
   String toString() {
-    return (StringBuffer('RecentSearchStateCompanion(')
+    return (StringBuffer('RecentSearchCompanion(')
           ..write('id: $id, ')
           ..write('keyword: $keyword, ')
           ..write('createdAt: $createdAt')
@@ -221,56 +218,54 @@ class RecentSearchStateCompanion
 abstract class _$LocalDatabase extends GeneratedDatabase {
   _$LocalDatabase(QueryExecutor e) : super(e);
   _$LocalDatabaseManager get managers => _$LocalDatabaseManager(this);
-  late final $RecentSearchStateTable recentSearchState =
-      $RecentSearchStateTable(this);
+  late final $RecentSearchTable recentSearch = $RecentSearchTable(this);
   late final RecentSearchDao recentSearchDao =
       RecentSearchDao(this as LocalDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [recentSearchState];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [recentSearch];
 }
 
-typedef $$RecentSearchStateTableInsertCompanionBuilder
-    = RecentSearchStateCompanion Function({
+typedef $$RecentSearchTableInsertCompanionBuilder = RecentSearchCompanion
+    Function({
   Value<int> id,
   required String keyword,
   Value<DateTime> createdAt,
 });
-typedef $$RecentSearchStateTableUpdateCompanionBuilder
-    = RecentSearchStateCompanion Function({
+typedef $$RecentSearchTableUpdateCompanionBuilder = RecentSearchCompanion
+    Function({
   Value<int> id,
   Value<String> keyword,
   Value<DateTime> createdAt,
 });
 
-class $$RecentSearchStateTableTableManager extends RootTableManager<
+class $$RecentSearchTableTableManager extends RootTableManager<
     _$LocalDatabase,
-    $RecentSearchStateTable,
-    RecentSearchStateData,
-    $$RecentSearchStateTableFilterComposer,
-    $$RecentSearchStateTableOrderingComposer,
-    $$RecentSearchStateTableProcessedTableManager,
-    $$RecentSearchStateTableInsertCompanionBuilder,
-    $$RecentSearchStateTableUpdateCompanionBuilder> {
-  $$RecentSearchStateTableTableManager(
-      _$LocalDatabase db, $RecentSearchStateTable table)
+    $RecentSearchTable,
+    RecentSearchData,
+    $$RecentSearchTableFilterComposer,
+    $$RecentSearchTableOrderingComposer,
+    $$RecentSearchTableProcessedTableManager,
+    $$RecentSearchTableInsertCompanionBuilder,
+    $$RecentSearchTableUpdateCompanionBuilder> {
+  $$RecentSearchTableTableManager(_$LocalDatabase db, $RecentSearchTable table)
       : super(TableManagerState(
           db: db,
           table: table,
           filteringComposer:
-              $$RecentSearchStateTableFilterComposer(ComposerState(db, table)),
-          orderingComposer: $$RecentSearchStateTableOrderingComposer(
-              ComposerState(db, table)),
+              $$RecentSearchTableFilterComposer(ComposerState(db, table)),
+          orderingComposer:
+              $$RecentSearchTableOrderingComposer(ComposerState(db, table)),
           getChildManagerBuilder: (p) =>
-              $$RecentSearchStateTableProcessedTableManager(p),
+              $$RecentSearchTableProcessedTableManager(p),
           getUpdateCompanionBuilder: ({
             Value<int> id = const Value.absent(),
             Value<String> keyword = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
           }) =>
-              RecentSearchStateCompanion(
+              RecentSearchCompanion(
             id: id,
             keyword: keyword,
             createdAt: createdAt,
@@ -280,7 +275,7 @@ class $$RecentSearchStateTableTableManager extends RootTableManager<
             required String keyword,
             Value<DateTime> createdAt = const Value.absent(),
           }) =>
-              RecentSearchStateCompanion.insert(
+              RecentSearchCompanion.insert(
             id: id,
             keyword: keyword,
             createdAt: createdAt,
@@ -288,22 +283,21 @@ class $$RecentSearchStateTableTableManager extends RootTableManager<
         ));
 }
 
-class $$RecentSearchStateTableProcessedTableManager
-    extends ProcessedTableManager<
-        _$LocalDatabase,
-        $RecentSearchStateTable,
-        RecentSearchStateData,
-        $$RecentSearchStateTableFilterComposer,
-        $$RecentSearchStateTableOrderingComposer,
-        $$RecentSearchStateTableProcessedTableManager,
-        $$RecentSearchStateTableInsertCompanionBuilder,
-        $$RecentSearchStateTableUpdateCompanionBuilder> {
-  $$RecentSearchStateTableProcessedTableManager(super.$state);
+class $$RecentSearchTableProcessedTableManager extends ProcessedTableManager<
+    _$LocalDatabase,
+    $RecentSearchTable,
+    RecentSearchData,
+    $$RecentSearchTableFilterComposer,
+    $$RecentSearchTableOrderingComposer,
+    $$RecentSearchTableProcessedTableManager,
+    $$RecentSearchTableInsertCompanionBuilder,
+    $$RecentSearchTableUpdateCompanionBuilder> {
+  $$RecentSearchTableProcessedTableManager(super.$state);
 }
 
-class $$RecentSearchStateTableFilterComposer
-    extends FilterComposer<_$LocalDatabase, $RecentSearchStateTable> {
-  $$RecentSearchStateTableFilterComposer(super.$state);
+class $$RecentSearchTableFilterComposer
+    extends FilterComposer<_$LocalDatabase, $RecentSearchTable> {
+  $$RecentSearchTableFilterComposer(super.$state);
   ColumnFilters<int> get id => $state.composableBuilder(
       column: $state.table.id,
       builder: (column, joinBuilders) =>
@@ -320,9 +314,9 @@ class $$RecentSearchStateTableFilterComposer
           ColumnFilters(column, joinBuilders: joinBuilders));
 }
 
-class $$RecentSearchStateTableOrderingComposer
-    extends OrderingComposer<_$LocalDatabase, $RecentSearchStateTable> {
-  $$RecentSearchStateTableOrderingComposer(super.$state);
+class $$RecentSearchTableOrderingComposer
+    extends OrderingComposer<_$LocalDatabase, $RecentSearchTable> {
+  $$RecentSearchTableOrderingComposer(super.$state);
   ColumnOrderings<int> get id => $state.composableBuilder(
       column: $state.table.id,
       builder: (column, joinBuilders) =>
@@ -342,6 +336,6 @@ class $$RecentSearchStateTableOrderingComposer
 class _$LocalDatabaseManager {
   final _$LocalDatabase _db;
   _$LocalDatabaseManager(this._db);
-  $$RecentSearchStateTableTableManager get recentSearchState =>
-      $$RecentSearchStateTableTableManager(_db, _db.recentSearchState);
+  $$RecentSearchTableTableManager get recentSearch =>
+      $$RecentSearchTableTableManager(_db, _db.recentSearch);
 }
