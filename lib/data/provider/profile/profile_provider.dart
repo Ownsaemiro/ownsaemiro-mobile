@@ -6,4 +6,7 @@ abstract class ProfileProvider {
       {required int page, required int size});
 
   Future<Map<String, dynamic>> getPurchasedDetail({required int id});
+
+  Future<Map<String, dynamic>> getAssignmentList(
+      {required int page, required int size});
 }

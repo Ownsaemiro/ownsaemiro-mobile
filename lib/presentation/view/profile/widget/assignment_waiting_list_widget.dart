@@ -1,81 +1,143 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ownsaemiro/app/config/color_system.dart';
+import 'package:ownsaemiro/core/screen/base_widget.dart';
+import 'package:ownsaemiro/presentation/view_model/profile/assignment_waiting_view_model.dart';
+import 'package:shimmer/shimmer.dart';
 
-class AssignmentWaitingListWidget extends StatelessWidget {
+class AssignmentWaitingListWidget
+    extends BaseWidget<AssignmentWaitingViewModel> {
   const AssignmentWaitingListWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return CustomScrollView(slivers: [
-      SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            return GestureDetector(
-              onTap: () {},
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                margin: const EdgeInsets.symmetric(vertical: 4.0),
-                height: 100,
-                child: Row(
-                  children: [
-                    const SizedBox(width: 8),
-                    Container(
-                      width: 72,
-                      height: 72,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        color: Colors.grey,
+  Widget buildView(BuildContext context) {
+    return Obx(
+      () {
+        if (viewModel.isLoading) {
+          return Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: ListView.builder(
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return Container(
+                  padding: const EdgeInsets.all(16),
+                  margin: const EdgeInsets.symmetric(vertical: 4.0),
+                  height: 100,
+                  child: Row(
+                    children: [
+                      const SizedBox(width: 8),
+                      Container(
+                        width: 72,
+                        height: 72,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                        ),
                       ),
-                      child: const Center(child: Text('이미지')),
-                    ),
-                    const SizedBox(width: 24),
-                    // Add some spacing between image and text
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      const SizedBox(width: 24),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 200,
+                              height: 16,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(height: 4),
+                            Container(
+                              width: 80,
+                              height: 12,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: 50,
+                        height: 14,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(width: 8),
+                    ],
+                  ),
+                );
+              },
+            ),
+          );
+        }
+
+        if (viewModel.assignmentList.isEmpty) {
+          return const Center(
+            child: Text('신청한 양도 티켓이 없습니다.'),
+          );
+        }
+
+        return CustomScrollView(
+          slivers: [
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return Container(
+                    padding: const EdgeInsets.all(16),
+                    margin: const EdgeInsets.symmetric(vertical: 4.0),
+                    height: 100,
+                    child: Row(
                       children: [
-                        Text(
-                          '핫소스유니버스 팝업스토어',
-                          style: TextStyle(fontSize: 16),
+                        const SizedBox(width: 8),
+                        Container(
+                          width: 72,
+                          height: 72,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8)),
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                    viewModel.assignmentList[index].image),
+                                fit: BoxFit.cover,
+                              )),
                         ),
-                        SizedBox(height: 4),
-                        Text(
-                          '2024.05.10',
-                          style: TextStyle(fontSize: 12),
+                        const SizedBox(width: 24),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              viewModel.assignmentList[index].title,
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              viewModel.assignmentList[index].duration,
+                              style: const TextStyle(fontSize: 12),
+                            ),
+                          ],
                         ),
+                        const Spacer(),
+                        Text(viewModel.assignmentList[index].status,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: viewModel.assignmentList[index].status ==
+                                      "당첨"
+                                  ? ColorSystem.primary
+                                  : viewModel.assignmentList[index].status ==
+                                          "낙첨"
+                                      ? const Color(0xFF999999)
+                                      : const Color(0xFF555555),
+                            )),
+                        const SizedBox(width: 8),
                       ],
                     ),
-                    const Spacer(),
-                    // const Text(
-                    //   "낙첨",
-                    //   style: TextStyle(
-                    //     fontSize: 14,
-                    //     color: Color(0xFF999999),
-                    //   ),
-                    // ),
-                    const Text(
-                      "대기",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFF555555),
-                      ),
-                    ),
-                    // const Text(
-                    //   "수령 대기 중",
-                    //   style: TextStyle(
-                    //     fontSize: 14,
-                    //     color: ColorSystem.primary,
-                    //   ),
-                    // ),
-                    const SizedBox(width: 8),
-                  ],
-                ),
+                  );
+                },
+                childCount: 20, // Adjust the number of items as needed
               ),
-            );
-          },
-          childCount: 20, // Adjust the number of items as needed
-        ),
-      ),
-    ]);
+            ),
+          ],
+        );
+      },
+    );
   }
 }

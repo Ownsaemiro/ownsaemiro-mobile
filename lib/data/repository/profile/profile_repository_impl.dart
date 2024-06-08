@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:ownsaemiro/data/model/profile/assignment_ticket_state.dart';
 import 'package:ownsaemiro/data/model/profile/purchased_history_detail_state.dart';
 import 'package:ownsaemiro/data/model/profile/purchased_history_state.dart';
 import 'package:ownsaemiro/data/model/profile/user_liked_event_state.dart';
@@ -62,5 +63,22 @@ class ProfileRepositoryImpl extends GetxService implements ProfileRepository {
     }
 
     return PurchasedHistoryDetailState.fromJson(result);
+  }
+
+  @override
+  Future<List<AssignmentTicketState>> getAssignmentList(
+      {required int page, required int size}) async {
+    Map<String, dynamic> result;
+
+    try {
+      result = await _profileProvider.getAssignmentList(page: page, size: size);
+    } catch (e) {
+      rethrow;
+    }
+
+    return result["tickets"]
+        .map<AssignmentTicketState>(
+            (ticket) => AssignmentTicketState.fromJson(ticket))
+        .toList();
   }
 }

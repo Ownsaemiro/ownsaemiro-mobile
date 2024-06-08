@@ -62,13 +62,6 @@ class ParticipatedEventListWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const Spacer(),
-                    IconButton(
-                        onPressed: () {
-                          LogUtil.info("좋아요");
-                        },
-                        icon: const Icon(Icons.favorite_border,
-                            color: ColorSystem.primary)),
                   ],
                 ),
               ),
