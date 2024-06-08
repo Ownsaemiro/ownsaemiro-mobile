@@ -7,6 +7,7 @@ import 'package:ownsaemiro/data/model/event/event_review_state.dart';
 import 'package:ownsaemiro/data/model/event/event_seller_info_state.dart';
 import 'package:ownsaemiro/data/model/event/popular_event_state.dart';
 import 'package:ownsaemiro/data/model/event/recommend_event_state.dart';
+import 'package:ownsaemiro/data/model/event/review_state.dart';
 import 'package:ownsaemiro/data/model/event/search_event_state.dart';
 
 abstract class EventRepository {
@@ -39,4 +40,7 @@ abstract class EventRepository {
 
   Future<void> purchaseEventTicket(
       {required int eventId, required String date});
+
+  Future<List<ReviewState>> getEventReviewList(
+      {required int eventId, required int page, required int size});
 }

@@ -31,4 +31,7 @@ abstract class EventProvider {
 
   Future<void> purchaseEventTicket(
       {required int eventId, required String date});
+
+  Future<Map<String, dynamic>> getEventReviewList(
+      {required int eventId, required int page, required int size});
 }

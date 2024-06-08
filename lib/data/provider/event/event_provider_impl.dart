@@ -177,4 +177,19 @@ class EventProviderImpl extends BaseConnect implements EventProvider {
       rethrow;
     }
   }
+
+  @override
+  Future<Map<String, dynamic>> getEventReviewList(
+      {required int eventId, required int page, required int size}) async {
+    final Response response;
+
+    try {
+      response = await get("/api/events/$eventId/reviews",
+          query: {"page": page.toString(), "size": size.toString()});
+    } catch (e) {
+      rethrow;
+    }
+
+    return response.body["data"];
+  }
 }
