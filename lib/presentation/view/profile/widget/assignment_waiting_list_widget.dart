@@ -132,7 +132,8 @@ class AssignmentWaitingListWidget
                     ),
                   );
                 },
-                childCount: 20, // Adjust the number of items as needed
+                childCount: viewModel.assignmentList
+                    .length, // Adjust the number of items as needed
               ),
             ),
           ],

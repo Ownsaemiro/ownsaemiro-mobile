@@ -25,6 +25,7 @@ class EventDetailViewModel extends GetxController {
   late final RxBool _isEventDetailLoading = false.obs;
   late final Rxn<DateTime> _selectedDate;
   late final RxInt _remainSeat = 0.obs;
+  late final RxBool _isSoldOut = false.obs;
 
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
@@ -45,6 +46,8 @@ class EventDetailViewModel extends GetxController {
   final RxBool isLoading = false.obs;
 
   int get remainSeat => _remainSeat.value;
+
+  bool get isSoldOut => _isSoldOut.value;
 
   @override
   void onInit() {
@@ -139,6 +142,11 @@ class EventDetailViewModel extends GetxController {
 
     DateTime endOfDayDateTime = DateTime(
         endDateTime.year, endDateTime.month, endDateTime.day, 23, 59, 59);
+
+    if (remainSeat == 0) {
+      _isSoldOut.value = true;
+      return false;
+    }
 
     return selectDate.isAfter(startDateTime) &&
         selectDate.isBefore(endOfDayDateTime);

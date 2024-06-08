@@ -79,6 +79,12 @@ class PurchaseHistoryListWidget extends BaseWidget<PurchaseHistoryViewModel> {
           );
         }
 
+        if (viewModel.purchasedHistoryList.isEmpty) {
+          return const Center(
+            child: Text('구매한 티켓이 없습니다.'),
+          );
+        }
+
         return CustomScrollView(
           slivers: [
             SliverList(

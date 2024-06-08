@@ -44,4 +44,16 @@ class PurchaseHistoryViewModel extends GetxController {
 
     _isLoading.value = false;
   }
+
+  void setPurchasedHistoryList() async {
+    _isLoading.value = true;
+
+    _purchasedHistoryList.clear();
+
+    await _profileRepository.getPurchasedList(page: 1, size: 8).then((value) {
+      _purchasedHistoryList.addAll(value);
+    });
+
+    _isLoading.value = false;
+  }
 }

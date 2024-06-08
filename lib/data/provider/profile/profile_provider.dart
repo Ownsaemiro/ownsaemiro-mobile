@@ -9,4 +9,6 @@ abstract class ProfileProvider {
 
   Future<Map<String, dynamic>> getAssignmentList(
       {required int page, required int size});
+
+  Future<void> cancelTicket({required int id});
 }

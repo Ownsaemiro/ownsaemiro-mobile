@@ -14,9 +14,16 @@ class LikedEventListWidget extends BaseWidget<LikedEventViewModel> {
     return Obx(() {
       if (viewModel.isLoaded) {
         return const Center(
-            child: CircularProgressIndicator(
-          color: ColorSystem.primary,
-        ));
+          child: CircularProgressIndicator(
+            color: ColorSystem.primary,
+          ),
+        );
+      }
+
+      if (viewModel.userLikedEventState.isEmpty) {
+        return const Center(
+          child: Text("좋아요한 이벤트가 없습니다."),
+        );
       }
 
       return CustomScrollView(slivers: [

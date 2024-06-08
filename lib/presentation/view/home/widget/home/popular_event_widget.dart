@@ -54,10 +54,17 @@ class PopularEventWidget extends BaseWidget<HomeViewModel> {
                       width: Get.width,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: NetworkImage(
-                                viewModel.popularEventList[index].image),
-                            fit: BoxFit.cover),
+                          image: NetworkImage(
+                              viewModel.popularEventList[index].image),
+                          fit: BoxFit.cover,
+                        ),
                       ),
+                    ),
+                    Container(
+                      width: Get.width,
+                      color: Colors.black.withOpacity(0.4),
+                    ),
+                    Positioned.fill(
                       child: PopularEventItemWidget(
                         state: viewModel.popularEventList[index],
                       ),

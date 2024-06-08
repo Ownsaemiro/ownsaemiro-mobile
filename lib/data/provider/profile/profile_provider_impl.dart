@@ -66,4 +66,15 @@ class ProfileProviderImpl extends BaseConnect implements ProfileProvider {
 
     return response.body['data'];
   }
+
+  @override
+  Future<void> cancelTicket({required int id}) async {
+    final Response response;
+
+    try {
+      response = await patch("/api/tickets", {"ticket_id": id});
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

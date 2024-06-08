@@ -14,4 +14,6 @@ abstract class ProfileRepository {
 
   Future<List<AssignmentTicketState>> getAssignmentList(
       {required int page, required int size});
+
+  Future<void> cancelTicket({required int id});
 }

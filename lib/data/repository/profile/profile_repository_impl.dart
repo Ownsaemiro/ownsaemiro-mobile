@@ -81,4 +81,13 @@ class ProfileRepositoryImpl extends GetxService implements ProfileRepository {
             (ticket) => AssignmentTicketState.fromJson(ticket))
         .toList();
   }
+
+  @override
+  Future<void> cancelTicket({required int id}) async {
+    try {
+      await _profileProvider.cancelTicket(id: id);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

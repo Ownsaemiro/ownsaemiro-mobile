@@ -105,9 +105,12 @@ class EventReservationScreen extends BaseScreen<EventDetailViewModel> {
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                isEventAvailable
-                                    ? "${NumberUtil.formatPrice(viewModel.eventDetailInfoState.price)} 원"
-                                    : "해당 날짜에 공연이 없습니다.",
+                                // 3중 if
+                                viewModel.isSoldOut
+                                    ? "매진된 공연입니다."
+                                    : isEventAvailable
+                                        ? '${NumberUtil.formatPrice(viewModel.eventDetailInfoState.price)} 원'
+                                        : "해당 날짜에 공연이 없습니다.",
                                 style: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.w600),
                               ),

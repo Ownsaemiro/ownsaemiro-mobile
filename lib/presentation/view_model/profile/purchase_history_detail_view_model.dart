@@ -60,4 +60,10 @@ class PurchaseHistoryDetailViewModel extends GetxController {
 
     _isLoading.value = false;
   }
+
+  void cancelTicket() async {
+    await _profileRepository.cancelTicket(
+      id: purchasedHistoryDetailState.id,
+    );
+  }
 }
