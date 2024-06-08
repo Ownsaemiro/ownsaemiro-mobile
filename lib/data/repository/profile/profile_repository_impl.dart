@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:ownsaemiro/data/model/profile/purchased_history_detail_state.dart';
 import 'package:ownsaemiro/data/model/profile/purchased_history_state.dart';
 import 'package:ownsaemiro/data/model/profile/user_liked_event_state.dart';
 import 'package:ownsaemiro/data/provider/profile/profile_provider.dart';
@@ -47,5 +48,19 @@ class ProfileRepositoryImpl extends GetxService implements ProfileRepository {
         .map<PurchasedHistoryState>(
             (ticket) => PurchasedHistoryState.fromJson(ticket))
         .toList();
+  }
+
+  @override
+  Future<PurchasedHistoryDetailState> getPurchasedDetail(
+      {required int id}) async {
+    Map<String, dynamic> result;
+
+    try {
+      result = await _profileProvider.getPurchasedDetail(id: id);
+    } catch (e) {
+      rethrow;
+    }
+
+    return PurchasedHistoryDetailState.fromJson(result);
   }
 }

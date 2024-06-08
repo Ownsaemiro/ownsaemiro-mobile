@@ -69,6 +69,8 @@ class PurchaseHistoryDetailScreen
 
   @override
   Widget build(BuildContext context) {
+    controller.setPurchasedHistoryDetailState(id);
+
     return Stack(
       children: [
         const Scaffold(

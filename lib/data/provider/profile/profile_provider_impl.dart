@@ -36,4 +36,17 @@ class ProfileProviderImpl extends BaseConnect implements ProfileProvider {
 
     return response.body['data'];
   }
+
+  @override
+  Future<Map<String, dynamic>> getPurchasedDetail({required int id}) async {
+    final Response response;
+
+    try {
+      response = await get("/api/tickets/purchasing/$id");
+    } catch (e) {
+      rethrow;
+    }
+
+    return response.body['data'];
+  }
 }
