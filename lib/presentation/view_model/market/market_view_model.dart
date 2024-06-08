@@ -104,7 +104,7 @@ class MarketViewModel extends GetxController {
     try {
       final newTickets = await _marketRepository.getTicketList(
         page: _currentPage,
-        size: 8,
+        size: 3,
         filter: _eventCategory.value,
       );
 

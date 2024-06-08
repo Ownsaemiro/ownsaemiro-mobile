@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ownsaemiro/data/model/profile/user_liked_event_state.dart';
 import 'package:ownsaemiro/data/repository/event/event_repository.dart';
@@ -9,12 +10,17 @@ class LikedEventViewModel extends GetxController {
   /* ------------------------------------------------------ */
   late final ProfileRepository _profileRepository;
   late final EventRepository _eventRepository;
+  late final ScrollController _scrollController;
 
   /* ------------------------------------------------------ */
   /* ----------------- Private Fields --------------------- */
   /* ------------------------------------------------------ */
   late final RxList<UserLikedEventState> _userLikedEventState;
   late final RxBool _isLoaded = false.obs;
+  late final RxBool _isLoadingMore = false.obs;
+
+  int _page = 1;
+  bool _hasMore = true;
 
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
@@ -23,6 +29,10 @@ class LikedEventViewModel extends GetxController {
 
   bool get isLoaded => _isLoaded.value;
 
+  bool get isLoadingMore => _isLoadingMore.value;
+
+  ScrollController get scrollController => _scrollController;
+
   @override
   void onInit() {
     super.onInit();
@@ -30,6 +40,7 @@ class LikedEventViewModel extends GetxController {
     // Dependency Injection
     _profileRepository = Get.find<ProfileRepository>();
     _eventRepository = Get.find<EventRepository>();
+    _scrollController = ScrollController();
 
     // Initialize State
     _userLikedEventState = <UserLikedEventState>[].obs;
@@ -39,20 +50,52 @@ class LikedEventViewModel extends GetxController {
   void onReady() async {
     super.onReady();
 
+    await _fetchLikedEvents();
+  }
+
+  Future<void> _fetchLikedEvents() async {
+    if (_isLoaded.value) return;
     _isLoaded.value = true;
 
-    await _profileRepository.getUserLikedEvent(page: 1, size: 8).then((value) {
-      _userLikedEventState.value = value;
-    });
+    try {
+      final newEvents =
+          await _profileRepository.getUserLikedEvent(page: _page, size: 8);
 
-    _isLoaded.value = false;
+      if (newEvents.isNotEmpty) {
+        _userLikedEventState.addAll(newEvents);
+        _page++;
+      } else {
+        _hasMore = false;
+      }
+    } finally {
+      _isLoaded.value = false;
+    }
+  }
+
+  Future<void> fetchMoreLikedEvents() async {
+    if (_isLoadingMore.value || !_hasMore) return;
+    _isLoadingMore.value = true;
+
+    try {
+      final newEvents =
+          await _profileRepository.getUserLikedEvent(page: _page, size: 3);
+
+      if (newEvents.isNotEmpty) {
+        _userLikedEventState.addAll(newEvents);
+        _page++;
+      } else {
+        _hasMore = false;
+      }
+    } finally {
+      _isLoadingMore.value = false;
+    }
   }
 
   void unlikeEvent(int eventId) {
     UserLikedEventState event =
         _userLikedEventState.firstWhere((event) => event.id == eventId);
 
-    // check is_liked is true
+    // Check is_liked is true
     if (!event.isLiked) return;
 
     // Call API to Unlike Event
