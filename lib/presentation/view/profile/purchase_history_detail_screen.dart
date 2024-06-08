@@ -10,7 +10,9 @@ import 'package:ownsaemiro/presentation/widget/appbar/default_back_appbar.dart';
 
 class PurchaseHistoryDetailScreen
     extends GetView<PurchaseHistoryDetailViewModel> {
-  const PurchaseHistoryDetailScreen({super.key});
+  PurchaseHistoryDetailScreen({super.key});
+
+  final int id = Get.arguments;
 
   void _showModal(BuildContext context) {
     showDialog(

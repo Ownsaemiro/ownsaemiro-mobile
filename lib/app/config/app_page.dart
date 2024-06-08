@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:ownsaemiro/app/binding/root_binding.dart';
 import 'package:ownsaemiro/app/config/app_routes.dart';
 import 'package:ownsaemiro/presentation/view/entry/entry_screen.dart';
@@ -68,7 +67,7 @@ List<GetPage> appPages = [
   ),
   GetPage(
     name: Routes.PURCHASE_HISTORY_DETAIL,
-    page: () => const PurchaseHistoryDetailScreen(),
+    page: () => PurchaseHistoryDetailScreen(),
     binding: RootBinding(),
   ),
   GetPage(

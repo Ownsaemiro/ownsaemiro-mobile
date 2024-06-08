@@ -19,4 +19,21 @@ class ProfileProviderImpl extends BaseConnect implements ProfileProvider {
 
     return response.body['data'];
   }
+
+  @override
+  Future<Map<String, dynamic>> getPurchasedList(
+      {required int page, required int size}) async {
+    final Response response;
+
+    try {
+      response = await get("/api/tickets/purchasing", query: {
+        "page": page.toString(),
+        "size": size.toString(),
+      });
+    } catch (e) {
+      rethrow;
+    }
+
+    return response.body['data'];
+  }
 }
