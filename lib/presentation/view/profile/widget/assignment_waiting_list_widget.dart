@@ -11,6 +11,13 @@ class AssignmentWaitingListWidget
 
   @override
   Widget buildView(BuildContext context) {
+    viewModel.scrollController.addListener(() {
+      if (viewModel.scrollController.position.pixels ==
+          viewModel.scrollController.position.maxScrollExtent) {
+        viewModel.fetchMoreData();
+      }
+    });
+
     return Obx(
       () {
         if (viewModel.isLoading) {
@@ -76,10 +83,24 @@ class AssignmentWaitingListWidget
         }
 
         return CustomScrollView(
+          controller: viewModel.scrollController,
           slivers: [
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
+                  if (index == viewModel.assignmentList.length) {
+                    return viewModel.isLoadingMore
+                        ? const Padding(
+                            padding: EdgeInsets.all(16),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: ColorSystem.primary,
+                              ),
+                            ),
+                          )
+                        : const SizedBox.shrink();
+                  }
+
                   return Container(
                     padding: const EdgeInsets.all(16),
                     margin: const EdgeInsets.symmetric(vertical: 4.0),
@@ -132,8 +153,7 @@ class AssignmentWaitingListWidget
                     ),
                   );
                 },
-                childCount: viewModel.assignmentList
-                    .length, // Adjust the number of items as needed
+                childCount: viewModel.assignmentList.length + 1,
               ),
             ),
           ],
