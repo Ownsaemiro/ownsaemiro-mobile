@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ownsaemiro/data/model/user/user_image_state.dart';
+import 'package:ownsaemiro/data/repository/profile/profile_repository.dart';
 import 'package:ownsaemiro/data/repository/user/user_repository.dart';
 import 'package:ownsaemiro/presentation/view_model/root/root_view_model.dart';
 
@@ -10,8 +11,9 @@ class ProfileViewModel extends GetxController {
   /* -------------------- DI Fields ----------------------- */
   /* ------------------------------------------------------ */
   late final UserRepository _userRepository;
-  final TextEditingController nicknameController = TextEditingController();
+  late final TextEditingController nicknameController;
   late final RootViewModel _rootViewModel;
+  late final ProfileRepository _profileRepository;
 
   /* ------------------------------------------------------ */
   /* ----------------- Private Fields --------------------- */
@@ -33,10 +35,12 @@ class ProfileViewModel extends GetxController {
     // Dependency Injection
     _userRepository = Get.find<UserRepository>();
     _rootViewModel = Get.find<RootViewModel>();
+    _profileRepository = Get.find<ProfileRepository>();
 
     // Initialize State
     _userImageState = UserImageState(profileImage: "").obs;
-    nicknameController.text = _rootViewModel.userNameState.name;
+    nicknameController =
+        TextEditingController(text: _rootViewModel.userNameState.name);
   }
 
   @override
@@ -65,5 +69,12 @@ class ProfileViewModel extends GetxController {
 
   void clearProfileImage() {
     profileImage.value = null;
+  }
+
+  void updateProfile() async {
+    await _profileRepository.updateProfile(
+      nickname: nicknameController.text,
+      image: profileImage.value!,
+    );
   }
 }

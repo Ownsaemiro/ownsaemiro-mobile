@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ownsaemiro/app/config/color_system.dart';
 import 'package:ownsaemiro/app/config/font_system.dart';
-import 'package:ownsaemiro/app/utility/log_util.dart';
 import 'package:ownsaemiro/core/screen/base_widget.dart';
 import 'package:ownsaemiro/presentation/view_model/profile/profile_view_model.dart';
 
@@ -53,7 +50,7 @@ class ProfileUpdateScreen extends GetView<ProfileViewModel> {
               padding: const EdgeInsets.only(top: 10, right: 10),
               child: GestureDetector(
                 onTap: () {
-                  LogUtil.info("프로필 업데이트 완료");
+                  controller.updateProfile();
                   Get.back();
                 },
                 child: Container(
@@ -146,8 +143,9 @@ class _ProfileWidget extends BaseWidget<ProfileViewModel> {
           const SizedBox(height: 8),
           TextField(
             controller: viewModel.nicknameController,
+            cursorColor: Colors.grey.shade600,
             decoration: InputDecoration(
-              hintText: '새로운 닉네임',
+              hintText: viewModel.nicknameController.text,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
               ),

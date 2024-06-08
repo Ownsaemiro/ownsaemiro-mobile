@@ -19,7 +19,7 @@ class RecentSearchRepositoryImpl extends GetxService
 
   @override
   Future<int> addSearch(String keyword) {
-    final entry = RecentSearchStateCompanion(keyword: drift.Value(keyword));
+    final entry = RecentSearchCompanion(keyword: drift.Value(keyword));
     return _recentSearchDao.addSearch(entry);
   }
 
@@ -29,7 +29,7 @@ class RecentSearchRepositoryImpl extends GetxService
   }
 
   @override
-  Future<List<RecentSearchStateData>> getRecentSearches() {
+  Future<List<RecentSearchData>> getRecentSearches() {
     return _recentSearchDao.getRecentSearches();
   }
 }

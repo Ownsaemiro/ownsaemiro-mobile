@@ -7,7 +7,6 @@ import 'package:ownsaemiro/data/provider/market/market_provider.dart';
 import 'package:ownsaemiro/data/provider/market/market_provider_impl.dart';
 import 'package:ownsaemiro/data/provider/profile/profile_provider.dart';
 import 'package:ownsaemiro/data/provider/profile/profile_provider_impl.dart';
-import 'package:ownsaemiro/data/provider/token/token_provider.dart';
 import 'package:ownsaemiro/data/provider/user/user_provider.dart';
 import 'package:ownsaemiro/data/provider/user/user_provider_impl.dart';
 import 'package:ownsaemiro/data/repository/auth/auth_repository.dart';

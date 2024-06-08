@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ownsaemiro/data/model/profile/assignment_ticket_state.dart';
+import 'package:ownsaemiro/data/model/profile/participated_event_state.dart';
 import 'package:ownsaemiro/data/model/profile/purchased_history_detail_state.dart';
 import 'package:ownsaemiro/data/model/profile/purchased_history_state.dart';
 import 'package:ownsaemiro/data/model/profile/user_liked_event_state.dart';
@@ -86,6 +88,43 @@ class ProfileRepositoryImpl extends GetxService implements ProfileRepository {
   Future<void> cancelTicket({required int id}) async {
     try {
       await _profileProvider.cancelTicket(id: id);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> updateProfile(
+      {required String nickname, required XFile image}) async {
+    try {
+      await _profileProvider.updateProfile(nickname: nickname, image: image);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<ParticipatedEventState>> getParticipatedEvent(
+      {required int page, required int size}) async {
+    Map<String, dynamic> result;
+
+    try {
+      result =
+          await _profileProvider.getParticipatedEvent(page: page, size: size);
+    } catch (e) {
+      rethrow;
+    }
+
+    return result["events"]
+        .map<ParticipatedEventState>(
+            (event) => ParticipatedEventState.fromJson(event))
+        .toList();
+  }
+
+  @override
+  Future<void> sendReview({required String content, required int eventId}) {
+    try {
+      return _profileProvider.sendReview(eventId: eventId, content: content);
     } catch (e) {
       rethrow;
     }

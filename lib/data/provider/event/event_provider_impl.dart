@@ -143,8 +143,11 @@ class EventProviderImpl extends BaseConnect implements EventProvider {
     final Response response;
 
     try {
-      response =
-          await get("/api/events/search?name=$keyword&page=$page&size=$size");
+      response = await get("/api/events/search", query: {
+        "name": keyword,
+        "page": page.toString(),
+        "size": size.toString(),
+      });
     } catch (e) {
       rethrow;
     }

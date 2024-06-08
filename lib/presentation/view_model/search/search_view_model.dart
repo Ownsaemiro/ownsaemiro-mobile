@@ -1,19 +1,35 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ownsaemiro/app/database/local_database.dart';
 import 'package:ownsaemiro/data/model/event/search_event_state.dart';
+import 'package:ownsaemiro/data/repository/event/event_repository.dart';
 import 'package:ownsaemiro/domain/repository/recent_search_repository.dart';
+import 'package:ownsaemiro/domain/usecase/add_recent_search_usecase.dart';
+import 'package:ownsaemiro/domain/usecase/delete_recent_search_usecase.dart';
+import 'package:ownsaemiro/domain/usecase/get_recent_searches_usecase.dart';
 
 class SearchViewModel extends GetxController {
   /* ------------------------------------------------------ */
   /* -------------------- DI Fields ----------------------- */
   /* ------------------------------------------------------ */
+  late final EventRepository _eventRepository;
   late final RecentSearchRepository _recentSearchRepository;
+  late final AddRecentSearchUseCase _addRecentSearchUseCase;
+  late final DeleteRecentSearchUseCase _deleteRecentSearchUseCase;
+  late final GetRecentSearchesUseCase _getRecentSearchesUseCase;
   late final TextEditingController _textController;
 
   /* ------------------------------------------------------ */
   /* ----------------- Private Fields --------------------- */
   /* ------------------------------------------------------ */
+  // List<RecentSearchData> _recentSearches = [];
+  late final RxList<RecentSearchData> _recentSearches;
   late final RxList<SearchEventState> _searchEvents;
+  final RxBool _isLoading = false.obs;
+  final RxBool _isSearching = false.obs;
+  Timer? _debounce;
 
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
@@ -22,38 +38,90 @@ class SearchViewModel extends GetxController {
 
   TextEditingController get textController => _textController;
 
-  var isSearching = false.obs;
-  var searchResults = <String>[].obs;
-  var popularSearches = ['뉴진스', '민지', '해린', '하니', '다니엘', '혜인'].obs;
+  bool get isLoading => _isLoading.value;
+
+  List<RecentSearchData> get recentSearches => _recentSearches;
+
+  bool get isSearching => _isSearching.value;
 
   @override
   void onInit() {
     super.onInit();
 
     // Dependency injection
+    _eventRepository = Get.find<EventRepository>();
     _recentSearchRepository = Get.find<RecentSearchRepository>();
 
     // Initialize State
     _searchEvents = <SearchEventState>[].obs;
+    _recentSearches = <RecentSearchData>[].obs;
     _textController = TextEditingController();
+    _addRecentSearchUseCase = AddRecentSearchUseCase(_recentSearchRepository);
+    _deleteRecentSearchUseCase =
+        DeleteRecentSearchUseCase(_recentSearchRepository);
+    _getRecentSearchesUseCase =
+        GetRecentSearchesUseCase(_recentSearchRepository);
   }
 
-  void search(String query) {
-    isSearching.value = true;
+  @override
+  void onReady() async {
+    super.onReady();
 
-    _recentSearchRepository.addSearch(query);
+    loadRecentSearches();
+  }
 
-    searchResults.value =
-        popularSearches.where((element) => element.contains(query)).toList();
+  void onTextChanged(String query) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      if (query.isNotEmpty) {
+        search(query);
+      }
+    });
+  }
+
+  void loadRecentSearches() async {
+    List<RecentSearchData> data = await _getRecentSearchesUseCase.execute();
+    _recentSearches.assignAll(data);
+    update();
+  }
+
+  void addSearch(String keyword) async {
+    await _addRecentSearchUseCase.execute(keyword);
+    loadRecentSearches();
+  }
+
+  void deleteSearch(int id) async {
+    await _deleteRecentSearchUseCase.execute(id);
+    loadRecentSearches();
+  }
+
+  void search(String query) async {
+    _isSearching.value = true;
+    _isLoading.value = true;
+
+    _searchEvents.clear();
+
+    await _eventRepository
+        .searchEvent(keyword: query, page: 1, size: 6)
+        .then((value) {
+      _searchEvents.addAll(value);
+    });
+
+    _isLoading.value = false;
+
+    addSearch(query);
+  }
+
+  void recentSearchAllDelete() async {
+    for (var search in _recentSearches) {
+      await _deleteRecentSearchUseCase.execute(search.id);
+    }
+    loadRecentSearches();
   }
 
   void clear() {
-    isSearching.value = false;
-    searchResults.value = [];
+    _isSearching.value = false;
+    _searchEvents.clear();
     _textController.clear();
-  }
-
-  void deleteSearch(int id) {
-    _recentSearchRepository.deleteSearch(id);
   }
 }

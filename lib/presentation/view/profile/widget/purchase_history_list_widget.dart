@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ownsaemiro/app/config/app_routes.dart';
+import 'package:ownsaemiro/app/utility/date_util.dart';
 import 'package:ownsaemiro/core/screen/base_widget.dart';
 import 'package:ownsaemiro/presentation/view_model/profile/purchase_history_view_model.dart';
 import 'package:shimmer/shimmer.dart';
@@ -126,12 +127,13 @@ class PurchaseHistoryListWidget extends BaseWidget<PurchaseHistoryViewModel> {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                viewModel.purchasedHistoryList[index].date,
+                                DateUtil.getDottedDate(
+                                    viewModel.purchasedHistoryList[index].date),
                                 style: const TextStyle(fontSize: 12),
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                "구매일: ${viewModel.purchasedHistoryList[index].purchasedDate}",
+                                "구매일: ${DateUtil.getDottedDate(viewModel.purchasedHistoryList[index].purchasedDate)}",
                                 style: const TextStyle(fontSize: 12),
                               ),
                               const SizedBox(height: 4),

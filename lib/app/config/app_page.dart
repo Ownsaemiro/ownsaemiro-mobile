@@ -11,6 +11,7 @@ import 'package:ownsaemiro/presentation/view/home/search_screen.dart';
 import 'package:ownsaemiro/presentation/view/market/market_detail_screen.dart';
 import 'package:ownsaemiro/presentation/view/profile/assignment_waiting_screen.dart';
 import 'package:ownsaemiro/presentation/view/profile/liked_event_screen.dart';
+import 'package:ownsaemiro/presentation/view/profile/participated_detail_screen.dart';
 import 'package:ownsaemiro/presentation/view/profile/participated_event_screen.dart';
 import 'package:ownsaemiro/presentation/view/profile/point_charge_screen.dart';
 import 'package:ownsaemiro/presentation/view/profile/profile_update_screen.dart';
@@ -95,4 +96,9 @@ List<GetPage> appPages = [
     page: () => const RegisterScreen(),
     binding: EntryBinding(),
   ),
+  GetPage(
+    name: Routes.PARTICIPATED_DETAIL,
+    page: () => ParticipatedDetailScreen(),
+    binding: RootBinding(),
+  )
 ];
