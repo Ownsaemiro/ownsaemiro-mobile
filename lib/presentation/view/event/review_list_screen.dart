@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ownsaemiro/app/config/color_system.dart';
 import 'package:ownsaemiro/core/screen/base_screen.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:ownsaemiro/presentation/view_model/event/review_list_view_model.dart';
@@ -35,54 +34,10 @@ class ReviewListScreen extends BaseScreen<ReviewListViewModel> {
             () {
               if (viewModel.isLoading && viewModel.reviews.isEmpty) {
                 return ListView.builder(
-                  controller: viewModel.scrollController,
                   shrinkWrap: true,
                   itemCount: 20,
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: 16, left: 16, right: 16),
-                      child: Shimmer.fromColors(
-                        baseColor: Colors.grey[300]!,
-                        highlightColor: Colors.grey[100]!,
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey.shade300),
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.white,
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Column(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 18,
-                                    backgroundColor: Colors.grey[300]!,
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Container(
-                                    width: 40,
-                                    height: 10,
-                                    color: Colors.grey[300]!,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Center(
-                                  child: Container(
-                                    height: 10,
-                                    color: Colors.grey[300]!,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
+                    return const _SkeletonItem();
                   },
                 );
               }
@@ -100,13 +55,7 @@ class ReviewListScreen extends BaseScreen<ReviewListViewModel> {
                 itemBuilder: (context, index) {
                   if (index == viewModel.reviews.length) {
                     return viewModel.isLoading
-                        ? const Padding(
-                            padding: EdgeInsets.all(16),
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                  color: ColorSystem.primary),
-                            ),
-                          )
+                        ? const _SkeletonItem()
                         : const SizedBox.shrink();
                   }
 
@@ -156,6 +105,57 @@ class ReviewListScreen extends BaseScreen<ReviewListViewModel> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _SkeletonItem extends StatelessWidget {
+  const _SkeletonItem({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey.shade300),
+            borderRadius: BorderRadius.circular(8),
+            color: Colors.white,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  CircleAvatar(
+                    radius: 18,
+                    backgroundColor: Colors.grey[300]!,
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    width: 40,
+                    height: 10,
+                    color: Colors.grey[300]!,
+                  ),
+                ],
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Center(
+                  child: Container(
+                    height: 10,
+                    color: Colors.grey[300]!,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

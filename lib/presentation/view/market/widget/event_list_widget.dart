@@ -25,7 +25,7 @@ class EventListWidget extends BaseWidget<MarketViewModel> {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    return const SkeletonItem();
+                    return const _SkeletonItem();
                   },
                   childCount: 10,
                 ),
@@ -50,9 +50,7 @@ class EventListWidget extends BaseWidget<MarketViewModel> {
                     return viewModel.isLoadingMore
                         ? const Padding(
                             padding: EdgeInsets.all(16),
-                            child: Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                            child: _SkeletonItem(),
                           )
                         : const SizedBox.shrink();
                   }
@@ -105,7 +103,8 @@ class EventListWidget extends BaseWidget<MarketViewModel> {
                     ),
                   );
                 },
-                childCount: viewModel.ticketList.length + 1,
+                childCount: viewModel.ticketList.length +
+                    (viewModel.isLoadingMore ? 1 : 0),
               ),
             ),
           ],
@@ -115,8 +114,8 @@ class EventListWidget extends BaseWidget<MarketViewModel> {
   }
 }
 
-class SkeletonItem extends StatelessWidget {
-  const SkeletonItem({super.key});
+class _SkeletonItem extends StatelessWidget {
+  const _SkeletonItem({super.key});
 
   @override
   Widget build(BuildContext context) {

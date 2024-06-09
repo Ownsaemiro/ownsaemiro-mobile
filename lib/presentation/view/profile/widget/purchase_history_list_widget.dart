@@ -21,71 +21,8 @@ class PurchaseHistoryListWidget extends BaseWidget<PurchaseHistoryViewModel> {
 
     return Obx(
       () {
-        if (viewModel.isLoading) {
-          return CustomScrollView(
-            slivers: [
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return Shimmer.fromColors(
-                      baseColor: Colors.grey[300]!,
-                      highlightColor: Colors.grey[100]!,
-                      child: Container(
-                        padding: const EdgeInsets.all(16),
-                        margin: const EdgeInsets.symmetric(vertical: 4.0),
-                        height: 120,
-                        child: Row(
-                          children: [
-                            const SizedBox(width: 8),
-                            Container(
-                              width: 72,
-                              height: 72,
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8)),
-                              ),
-                            ),
-                            const SizedBox(width: 24),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 200,
-                                  height: 16,
-                                  color: Colors.white,
-                                ),
-                                const SizedBox(height: 4),
-                                Container(
-                                  width: 150,
-                                  height: 12,
-                                  color: Colors.white,
-                                ),
-                                const SizedBox(height: 4),
-                                Container(
-                                  width: 180,
-                                  height: 12,
-                                  color: Colors.white,
-                                ),
-                                const SizedBox(height: 4),
-                                Container(
-                                  width: 160,
-                                  height: 12,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                  childCount: 10,
-                ),
-              ),
-            ],
-          );
+        if (viewModel.isLoading && viewModel.purchasedHistoryList.isEmpty) {
+          return const _SkeletonItem();
         }
 
         if (viewModel.purchasedHistoryList.isEmpty) {
@@ -104,11 +41,7 @@ class PurchaseHistoryListWidget extends BaseWidget<PurchaseHistoryViewModel> {
                     return viewModel.isLoadingMore
                         ? const Padding(
                             padding: EdgeInsets.all(16),
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: ColorSystem.primary,
-                              ),
-                            ),
+                            child: _SkeletonItem(),
                           )
                         : const SizedBox.shrink();
                   }
@@ -171,12 +104,60 @@ class PurchaseHistoryListWidget extends BaseWidget<PurchaseHistoryViewModel> {
                   );
                 },
                 childCount: viewModel.purchasedHistoryList.length +
-                    1, // Adjust the number of items as needed
+                    (viewModel.isLoadingMore ? 1 : 0),
               ),
             ),
           ],
         );
       },
+    );
+  }
+}
+
+class _SkeletonItem extends StatelessWidget {
+  const _SkeletonItem({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: ListView.builder(
+        itemCount: 5,
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              Container(
+                width: 72,
+                height: 72,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              const SizedBox(width: 24),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 150,
+                    height: 16,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(height: 4),
+                  Container(
+                    width: 100,
+                    height: 12,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

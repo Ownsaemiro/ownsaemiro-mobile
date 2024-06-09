@@ -4,6 +4,7 @@ import 'package:ownsaemiro/app/config/app_routes.dart';
 import 'package:ownsaemiro/app/config/color_system.dart';
 import 'package:ownsaemiro/app/utility/log_util.dart';
 import 'package:ownsaemiro/core/screen/base_widget.dart';
+import 'package:ownsaemiro/presentation/view/market/widget/event_list_widget.dart';
 import 'package:ownsaemiro/presentation/view_model/profile/liked_event_view_model.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -21,47 +22,8 @@ class LikedEventListWidget extends BaseWidget<LikedEventViewModel> {
 
     return Obx(
       () {
-        if (viewModel.isLoaded) {
-          return Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
-            child: ListView.builder(
-              itemCount: 5,
-              itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 72,
-                      height: 72,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    const SizedBox(width: 24),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 150,
-                          height: 16,
-                          color: Colors.white,
-                        ),
-                        const SizedBox(height: 4),
-                        Container(
-                          width: 100,
-                          height: 12,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
+        if (viewModel.isLoaded && viewModel.userLikedEventState.isEmpty) {
+          return const _SkeletonItem();
         }
 
         if (viewModel.userLikedEventState.isEmpty) {
@@ -80,11 +42,7 @@ class LikedEventListWidget extends BaseWidget<LikedEventViewModel> {
                     return viewModel.isLoadingMore
                         ? const Padding(
                             padding: EdgeInsets.all(16),
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: ColorSystem.primary,
-                              ),
-                            ),
+                            child: _SkeletonItem(),
                           )
                         : const SizedBox.shrink();
                   }
@@ -148,12 +106,61 @@ class LikedEventListWidget extends BaseWidget<LikedEventViewModel> {
                     ),
                   );
                 },
-                childCount: viewModel.userLikedEventState.length + 1,
+                childCount: viewModel.userLikedEventState.length +
+                    (viewModel.isLoadingMore ? 1 : 0),
               ),
             ),
           ],
         );
       },
+    );
+  }
+}
+
+class _SkeletonItem extends StatelessWidget {
+  const _SkeletonItem({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: ListView.builder(
+        itemCount: 5,
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              Container(
+                width: 72,
+                height: 72,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              const SizedBox(width: 24),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 150,
+                    height: 16,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(height: 4),
+                  Container(
+                    width: 100,
+                    height: 12,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
