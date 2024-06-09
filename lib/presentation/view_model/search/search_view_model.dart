@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ownsaemiro/app/database/local_database.dart';
+import 'package:ownsaemiro/app/utility/log_util.dart';
 import 'package:ownsaemiro/data/model/event/search_event_state.dart';
 import 'package:ownsaemiro/data/repository/event/event_repository.dart';
 import 'package:ownsaemiro/domain/repository/recent_search_repository.dart';
@@ -20,16 +21,20 @@ class SearchViewModel extends GetxController {
   late final DeleteRecentSearchUseCase _deleteRecentSearchUseCase;
   late final GetRecentSearchesUseCase _getRecentSearchesUseCase;
   late final TextEditingController _textController;
+  late final ScrollController _scrollController;
 
   /* ------------------------------------------------------ */
   /* ----------------- Private Fields --------------------- */
   /* ------------------------------------------------------ */
-  // List<RecentSearchData> _recentSearches = [];
   late final RxList<RecentSearchData> _recentSearches;
   late final RxList<SearchEventState> _searchEvents;
   final RxBool _isLoading = false.obs;
   final RxBool _isSearching = false.obs;
+  final RxBool _isLoadingMore = false.obs;
   Timer? _debounce;
+
+  int _page = 1;
+  bool _hasMore = true;
 
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
@@ -38,7 +43,11 @@ class SearchViewModel extends GetxController {
 
   TextEditingController get textController => _textController;
 
+  ScrollController get scrollController => _scrollController;
+
   bool get isLoading => _isLoading.value;
+
+  bool get isLoadingMore => _isLoadingMore.value;
 
   List<RecentSearchData> get recentSearches => _recentSearches;
 
@@ -51,6 +60,7 @@ class SearchViewModel extends GetxController {
     // Dependency injection
     _eventRepository = Get.find<EventRepository>();
     _recentSearchRepository = Get.find<RecentSearchRepository>();
+    _scrollController = ScrollController();
 
     // Initialize State
     _searchEvents = <SearchEventState>[].obs;
@@ -110,6 +120,23 @@ class SearchViewModel extends GetxController {
     _isLoading.value = false;
 
     addSearch(query);
+  }
+
+  void loadMore() async {
+    if (_isLoadingMore.value || !_hasMore) return;
+
+    _isLoadingMore.value = true;
+    _page++;
+
+    await _eventRepository
+        .searchEvent(keyword: _textController.text, page: _page, size: 6)
+        .then(
+      (value) {
+        _searchEvents.addAll(value);
+      },
+    );
+
+    _isLoadingMore.value = false;
   }
 
   void recentSearchAllDelete() async {

@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ownsaemiro/data/model/profile/assignment_ticket_state.dart';
 import 'package:ownsaemiro/data/repository/profile/profile_repository.dart';
@@ -7,19 +9,28 @@ class AssignmentWaitingViewModel extends GetxController {
   /* -------------------- DI Fields ----------------------- */
   /* ------------------------------------------------------ */
   late final ProfileRepository _profileRepository;
+  late final ScrollController _scrollController;
 
   /* ------------------------------------------------------ */
   /* ----------------- Private Fields --------------------- */
   /* ------------------------------------------------------ */
   late final RxList<AssignmentTicketState> _assignmentList;
   final RxBool _isLoading = false.obs;
+  final RxBool _isLoadingMore = false.obs;
+
+  int _page = 1;
+  bool _hasMore = true;
 
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
   /* ------------------------------------------------------ */
   List<AssignmentTicketState> get assignmentList => _assignmentList;
 
+  ScrollController get scrollController => _scrollController;
+
   bool get isLoading => _isLoading.value;
+
+  bool get isLoadingMore => _isLoadingMore.value;
 
   @override
   void onInit() {
@@ -27,21 +38,56 @@ class AssignmentWaitingViewModel extends GetxController {
 
     // Dependency Injection
     _profileRepository = Get.find<ProfileRepository>();
+    _scrollController = ScrollController();
 
     // Initialize
     _assignmentList = <AssignmentTicketState>[].obs;
   }
 
   @override
-  void onReady() {
+  void onReady() async {
     super.onReady();
 
-    _isLoading.value = true;
+    await _fetchData();
+  }
 
-    _profileRepository.getAssignmentList(page: 1, size: 8).then((value) {
-      _assignmentList.value = value;
-    });
+  Future<void> _fetchData() async {
+    if (_isLoadingMore.value) return;
+    _isLoadingMore.value = true;
 
-    _isLoading.value = false;
+    try {
+      final data =
+          await _profileRepository.getAssignmentList(page: _page, size: 8);
+      if (data.isEmpty) {
+        _hasMore = false;
+      } else {
+        _assignmentList.addAll(data);
+        _page++;
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+
+    _isLoadingMore.value = false;
+  }
+
+  Future<void> fetchMoreData() async {
+    if (_isLoadingMore.value || !_hasMore) return;
+
+    _isLoadingMore.value = true;
+
+    try {
+      final data =
+          await _profileRepository.getAssignmentList(page: _page, size: 3);
+
+      if (data.isEmpty) {
+        _hasMore = false;
+      } else {
+        _assignmentList.addAll(data);
+        _page++;
+      }
+    } finally {
+      _isLoadingMore.value = false;
+    }
   }
 }

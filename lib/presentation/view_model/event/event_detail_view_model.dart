@@ -86,6 +86,11 @@ class EventDetailViewModel extends GetxController {
     _selectedDate = Rxn<DateTime>(DateTime.now());
   }
 
+  void setRemainSeat(int id) async {
+    _remainSeat.value = await _eventRepository.getEventRemainSeats(
+        eventId: _eventDetailInfoState.value.id);
+  }
+
   void onDaySelected(DateTime selectedDay, DateTime focusedDay) async {
     _selectedDate.value = selectedDay;
 

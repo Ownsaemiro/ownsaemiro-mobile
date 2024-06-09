@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:ownsaemiro/app/type/e_event_category.dart';
 import 'package:ownsaemiro/data/model/event/before_event_state.dart';
@@ -9,6 +12,8 @@ class EventViewModel extends GetxController {
   /* -------------------- DI Fields ----------------------- */
   /* ------------------------------------------------------ */
   late final EventRepository _eventRepository;
+  late final ScrollController _duringScrollController;
+  late final ScrollController _beforeScrollController;
 
   /* ------------------------------------------------------ */
   /* ----------------- Private Fields --------------------- */
@@ -20,6 +25,15 @@ class EventViewModel extends GetxController {
   late final RxBool _isDuringEventLoading = false.obs;
   late final RxBool _isBeforeEventLoading = false.obs;
 
+  late final RxBool _isDuringEventMoreLoading = false.obs;
+  late final RxBool _isBeforeEventMoreLoading = false.obs;
+
+  int _duringPage = 1;
+  int _beforePage = 1;
+
+  bool _duringHasMore = true;
+  bool _beforeHasMore = true;
+
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
   /* ------------------------------------------------------ */
@@ -27,9 +41,17 @@ class EventViewModel extends GetxController {
 
   List<BeforeEventState> get beforeEventList => _beforeEventList;
 
+  ScrollController get duringScrollController => _duringScrollController;
+
+  ScrollController get beforeScrollController => _beforeScrollController;
+
   bool get isDuringEventLoading => _isDuringEventLoading.value;
 
   bool get isBeforeEventLoading => _isBeforeEventLoading.value;
+
+  bool get isDuringEventMoreLoading => _isDuringEventMoreLoading.value;
+
+  bool get isBeforeEventMoreLoading => _isBeforeEventMoreLoading.value;
 
   @override
   void onInit() {
@@ -37,6 +59,8 @@ class EventViewModel extends GetxController {
 
     // Dependency Injection
     _eventRepository = Get.find<EventRepository>();
+    _duringScrollController = ScrollController();
+    _beforeScrollController = ScrollController();
 
     // Initialize State
     _duringEventList = <DuringEventState>[].obs;
@@ -48,32 +72,6 @@ class EventViewModel extends GetxController {
   void onReady() async {
     super.onReady();
     selectCategory(0);
-
-    _isBeforeEventLoading.value = true;
-    await _eventRepository
-        .getBeforeEventList(
-      page: 1,
-      size: 5,
-      category: _eventCategory.value,
-    )
-        .then((value) {
-      _beforeEventList.addAll(value);
-    });
-
-    _isBeforeEventLoading.value = false;
-
-    _isDuringEventLoading.value = true;
-    await _eventRepository
-        .getDuringEventList(
-      page: 1,
-      size: 5,
-      category: _eventCategory.value,
-    )
-        .then((value) {
-      _duringEventList.addAll(value);
-    });
-
-    _isDuringEventLoading.value = false;
   }
 
   final RxInt selectedIndex = 0.obs;
@@ -95,34 +93,106 @@ class EventViewModel extends GetxController {
 
     _beforeEventList.clear();
 
-    _isBeforeEventLoading.value = true;
+    _beforePage = 1;
 
-    await _eventRepository
-        .getBeforeEventList(
-      page: 1,
-      size: 5,
-      category: _eventCategory.value,
-    )
-        .then((value) {
-      _beforeEventList.addAll(value);
-    });
-
-    _isBeforeEventLoading.value = false;
+    await _loadBeforeEvent();
 
     _duringEventList.clear();
 
+    _duringPage = 1;
+
+    await _loadDuringEvent();
+  }
+
+  Future<void> _loadDuringEvent() async {
+    if (_isDuringEventLoading.value) return;
+
     _isDuringEventLoading.value = true;
 
-    await _eventRepository
-        .getDuringEventList(
-      page: 1,
-      size: 5,
-      category: _eventCategory.value,
-    )
-        .then((value) {
-      _duringEventList.addAll(value);
-    });
+    try {
+      final data = await _eventRepository.getDuringEventList(
+        page: _duringPage,
+        size: 5,
+        category: _eventCategory.value,
+      );
 
-    _isDuringEventLoading.value = false;
+      if (data.isNotEmpty) {
+        _duringEventList.addAll(data);
+        _duringPage++;
+      } else {
+        _duringHasMore = false;
+      }
+    } finally {
+      _isDuringEventLoading.value = false;
+    }
+  }
+
+  Future<void> _loadBeforeEvent() async {
+    if (_isBeforeEventLoading.value) return;
+
+    _isBeforeEventLoading.value = true;
+
+    try {
+      final data = await _eventRepository.getBeforeEventList(
+        page: _beforePage,
+        size: 5,
+        category: _eventCategory.value,
+      );
+
+      if (data.isNotEmpty) {
+        _beforeEventList.addAll(data);
+        _beforePage++;
+      } else {
+        _beforeHasMore = false;
+      }
+    } finally {
+      _isBeforeEventLoading.value = false;
+    }
+  }
+
+  Future<void> loadDuringEventMore() async {
+    if (_isDuringEventMoreLoading.value || !_duringHasMore) return;
+
+    _isDuringEventMoreLoading.value = true;
+
+    try {
+      final data = await _eventRepository.getDuringEventList(
+        page: _duringPage,
+        size: 3,
+        category: _eventCategory.value,
+      );
+
+      if (data.isNotEmpty) {
+        _duringEventList.addAll(data);
+        _duringPage++;
+      } else {
+        _duringHasMore = false;
+      }
+    } finally {
+      _isDuringEventMoreLoading.value = false;
+    }
+  }
+
+  Future<void> loadBeforeEventMore() async {
+    if (_isBeforeEventMoreLoading.value || !_beforeHasMore) return;
+
+    _isBeforeEventMoreLoading.value = true;
+
+    try {
+      final data = await _eventRepository.getBeforeEventList(
+        page: _beforePage,
+        size: 3,
+        category: _eventCategory.value,
+      );
+
+      if (data.isNotEmpty) {
+        _beforeEventList.addAll(data);
+        _beforePage++;
+      } else {
+        _beforeHasMore = false;
+      }
+    } finally {
+      _isBeforeEventMoreLoading.value = false;
+    }
   }
 }

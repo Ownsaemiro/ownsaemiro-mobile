@@ -4,7 +4,6 @@ import 'package:ownsaemiro/presentation/view/event/component/event_list_title_wi
 import 'package:ownsaemiro/presentation/view/event/widget/before_event_list_widget.dart';
 import 'package:ownsaemiro/presentation/view/event/widget/category_chip_widget.dart';
 import 'package:ownsaemiro/presentation/view/event/widget/during_event_list_widget.dart';
-import 'package:ownsaemiro/presentation/view/event/widget/event_list_widget.dart';
 import 'package:ownsaemiro/presentation/view_model/event/event_view_model.dart';
 import 'package:ownsaemiro/presentation/widget/appbar/default_search_appbar.dart';
 
