@@ -22,7 +22,7 @@ class ReviewListScreen extends BaseScreen<ReviewListViewModel> {
       if (viewModel.scrollController.position.pixels ==
               viewModel.scrollController.position.maxScrollExtent &&
           !viewModel.isLoading) {
-        viewModel.fetchReviews();
+        viewModel.fetchReviewMore();
       }
     });
 

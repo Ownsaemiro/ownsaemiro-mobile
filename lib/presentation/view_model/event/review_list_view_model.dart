@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ownsaemiro/app/utility/log_util.dart';
 import 'package:ownsaemiro/data/model/event/review_state.dart';
 import 'package:ownsaemiro/data/repository/event/event_repository.dart';
 import 'package:ownsaemiro/presentation/view_model/event/event_detail_view_model.dart';
@@ -19,6 +18,7 @@ class ReviewListViewModel extends GetxController {
   final RxInt _eventId = 0.obs;
   final RxList<ReviewState> _reviews = <ReviewState>[].obs;
   final RxBool _isLoading = false.obs;
+  final RxBool _isLoadMore = false.obs;
   late final ScrollController _scrollController;
 
   /* ------------------------------------------------------ */
@@ -29,6 +29,8 @@ class ReviewListViewModel extends GetxController {
   List<ReviewState> get reviews => _reviews;
 
   bool get isLoading => _isLoading.value;
+
+  bool get isLoadMore => _isLoadMore.value;
 
   ScrollController get scrollController => _scrollController;
 
@@ -46,40 +48,58 @@ class ReviewListViewModel extends GetxController {
 
     // Initialize State
     _eventId.value = _eventDetailViewModel.eventDetailInfoState.id;
-    fetchReviews();
   }
 
-  Future<void> fetchReviews({bool isRefresh = false}) async {
+  @override
+  void onReady() async {
+    super.onReady();
+
+    await fetchReview();
+  }
+
+  Future<void> fetchReview() async {
     if (_isLoading.value) return;
+
     _isLoading.value = true;
 
-    if (isRefresh) {
-      _currentPage = 1;
-      _hasMore = true;
-      _reviews.clear();
-    }
-
     try {
-      final newReviews = await _eventRepository.getEventReviewList(
+      final data = await _eventRepository.getEventReviewList(
         eventId: eventId,
-        page: _currentPage,
-        size: 10,
+        page: 1,
+        size: 9,
       );
 
-      if (newReviews.isNotEmpty) {
-        _reviews.addAll(newReviews);
+      if (data.isNotEmpty) {
+        _reviews.addAll(data);
         _currentPage++;
       } else {
         _hasMore = false;
       }
-    } catch (e) {
-      LogUtil.error(e.toString());
     } finally {
       _isLoading.value = false;
     }
   }
 
-  Future<void> refreshReviews() async {
-    await fetchReviews(isRefresh: true);
+  Future<void> fetchReviewMore() async {
+    if (_isLoadMore.value || !_hasMore) return;
+
+    _isLoadMore.value = true;
+
+    try {
+      final data = await _eventRepository.getEventReviewList(
+        eventId: eventId,
+        page: _currentPage,
+        size: 3,
+      );
+
+      if (data.isNotEmpty) {
+        _reviews.addAll(data);
+        _currentPage++;
+      } else {
+        _hasMore = false;
+      }
+    } finally {
+      _isLoadMore.value = false;
+    }
   }
 }
