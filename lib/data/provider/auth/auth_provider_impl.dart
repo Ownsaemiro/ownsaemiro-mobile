@@ -1,8 +1,6 @@
 import 'package:get/get.dart';
-import 'package:ownsaemiro/app/utility/log_util.dart';
 import 'package:ownsaemiro/data/provider/auth/auth_provider.dart';
 import 'package:ownsaemiro/data/provider/base/base_connect.dart';
-import 'package:ownsaemiro/data/provider/token/token_provider.dart';
 
 class AuthProviderImpl extends BaseConnect implements AuthProvider {
   @override
@@ -67,5 +65,16 @@ class AuthProviderImpl extends BaseConnect implements AuthProvider {
     }
 
     return response.body["data"];
+  }
+
+  @override
+  Future<void> updateFcmToken(String fcmToken) async {
+    try {
+      await put("/api/users/fcm-token", {
+        "fcm_token": fcmToken,
+      });
+    } catch (e) {
+      rethrow;
+    }
   }
 }

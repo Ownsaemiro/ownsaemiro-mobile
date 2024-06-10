@@ -145,7 +145,7 @@ class _ProfileWidget extends BaseWidget<ProfileViewModel> {
             controller: viewModel.nicknameController,
             cursorColor: Colors.grey.shade600,
             decoration: InputDecoration(
-              hintText: viewModel.nicknameController.text,
+              hintText: "닉네임을 입력해주세요",
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
               ),

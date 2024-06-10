@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ownsaemiro/data/model/profile/profile_update_state.dart';
 import 'package:ownsaemiro/data/model/user/user_image_state.dart';
 import 'package:ownsaemiro/data/repository/profile/profile_repository.dart';
 import 'package:ownsaemiro/data/repository/user/user_repository.dart';
@@ -18,8 +21,9 @@ class ProfileViewModel extends GetxController {
   /* ------------------------------------------------------ */
   /* ----------------- Private Fields --------------------- */
   /* ------------------------------------------------------ */
-  late final Rx<UserImageState> _userImageState;
+  late Rx<UserImageState> _userImageState;
   late final RxBool _isProfileImageUploading = false.obs;
+  late final Rxn<XFile?> _image;
 
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
@@ -27,6 +31,8 @@ class ProfileViewModel extends GetxController {
   UserImageState get userImageState => _userImageState.value;
 
   bool get isProfileImageUploading => _isProfileImageUploading.value;
+
+  XFile? get image => _image.value;
 
   @override
   void onInit() {
@@ -41,6 +47,8 @@ class ProfileViewModel extends GetxController {
     _userImageState = UserImageState(profileImage: "").obs;
     nicknameController =
         TextEditingController(text: _rootViewModel.userNameState.name);
+
+    _image = Rxn<XFile?>();
   }
 
   @override
@@ -56,25 +64,46 @@ class ProfileViewModel extends GetxController {
     _isProfileImageUploading.value = false;
   }
 
-  var profileImage = Rx<XFile?>(null);
-
   Future<void> pickImage() async {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
-      profileImage.value = image;
+      _image.value = image;
+    }
+  }
+
+  void getImage() async {
+    final XFile? image =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      _image.value = image;
     }
   }
 
   void clearProfileImage() {
-    profileImage.value = null;
+    _image.value = null;
   }
 
   void updateProfile() async {
-    await _profileRepository.updateProfile(
-      nickname: nicknameController.text,
-      image: profileImage.value!,
-    );
+    ProfileUpdateState result;
+
+    if (_image.value == null) {
+      result = await _profileRepository.updateProfile(
+          nickname: nicknameController.text);
+    } else {
+      result = await _profileRepository.updateProfile(
+        nickname: nicknameController.text,
+        image: File(_image.value!.path),
+      );
+    }
+
+    _userImageState
+        .update((value) => value!.copyWith(profileImage: result.image));
+    _userImageState.value = UserImageState(profileImage: result.image);
+    _rootViewModel.updateUserName(result.name);
+
+    nicknameController.text = "";
   }
 }

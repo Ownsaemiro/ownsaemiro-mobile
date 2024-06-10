@@ -9,6 +9,7 @@ import 'package:ownsaemiro/presentation/view/event/review_list_screen.dart';
 import 'package:ownsaemiro/presentation/view/home/notification_screen.dart';
 import 'package:ownsaemiro/presentation/view/home/search_screen.dart';
 import 'package:ownsaemiro/presentation/view/market/market_detail_screen.dart';
+import 'package:ownsaemiro/presentation/view/profile/assignment_ticket_screen.dart';
 import 'package:ownsaemiro/presentation/view/profile/assignment_waiting_screen.dart';
 import 'package:ownsaemiro/presentation/view/profile/liked_event_screen.dart';
 import 'package:ownsaemiro/presentation/view/profile/participated_detail_screen.dart';
@@ -99,6 +100,11 @@ List<GetPage> appPages = [
   GetPage(
     name: Routes.PARTICIPATED_DETAIL,
     page: () => ParticipatedDetailScreen(),
+    binding: RootBinding(),
+  ),
+  GetPage(
+    name: Routes.ASSIGNMENT_TICKET,
+    page: () => AssignmentTicketScreen(),
     binding: RootBinding(),
   )
 ];

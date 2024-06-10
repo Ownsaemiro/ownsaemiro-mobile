@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ownsaemiro/app/config/app_routes.dart';
 import 'package:ownsaemiro/app/config/color_system.dart';
+import 'package:ownsaemiro/app/utility/log_util.dart';
 import 'package:ownsaemiro/core/screen/base_widget.dart';
 import 'package:ownsaemiro/presentation/view_model/profile/assignment_waiting_view_model.dart';
 import 'package:shimmer/shimmer.dart';
@@ -11,12 +13,14 @@ class AssignmentWaitingListWidget
 
   @override
   Widget buildView(BuildContext context) {
-    viewModel.scrollController.addListener(() {
-      if (viewModel.scrollController.position.pixels ==
-          viewModel.scrollController.position.maxScrollExtent) {
-        viewModel.fetchMoreData();
-      }
-    });
+    viewModel.scrollController.addListener(
+      () {
+        if (viewModel.scrollController.position.pixels ==
+            viewModel.scrollController.position.maxScrollExtent) {
+          viewModel.fetchMoreData();
+        }
+      },
+    );
 
     return Obx(
       () {
@@ -45,55 +49,74 @@ class AssignmentWaitingListWidget
                         : const SizedBox.shrink();
                   }
 
-                  return Container(
-                    padding: const EdgeInsets.all(16),
-                    margin: const EdgeInsets.symmetric(vertical: 4.0),
-                    height: 100,
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 8),
-                        Container(
-                          width: 72,
-                          height: 72,
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(8)),
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                    viewModel.assignmentList[index].image),
-                                fit: BoxFit.cover,
+                  return GestureDetector(
+                    onTap: () {
+                      if (viewModel.assignmentList[index].status == "수령 대기중") {
+                        Get.toNamed(Routes.ASSIGNMENT_TICKET,
+                            arguments: viewModel.assignmentList[index]);
+                      } else if (viewModel.assignmentList[index].status ==
+                          "낙첨") {
+                        Get.snackbar("알림", "양도 티켓에 낙첨되었습니다.\n다음 기회에 다시 도전해주세요.",
+                            backgroundColor: Colors.white,
+                            colorText: Colors.black);
+                      } else {
+                        Get.snackbar("알림", "양도 티켓 추첨 대기중입니다.",
+                            backgroundColor: Colors.white,
+                            colorText: Colors.black);
+                      }
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      margin: const EdgeInsets.symmetric(vertical: 4.0),
+                      height: 100,
+                      child: Row(
+                        children: [
+                          const SizedBox(width: 8),
+                          Container(
+                            width: 72,
+                            height: 72,
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8)),
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                      viewModel.assignmentList[index].image),
+                                  fit: BoxFit.cover,
+                                )),
+                          ),
+                          const SizedBox(width: 24),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                viewModel.assignmentList[index].title,
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    overflow: TextOverflow.ellipsis),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                viewModel.assignmentList[index].duration,
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                            ],
+                          ),
+                          const Spacer(),
+                          Text(viewModel.assignmentList[index].status,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: viewModel.assignmentList[index].status ==
+                                        "수령 대기중"
+                                    ? ColorSystem.primary
+                                    : viewModel.assignmentList[index].status ==
+                                            "낙첨"
+                                        ? const Color(0xFFEB5A5A)
+                                        : const Color(0xFF555555),
                               )),
-                        ),
-                        const SizedBox(width: 24),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              viewModel.assignmentList[index].title,
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              viewModel.assignmentList[index].duration,
-                              style: const TextStyle(fontSize: 12),
-                            ),
-                          ],
-                        ),
-                        const Spacer(),
-                        Text(viewModel.assignmentList[index].status,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: viewModel.assignmentList[index].status ==
-                                      "수령 대기중"
-                                  ? ColorSystem.primary
-                                  : viewModel.assignmentList[index].status ==
-                                          "낙첨"
-                                      ? const Color(0xFF999999)
-                                      : const Color(0xFF555555),
-                            )),
-                        const SizedBox(width: 8),
-                      ],
+                          const SizedBox(width: 8),
+                        ],
+                      ),
                     ),
                   );
                 },

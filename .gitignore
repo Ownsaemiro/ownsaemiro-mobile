@@ -356,3 +356,9 @@ doc/api/
 .env
 
 # End of https://www.toptal.com/developers/gitignore/api/dart
+
+firebase.json
+firepit-log.txt
+
+/android/app/google-services.json
+/ios/Runner/GoogleService-Info.plist

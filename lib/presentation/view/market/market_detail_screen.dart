@@ -70,50 +70,52 @@ class MarketDetailScreen extends GetView<MarketDetailViewModel> {
   Widget build(BuildContext context) {
     controller.setMarketDetailInfoState(id);
 
-    return Stack(
-      children: [
-        Scaffold(
-          appBar: const PreferredSize(
-            preferredSize: Size.fromHeight(60),
-            child: DefaultBackAppBar(
-              title: "",
-            ),
-          ),
-          body: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const EventHeaderItemWidget(),
-                SizedBox(
-                  width: double.infinity,
-                  height: 1,
-                  child: Container(
-                    color: Colors.grey.shade200,
-                  ),
+    return Obx(
+      () {
+        return Stack(
+          children: [
+            Scaffold(
+              appBar: PreferredSize(
+                preferredSize: const Size.fromHeight(60),
+                child: DefaultBackAppBar(
+                  title: controller.ticketDetailState.title,
                 ),
-                const EventItemDescriptionWidget(),
-              ],
+              ),
+              body: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const EventHeaderItemWidget(),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 1,
+                      child: Container(
+                        color: Colors.grey.shade200,
+                      ),
+                    ),
+                    const EventItemDescriptionWidget(),
+                    const SizedBox(height: 60),
+                    Column(children: [
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          GestureDetector(
+                              onTap: () {
+                                controller.registerAssignmentTicket(id);
+                                _showModal(context);
+                              },
+                              child: const SendButtonWidget())
+                        ],
+                      ),
+                    ])
+                  ],
+                ),
+              ),
             ),
-          ),
-        ),
-        Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              GestureDetector(
-                  onTap: () {
-                    controller.registerAssignmentTicket(id);
-                    _showModal(context);
-                  },
-                  child: const SendButtonWidget())
-            ],
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }

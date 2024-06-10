@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:ownsaemiro/app/config/app_routes.dart';
 import 'package:ownsaemiro/app/config/color_system.dart';
+import 'package:ownsaemiro/core/screen/base_widget.dart';
+import 'package:ownsaemiro/presentation/view_model/root/root_view_model.dart';
 
-class DefaultSearchAppBar extends StatelessWidget {
+class DefaultSearchAppBar extends BaseWidget<RootViewModel> {
   const DefaultSearchAppBar({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildView(BuildContext context) {
     return AppBar(
       scrolledUnderElevation: 0,
       backgroundColor: ColorSystem.white,
@@ -46,21 +49,27 @@ class DefaultSearchAppBar extends StatelessWidget {
                       Navigator.pushNamed(context, Routes.NOTIFICATION);
                     },
                   ),
-                  Positioned(
-                    right: 12,
-                    top: 12,
-                    child: Container(
-                      padding: const EdgeInsets.all(3),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      constraints: const BoxConstraints(
-                        minWidth: 2,
-                        minHeight: 2,
-                      ),
-                    ),
-                  ),
+                  Obx(() {
+                    if (viewModel.notificationList.isNotEmpty) {
+                      return Positioned(
+                        right: 12,
+                        top: 12,
+                        child: Container(
+                          padding: const EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          constraints: const BoxConstraints(
+                            minWidth: 2,
+                            minHeight: 2,
+                          ),
+                        ),
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  })
                 ],
               ),
             ])

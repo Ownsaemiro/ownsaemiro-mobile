@@ -71,7 +71,7 @@ class ReviewListViewModel extends GetxController {
 
       if (data.isNotEmpty) {
         _reviews.addAll(data);
-        _currentPage++;
+        _currentPage += 3;
       } else {
         _hasMore = false;
       }

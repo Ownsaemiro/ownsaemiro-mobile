@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ownsaemiro/data/model/profile/assignment_ticket_state.dart';
 import 'package:ownsaemiro/data/model/profile/participated_event_state.dart';
+import 'package:ownsaemiro/data/model/profile/profile_update_state.dart';
 import 'package:ownsaemiro/data/model/profile/purchased_history_detail_state.dart';
 import 'package:ownsaemiro/data/model/profile/purchased_history_state.dart';
 import 'package:ownsaemiro/data/model/profile/user_liked_event_state.dart';
@@ -94,13 +97,18 @@ class ProfileRepositoryImpl extends GetxService implements ProfileRepository {
   }
 
   @override
-  Future<void> updateProfile(
-      {required String nickname, required XFile image}) async {
+  Future<ProfileUpdateState> updateProfile(
+      {required String nickname, File? image}) async {
+    Map<String, dynamic> result;
+
     try {
-      await _profileProvider.updateProfile(nickname: nickname, image: image);
+      result = await _profileProvider.updateProfile(
+          nickname: nickname, image: image);
     } catch (e) {
       rethrow;
     }
+
+    return ProfileUpdateState.fromJson(result);
   }
 
   @override
@@ -128,5 +136,18 @@ class ProfileRepositoryImpl extends GetxService implements ProfileRepository {
     } catch (e) {
       rethrow;
     }
+  }
+
+  @override
+  Future<bool> acceptAssignmentTicket({required int id}) async {
+    Map<String, dynamic> result;
+
+    try {
+      result = await _profileProvider.acceptAssignmentTicket(id: id);
+    } catch (e) {
+      rethrow;
+    }
+
+    return result["success"];
   }
 }

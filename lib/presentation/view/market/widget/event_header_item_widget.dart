@@ -1,8 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ownsaemiro/app/config/color_system.dart';
+import 'package:ownsaemiro/app/utility/string_util.dart';
 import 'package:ownsaemiro/core/screen/base_widget.dart';
-import 'package:ownsaemiro/data/model/market/ticket_detail_state.dart';
 import 'package:ownsaemiro/presentation/view_model/market/market_detail_view_model.dart';
 
 class EventHeaderItemWidget extends BaseWidget<MarketDetailViewModel> {
@@ -38,14 +39,20 @@ class EventHeaderItemWidget extends BaseWidget<MarketDetailViewModel> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(viewModel.ticketDetailState.title,
+                      SizedBox(
+                        width: Get.width * 0.9,
+                        child: AutoSizeText(
+                          viewModel.ticketDetailState.title,
+                          maxLines: 1,
                           style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black)),
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                       const SizedBox(height: 8),
                       Text(
-                        '${viewModel.ticketDetailState.category} · ${viewModel.ticketDetailState.durationTime} · ${viewModel.ticketDetailState.rating}',
+                        '${StringUtil.getCategoryKoName(viewModel.ticketDetailState.category)} · ${viewModel.ticketDetailState.durationTime} · ${viewModel.ticketDetailState.rating}',
                         style: const TextStyle(
                           fontSize: 14,
                           color: Colors.grey,

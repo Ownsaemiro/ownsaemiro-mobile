@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -109,12 +110,18 @@ class EventDetailTopWidget extends BaseWidget<EventDetailViewModel> {
                     children: [
                       Row(
                         children: [
-                          Text(
-                            viewModel.eventDetailInfoState.title,
-                            style: const TextStyle(
+                          SizedBox(
+                            width: Get.width * 0.7,
+                            child: AutoSizeText(
+                              viewModel.eventDetailInfoState.title,
+                              style: const TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black),
+                                color: Colors.black,
+                              ),
+                              maxLines: 1,
+                              minFontSize: 12,
+                            ),
                           ),
                           const Spacer(),
                           GestureDetector(

@@ -78,7 +78,9 @@ class PurchaseHistoryListWidget extends BaseWidget<PurchaseHistoryViewModel> {
                             children: [
                               Text(
                                 viewModel.purchasedHistoryList[index].title,
-                                style: const TextStyle(fontSize: 16),
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    overflow: TextOverflow.ellipsis),
                               ),
                               const SizedBox(height: 4),
                               Text(
