@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:image_picker/image_picker.dart';
 
 abstract class ProfileProvider {
@@ -14,10 +16,13 @@ abstract class ProfileProvider {
 
   Future<void> cancelTicket({required int id});
 
-  Future<void> updateProfile({required String nickname, required XFile image});
+  Future<Map<String, dynamic>> updateProfile(
+      {required String nickname, File? image});
 
   Future<Map<String, dynamic>> getParticipatedEvent(
       {required int page, required int size});
 
   Future<void> sendReview({required String content, required int eventId});
+
+  Future<Map<String, dynamic>> acceptAssignmentTicket({required int id});
 }

@@ -15,10 +15,7 @@ abstract class EventRepository {
 
   Future<List<RecommendEventState>> getRecommendEventList();
 
-  Future<List<DuringEventState>> getDuringEventList(
-      {required int page, required int size, EEventCategory? category});
-
-  Future<List<BeforeEventState>> getBeforeEventList(
+  Future<List<SearchEventState>> getEventList(
       {required int page, required int size, EEventCategory? category});
 
   Future<EventDetailInfoState> getEventDetailInfo({required int eventId});

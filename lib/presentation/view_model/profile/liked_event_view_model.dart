@@ -63,7 +63,7 @@ class LikedEventViewModel extends GetxController {
 
       if (newEvents.isNotEmpty) {
         _userLikedEventState.addAll(newEvents);
-        _page++;
+        _page += 2;
       } else {
         _hasMore = false;
       }
@@ -78,7 +78,7 @@ class LikedEventViewModel extends GetxController {
 
     try {
       final newEvents =
-          await _profileRepository.getUserLikedEvent(page: _page, size: 3);
+          await _profileRepository.getUserLikedEvent(page: _page, size: 4);
 
       if (newEvents.isNotEmpty) {
         _userLikedEventState.addAll(newEvents);

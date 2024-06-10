@@ -55,46 +55,6 @@ class EventRepositoryImpl extends GetxService implements EventRepository {
   }
 
   @override
-  Future<List<BeforeEventState>> getBeforeEventList(
-      {required int page, required int size, EEventCategory? category}) async {
-    Map<String, dynamic> result;
-
-    try {
-      result = await _eventProvider.getEventList(
-          status: EEventStatus.before,
-          page: page,
-          size: size,
-          category: category);
-    } catch (e) {
-      rethrow;
-    }
-
-    return result["events"]
-        .map<BeforeEventState>((event) => BeforeEventState.fromJson(event))
-        .toList();
-  }
-
-  @override
-  Future<List<DuringEventState>> getDuringEventList(
-      {required int page, required int size, EEventCategory? category}) async {
-    Map<String, dynamic> result;
-
-    try {
-      result = await _eventProvider.getEventList(
-          status: EEventStatus.selling,
-          page: page,
-          size: size,
-          category: category);
-    } catch (e) {
-      rethrow;
-    }
-
-    return result["events"]
-        .map<DuringEventState>((event) => DuringEventState.fromJson(event))
-        .toList();
-  }
-
-  @override
   Future<EventDetailInfoState> getEventDetailInfo(
       {required int eventId}) async {
     Map<String, dynamic> result;
@@ -227,6 +187,23 @@ class EventRepositoryImpl extends GetxService implements EventRepository {
 
     return result["reviews"]
         .map<ReviewState>((review) => ReviewState.fromJson(review))
+        .toList();
+  }
+
+  @override
+  Future<List<SearchEventState>> getEventList(
+      {required int page, required int size, EEventCategory? category}) async {
+    Map<String, dynamic> result;
+
+    try {
+      result = await _eventProvider.getEventList(
+          page: page, size: size, category: category);
+    } catch (e) {
+      rethrow;
+    }
+
+    return result["events"]
+        .map<SearchEventState>((event) => SearchEventState.fromJson(event))
         .toList();
   }
 }

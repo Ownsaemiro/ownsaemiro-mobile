@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:ownsaemiro/app/config/app_routes.dart';
 
 class ProfileListWidget extends StatelessWidget {
@@ -42,7 +43,9 @@ class ProfileListWidget extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.exit_to_app, color: Colors.grey),
               title: const Text("회원 탈퇴"),
-              onTap: () {},
+              onTap: () {
+                Get.back();
+              },
             ),
           ],
         ));

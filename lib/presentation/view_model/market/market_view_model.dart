@@ -88,7 +88,7 @@ class MarketViewModel extends GetxController {
 
       if (newTickets.isNotEmpty) {
         _ticketList.addAll(newTickets);
-        _page++;
+        _page += 2;
       } else {
         _hasMore = false;
       }
@@ -104,7 +104,7 @@ class MarketViewModel extends GetxController {
     try {
       final newTickets = await _marketRepository.getTicketList(
         page: _page,
-        size: 3,
+        size: 4,
         filter: _eventCategory.value,
       );
 

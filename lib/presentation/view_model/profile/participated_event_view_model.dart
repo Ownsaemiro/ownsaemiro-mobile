@@ -67,7 +67,7 @@ class ParticipatedEventViewModel extends GetxController {
 
       if (newData.isNotEmpty) {
         _state.addAll(newData);
-        _page++;
+        _page += 2;
       } else {
         _hasMore = false;
       }
@@ -84,7 +84,7 @@ class ParticipatedEventViewModel extends GetxController {
     try {
       final newData = await _profileRepository.getParticipatedEvent(
         page: _page,
-        size: 3,
+        size: 4,
       );
 
       if (newData.isNotEmpty) {

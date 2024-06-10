@@ -22,4 +22,5 @@ abstract class Routes {
   static const String REVIEW_LIST = "/review-list";
   static const String REGISTER = "/register";
   static const String PARTICIPATED_DETAIL = "/participated-detail";
+  static const String ASSIGNMENT_TICKET = "/assignment-ticket";
 }

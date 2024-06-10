@@ -6,7 +6,6 @@ import 'package:ownsaemiro/presentation/view_model/event/review_list_view_model.
 import 'package:ownsaemiro/presentation/view_model/home/home_view_model.dart';
 import 'package:ownsaemiro/presentation/view_model/market/market_detail_view_model.dart';
 import 'package:ownsaemiro/presentation/view_model/market/market_view_model.dart';
-import 'package:ownsaemiro/presentation/view_model/notification/notification_view_model.dart';
 import 'package:ownsaemiro/presentation/view_model/profile/assignment_waiting_view_model.dart';
 import 'package:ownsaemiro/presentation/view_model/profile/liked_event_view_model.dart';
 import 'package:ownsaemiro/presentation/view_model/profile/participated_event_view_model.dart';
@@ -26,7 +25,6 @@ class RootBinding extends Bindings {
     EventBinding().dependencies();
     MarketBinding().dependencies();
     ProfileBinding().dependencies();
-    NotificationBinding().dependencies();
     SearchBinding().dependencies();
   }
 }
@@ -73,13 +71,6 @@ class ProfileBinding extends Bindings {
         () => PurchaseHistoryDetailViewModel());
     Get.lazyPut<AssignmentWaitingViewModel>(() => AssignmentWaitingViewModel());
     Get.lazyPut<PointChargeViewModel>(() => PointChargeViewModel());
-  }
-}
-
-class NotificationBinding extends Bindings {
-  @override
-  void dependencies() {
-    Get.lazyPut<NotificationViewModel>(() => NotificationViewModel());
   }
 }
 

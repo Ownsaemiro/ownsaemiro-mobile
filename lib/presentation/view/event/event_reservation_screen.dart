@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -274,6 +276,10 @@ class _CalendarWidget extends BaseWidget<EventDetailViewModel> {
               child: CircularProgressIndicator(),
             );
           } else {
+            final double daysOfWeekHeight = Platform.isAndroid ? 25 : 30;
+            final double rowHeight = Platform.isAndroid ? 50 : 55;
+            final double fontSize = Platform.isAndroid ? 15 : 16;
+
             return TableCalendar(
               locale: Get.deviceLocale.toString(),
               firstDay:
@@ -281,8 +287,8 @@ class _CalendarWidget extends BaseWidget<EventDetailViewModel> {
               lastDay: DateTime.now().add(const Duration(days: 365 * 10 + 2)),
               currentDay: DateTime.now(),
               focusedDay: viewModel.selectedDate ?? DateTime.now(),
-              daysOfWeekHeight: 30,
-              rowHeight: 55,
+              daysOfWeekHeight: daysOfWeekHeight,
+              rowHeight: rowHeight,
               calendarStyle: const CalendarStyle(
                 outsideDaysVisible: false,
               ),
@@ -290,25 +296,27 @@ class _CalendarWidget extends BaseWidget<EventDetailViewModel> {
                 dowBuilder: (context, day) {
                   switch (day.weekday) {
                     case DateTime.sunday:
-                      return const Center(
+                      return Center(
                         child: Text(
                           "일",
-                          style: TextStyle(color: Colors.red, fontSize: 16),
+                          style:
+                              TextStyle(color: Colors.red, fontSize: fontSize),
                         ),
                       );
                     case DateTime.saturday:
-                      return const Center(
+                      return Center(
                         child: Text(
                           "토",
-                          style: TextStyle(color: Colors.blue, fontSize: 16),
+                          style:
+                              TextStyle(color: Colors.blue, fontSize: fontSize),
                         ),
                       );
                     default:
                       return Center(
                         child: Text(
                           '일월화수목금토'[day.weekday - 1],
-                          style: const TextStyle(
-                              color: Colors.black, fontSize: 16),
+                          style: TextStyle(
+                              color: Colors.black, fontSize: fontSize),
                         ),
                       );
                   }

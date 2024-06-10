@@ -7,10 +7,7 @@ abstract class EventProvider {
   Future<Map<String, dynamic>> getRecommendEventList();
 
   Future<Map<String, dynamic>> getEventList(
-      {required EEventStatus status,
-      required int page,
-      required int size,
-      EEventCategory? category});
+      {required int page, required int size, EEventCategory? category});
 
   Future<Map<String, dynamic>> getEventDetailInfo({required int eventId});
 

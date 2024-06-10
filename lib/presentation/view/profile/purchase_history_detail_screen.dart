@@ -76,12 +76,13 @@ class PurchaseHistoryDetailScreen
 
     return Stack(
       children: [
-        const Scaffold(
+        Scaffold(
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60),
-            child: DefaultBackAppBar(title: "구매 상세"),
+            preferredSize: const Size.fromHeight(60),
+            child: DefaultBackAppBar(
+                title: controller.purchasedHistoryDetailState.title),
           ),
-          body: SingleChildScrollView(
+          body: const SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,

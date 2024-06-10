@@ -7,4 +7,6 @@ abstract class AuthProvider {
       String phoneNumber, String deviceId, String serialId);
 
   Future<Map<String, dynamic>> login(String serialId);
+
+  Future<void> updateFcmToken(String fcmToken);
 }

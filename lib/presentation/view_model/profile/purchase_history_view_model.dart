@@ -47,13 +47,7 @@ class PurchaseHistoryViewModel extends GetxController {
   void onReady() async {
     super.onReady();
 
-    _isLoading.value = true;
-
-    await _profileRepository.getPurchasedList(page: 1, size: 8).then((value) {
-      _purchasedHistoryList.addAll(value);
-    });
-
-    _isLoading.value = false;
+    await _fetchData();
   }
 
   Future<void> _fetchData() async {
@@ -67,7 +61,7 @@ class PurchaseHistoryViewModel extends GetxController {
 
       if (newEvents.isNotEmpty) {
         _purchasedHistoryList.addAll(newEvents);
-        _page++;
+        _page += 2;
       } else {
         _hasMore = false;
       }
@@ -83,7 +77,7 @@ class PurchaseHistoryViewModel extends GetxController {
 
     try {
       final newEvents =
-          await _profileRepository.getPurchasedList(page: _page, size: 3);
+          await _profileRepository.getPurchasedList(page: _page, size: 4);
 
       if (newEvents.isNotEmpty) {
         _purchasedHistoryList.addAll(newEvents);

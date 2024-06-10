@@ -1,18 +1,31 @@
 class NotificationState {
-  final String? content;
-  final bool isDeleted;
+  final int id;
+  final String title;
+  final String body;
 
   NotificationState({
-    this.content,
-    required this.isDeleted,
+    required this.id,
+    required this.title,
+    required this.body,
   });
 
   NotificationState copyWith({
-    String? content,
+    int? id,
+    String? title,
+    String? body,
   }) {
     return NotificationState(
-      content: content ?? this.content,
-      isDeleted: isDeleted,
+      id: id ?? this.id,
+      title: title ?? this.title,
+      body: body ?? this.body,
+    );
+  }
+
+  factory NotificationState.fromJson(Map<String, dynamic> json) {
+    return NotificationState(
+      id: json['id'],
+      title: json['title'],
+      body: json['body'],
     );
   }
 }

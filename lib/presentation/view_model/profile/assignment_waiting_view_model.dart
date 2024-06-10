@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ownsaemiro/app/utility/log_util.dart';
 import 'package:ownsaemiro/data/model/profile/assignment_ticket_state.dart';
 import 'package:ownsaemiro/data/repository/profile/profile_repository.dart';
 
@@ -62,7 +63,7 @@ class AssignmentWaitingViewModel extends GetxController {
         _hasMore = false;
       } else {
         _assignmentList.addAll(data);
-        _page++;
+        _page += 2;
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -78,7 +79,7 @@ class AssignmentWaitingViewModel extends GetxController {
 
     try {
       final data =
-          await _profileRepository.getAssignmentList(page: _page, size: 3);
+          await _profileRepository.getAssignmentList(page: _page, size: 4);
 
       if (data.isEmpty) {
         _hasMore = false;
@@ -89,5 +90,22 @@ class AssignmentWaitingViewModel extends GetxController {
     } finally {
       _isLoadingMore.value = false;
     }
+  }
+
+  Future<bool> acceptAssignmentTicket(int id) async {
+    try {
+      final result = await _profileRepository.acceptAssignmentTicket(id: id);
+
+      if (result) {
+        _assignmentList.removeWhere((element) => element.id == id);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      LogUtil.error(e.toString());
+    }
+
+    return false;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
@@ -19,6 +20,7 @@ class EntryViewModel extends GetxController {
   /* ------------------------------------------------------ */
   late final RxString _serialId = "".obs;
   late final RxString _deviceId = "".obs;
+  late final RxString _fcmToken = "".obs;
   late final TextEditingController _usernameController;
   late final TextEditingController _nicknameController;
   late final TextEditingController _phoneNumberController;
@@ -31,6 +33,8 @@ class EntryViewModel extends GetxController {
   TextEditingController get nicknameController => _nicknameController;
 
   TextEditingController get phoneNumberController => _phoneNumberController;
+
+  String get fcmToken => _fcmToken.value;
 
   @override
   void onInit() {
@@ -89,6 +93,17 @@ class EntryViewModel extends GetxController {
     } catch (_) {
       LogUtil.error("Kakao Login Error");
       return;
+    }
+
+    try {
+      String? fcmToken = await FirebaseMessaging.instance.getToken();
+
+      fcmToken ??= await FirebaseMessaging.instance.getToken();
+
+      _fcmToken.value = fcmToken!;
+      LogUtil.info("FCM Token: $fcmToken");
+    } catch (e) {
+      LogUtil.error("FCM Token Error: $e");
     }
 
     Map<String, dynamic> result =
