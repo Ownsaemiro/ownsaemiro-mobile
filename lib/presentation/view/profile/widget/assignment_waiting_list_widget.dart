@@ -92,8 +92,9 @@ class AssignmentWaitingListWidget
                               Text(
                                 viewModel.assignmentList[index].title,
                                 style: const TextStyle(
-                                    fontSize: 16,
-                                    overflow: TextOverflow.ellipsis),
+                                  fontSize: 16,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                               const SizedBox(height: 4),
                               Text(
@@ -140,7 +141,7 @@ class _SkeletonItem extends StatelessWidget {
       baseColor: Colors.grey[300]!,
       highlightColor: Colors.grey[100]!,
       child: ListView.builder(
-        itemCount: 10,
+        itemCount: 20,
         itemBuilder: (context, index) {
           return Container(
             padding: const EdgeInsets.all(16),

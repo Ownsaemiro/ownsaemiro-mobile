@@ -2,12 +2,14 @@ import 'package:get/get.dart';
 import 'package:ownsaemiro/app/utility/device_util.dart';
 import 'package:ownsaemiro/data/model/profile/purchased_history_detail_state.dart';
 import 'package:ownsaemiro/data/repository/profile/profile_repository.dart';
+import 'package:ownsaemiro/presentation/view_model/profile/purchase_history_view_model.dart';
 
 class PurchaseHistoryDetailViewModel extends GetxController {
   /* ------------------------------------------------------ */
   /* -------------------- DI Fields ----------------------- */
   /* ------------------------------------------------------ */
   late final ProfileRepository _profileRepository;
+  late final PurchaseHistoryViewModel _controller;
 
   /* ------------------------------------------------------ */
   /* ----------------- Private Fields --------------------- */
@@ -26,12 +28,15 @@ class PurchaseHistoryDetailViewModel extends GetxController {
 
   String get deviceId => _deviceId.value;
 
+  PurchaseHistoryViewModel get controller => _controller;
+
   @override
   void onInit() {
     super.onInit();
 
     // Dependency Injection
     _profileRepository = Get.find<ProfileRepository>();
+    _controller = Get.find<PurchaseHistoryViewModel>();
 
     // Initialize State
     _purchasedHistoryDetailState = PurchasedHistoryDetailState(

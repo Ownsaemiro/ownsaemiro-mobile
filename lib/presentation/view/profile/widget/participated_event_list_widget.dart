@@ -129,7 +129,7 @@ class _SkeletonItem extends StatelessWidget {
       baseColor: Colors.grey[300]!,
       highlightColor: Colors.grey[100]!,
       child: ListView.builder(
-        itemCount: 5,
+        itemCount: 20,
         itemBuilder: (context, index) => Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(

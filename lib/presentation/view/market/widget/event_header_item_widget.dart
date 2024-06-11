@@ -13,7 +13,6 @@ class EventHeaderItemWidget extends BaseWidget<MarketDetailViewModel> {
   Widget buildView(BuildContext context) {
     return Obx(
       () {
-        /// Todo: Skeleton UI Loading
         if (viewModel.isStateLoading) {
           return const Center(
             child: CircularProgressIndicator(),
@@ -26,9 +25,11 @@ class EventHeaderItemWidget extends BaseWidget<MarketDetailViewModel> {
               width: Get.width,
               height: Get.width * 0.6,
               decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: NetworkImage(viewModel.ticketDetailState.image),
-                    fit: BoxFit.cover),
+                image: viewModel.ticketDetailState.image == ""
+                    ? null
+                    : DecorationImage(
+                        image: NetworkImage(viewModel.ticketDetailState.image),
+                        fit: BoxFit.cover),
               ),
               child: const Center(),
             ),

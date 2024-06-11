@@ -20,24 +20,28 @@ class ParticipatedDetailScreen extends BaseScreen<ParticipatedEventViewModel> {
 
   @override
   PreferredSizeWidget buildAppBar(BuildContext context) {
-    return const PreferredSize(
-      preferredSize: Size.fromHeight(60),
-      child: DefaultBackAppBar(title: "참여한 행사"),
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(60),
+      child: DefaultBackAppBar(title: state.title),
     );
   }
 
   @override
   Widget buildBody(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          const SizedBox(height: 40),
-          _buildImageView(),
-          const Spacer(),
-          _buildTextInputView(),
-          const Spacer(),
-          _buildRegisterButton(),
-        ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: Column(
+          children: [
+            const SizedBox(height: 40),
+            _buildImageView(),
+            const SizedBox(height: 24),
+            _buildTextInputView(),
+            const SizedBox(height: 24),
+            _buildRegisterButton(),
+          ],
+        ),
       ),
     );
   }
@@ -151,7 +155,6 @@ class ParticipatedDetailScreen extends BaseScreen<ParticipatedEventViewModel> {
         colorText: Colors.black,
         duration: const Duration(seconds: 1, milliseconds: 500),
       );
-
       return;
     }
 
