@@ -95,10 +95,13 @@ class EventDetailTopWidget extends BaseWidget<EventDetailViewModel> {
               width: Get.width,
               height: Get.width * 0.6,
               decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(viewModel.eventDetailInfoState.image),
-                  fit: BoxFit.cover,
-                ),
+                image: viewModel.eventDetailInfoState.image == ""
+                    ? null
+                    : DecorationImage(
+                        image:
+                            NetworkImage(viewModel.eventDetailInfoState.image),
+                        fit: BoxFit.cover,
+                      ),
               ),
             ),
             Stack(

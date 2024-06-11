@@ -14,8 +14,6 @@ class PurchaseHistoryDetailScreen
   PurchaseHistoryDetailScreen({super.key});
 
   final int id = Get.arguments;
-  final PurchaseHistoryViewModel viewModel =
-      Get.find<PurchaseHistoryViewModel>();
 
   void _showModal(BuildContext context) {
     showDialog(
@@ -104,7 +102,7 @@ class PurchaseHistoryDetailScreen
                 onTap: () {
                   controller.cancelTicket();
                   _showModal(context);
-                  viewModel.setPurchasedHistoryList();
+                  controller.controller.setPurchasedHistoryList();
                 },
                 child: const SendButtonWidget(),
               )

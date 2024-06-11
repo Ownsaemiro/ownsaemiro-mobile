@@ -17,51 +17,54 @@ class EventDetailScreen extends GetView<EventDetailViewModel> {
   Widget build(BuildContext context) {
     controller.setEventDetailInfoState(id);
 
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: DefaultBackAppBar(title: controller.eventDetailInfoState.title),
-      ),
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          SliverToBoxAdapter(
-            child: EventDetailTopWidget(id: id),
-          )
-        ],
-        body: DefaultTabController(
-          length: 2,
-          child: Column(
-            children: [
-              TabBar(
-                labelColor: ColorSystem.primary,
-                unselectedLabelColor: Colors.grey,
-                indicatorColor: ColorSystem.primary,
-                indicator: UnderlineTabIndicator(
-                  borderSide:
-                      const BorderSide(width: 2, color: ColorSystem.primary),
-                  insets: EdgeInsets.symmetric(
-                    horizontal: (Get.width / 3.32),
+    return Obx(() {
+      return Scaffold(
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child:
+              DefaultBackAppBar(title: controller.eventDetailInfoState.title),
+        ),
+        body: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+            SliverToBoxAdapter(
+              child: EventDetailTopWidget(id: id),
+            )
+          ],
+          body: DefaultTabController(
+            length: 2,
+            child: Column(
+              children: [
+                TabBar(
+                  labelColor: ColorSystem.primary,
+                  unselectedLabelColor: Colors.grey,
+                  indicatorColor: ColorSystem.primary,
+                  indicator: UnderlineTabIndicator(
+                    borderSide:
+                        const BorderSide(width: 2, color: ColorSystem.primary),
+                    insets: EdgeInsets.symmetric(
+                      horizontal: (Get.width / 3.32),
+                    ),
                   ),
-                ),
-                tabs: const [
-                  Tab(text: "공연 정보"),
-                  Tab(text: "판매 정보"),
-                ],
-              ),
-              const Expanded(
-                child: TabBarView(
-                  children: [
-                    _PerformanceInfoTab(),
-                    _SellerInfoTab(),
+                  tabs: const [
+                    Tab(text: "공연 정보"),
+                    Tab(text: "판매 정보"),
                   ],
                 ),
-              ),
-              const EventDetailBottomWidget(),
-            ],
+                const Expanded(
+                  child: TabBarView(
+                    children: [
+                      _PerformanceInfoTab(),
+                      _SellerInfoTab(),
+                    ],
+                  ),
+                ),
+                const EventDetailBottomWidget(),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 

@@ -92,6 +92,8 @@ class PurchaseHistoryViewModel extends GetxController {
 
   void setPurchasedHistoryList() async {
     _isLoading.value = true;
+    _page = 1;
+    _hasMore = true;
 
     _purchasedHistoryList.clear();
 

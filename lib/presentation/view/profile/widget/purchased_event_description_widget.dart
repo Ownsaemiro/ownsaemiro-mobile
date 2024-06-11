@@ -48,6 +48,7 @@ class PurchasedEventDescriptionWidget
                     ),
                     onPressed: () {
                       Navigator.pop(context);
+                      viewModel.controller.setPurchasedHistoryList();
                     },
                     child: const Text('닫기',
                         style: TextStyle(
@@ -168,7 +169,30 @@ class PurchasedEventDescriptionWidget
               ),
             ),
             GestureDetector(
-              onTap: () => _showQrDialog(context),
+              onTap: () {
+                DateTime now = DateTime.now();
+                DateTime ticketDate = DateTime.parse(
+                    viewModel.purchasedHistoryDetailState.activatedAt);
+
+                if (now.isAfter(ticketDate)) {
+                  Get.snackbar(
+                    '티켓 확인 실패',
+                    '만료된 티켓입니다.',
+                    backgroundColor: Colors.white,
+                    colorText: Colors.black,
+                  );
+                } else if (now.isBefore(ticketDate)) {
+                  Get.snackbar(
+                    '티켓 확인 실패',
+                    '아직 사용할 수 없는 티켓입니다.',
+                    backgroundColor: Colors.white,
+                    colorText: Colors.black,
+                  );
+                } else {
+                  _showQrDialog(context);
+                  viewModel.controller.setPurchasedHistoryList();
+                }
+              },
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
