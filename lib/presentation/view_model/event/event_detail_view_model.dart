@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ownsaemiro/app/utility/log_util.dart';
@@ -137,6 +138,10 @@ class EventDetailViewModel extends GetxController {
   bool isEventAvailable() {
     DateTime selectDate = _selectedDate.value!;
 
+    if (_selectedDate.value == null) {
+      return false;
+    }
+
     String duration = _eventDetailInfoState.value.duration;
 
     String startDate = duration.split(" ~ ")[0];
@@ -147,6 +152,10 @@ class EventDetailViewModel extends GetxController {
 
     DateTime endOfDayDateTime = DateTime(
         endDateTime.year, endDateTime.month, endDateTime.day, 23, 59, 59);
+
+    if (_selectedDate.value!.isBefore(DateTime.now())) {
+      return false;
+    }
 
     if (remainSeat == 0) {
       _isSoldOut.value = true;
