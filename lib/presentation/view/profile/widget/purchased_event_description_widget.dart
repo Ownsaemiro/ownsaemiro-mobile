@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ownsaemiro/app/config/color_system.dart';
 import 'package:ownsaemiro/app/utility/date_util.dart';
+import 'package:ownsaemiro/app/utility/log_util.dart';
 import 'package:ownsaemiro/core/screen/base_widget.dart';
 import 'package:ownsaemiro/presentation/view_model/profile/purchase_history_detail_view_model.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -174,14 +175,20 @@ class PurchasedEventDescriptionWidget
                 DateTime ticketDate = DateTime.parse(
                     viewModel.purchasedHistoryDetailState.activatedAt);
 
-                if (now.isAfter(ticketDate)) {
+                DateTime startDate = DateTime(
+                    ticketDate.year, ticketDate.month, ticketDate.day, 0, 0, 0);
+
+                DateTime endDate = DateTime(ticketDate.year, ticketDate.month,
+                    ticketDate.day, 23, 59, 59);
+
+                if (now.isAfter(endDate)) {
                   Get.snackbar(
                     '티켓 확인 실패',
                     '만료된 티켓입니다.',
                     backgroundColor: Colors.white,
                     colorText: Colors.black,
                   );
-                } else if (now.isBefore(ticketDate)) {
+                } else if (now.isBefore(startDate)) {
                   Get.snackbar(
                     '티켓 확인 실패',
                     '아직 사용할 수 없는 티켓입니다.',

@@ -85,8 +85,6 @@ class EventReservationScreen extends BaseScreen<EventDetailViewModel> {
             () {
               final selectedDate = viewModel.selectedDate;
 
-              LogUtil.info("selectedDate: $selectedDate");
-
               final isEventAvailable =
                   selectedDate != null && viewModel.isEventAvailable();
 
@@ -107,7 +105,6 @@ class EventReservationScreen extends BaseScreen<EventDetailViewModel> {
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                // 3중 if
                                 isEventAvailable
                                     ? '${NumberUtil.formatPrice(viewModel.eventDetailInfoState.price)} 원'
                                     : "해당 날짜에 공연이 없습니다.",
