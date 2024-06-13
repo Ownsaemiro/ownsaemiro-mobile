@@ -153,7 +153,10 @@ class EventDetailViewModel extends GetxController {
     DateTime endOfDayDateTime = DateTime(
         endDateTime.year, endDateTime.month, endDateTime.day, 23, 59, 59);
 
-    if (_selectedDate.value!.isBefore(DateTime.now())) {
+    DateTime startToday = DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0);
+
+    if (_selectedDate.value!.isBefore(startToday)) {
       return false;
     }
 

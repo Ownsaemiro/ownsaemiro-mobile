@@ -311,7 +311,7 @@ class _CalendarWidget extends BaseWidget<EventDetailViewModel> {
                     default:
                       return Center(
                         child: Text(
-                          '일월화수목금토'[day.weekday - 1],
+                          '일월화수목금토'[day.weekday],
                           style: TextStyle(
                               color: Colors.black, fontSize: fontSize),
                         ),
